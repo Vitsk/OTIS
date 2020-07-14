@@ -1,0 +1,16 @@
+.customStyleForRow {
+  height: 2em;
+}
+
+.formRowCustomStyle {
+  padding-left: 2em; 
+  padding-right: 2em;
+}
+
+.titleCustomStyle {
+  padding-bottom: 2em;
+}
+
+.titlePassCustomStyle {
+  padding: 2em 0;
+}

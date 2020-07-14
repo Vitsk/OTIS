@@ -1,15 +1,16 @@
 import React from 'react';
 import './Navbar.css';
 import { NavLink } from 'react-router-dom';
+import NavLogo from '../../../assets/images/mainLogo.png' 
 
 const Navbar = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark" sticky-top='true'>
 
-        <a href="about" id="/status" className="navbar-brand align-baseline" alt="OTIS logo">
-          <img src="public/img/logo.png" width="80" alt="OTIS" title="OTIS logo" />
-        </a>
+        <NavLink to="/about" id="/status" className="navbar-brand align-baseline" alt="OTIS logo">
+          <img src={NavLogo} width="80" alt="OTIS" title="OTIS logo" />
+        </NavLink>
 
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"></span></button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">

@@ -16,27 +16,21 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              {/* <a href="main" id="/main" className="nav-link">Головна</a> */}
               <NavLink to='/main' className='nav-link'>Головна</NavLink>
             </li>
             <li className="nav-item">
-              {/* <a href="profile" id="/profile" className="nav-link">Мій профіль</a> */}
               <NavLink to='/profile' className='nav-link'>Мій профіль</NavLink>
             </li>
             <li className="nav-item">
-              {/* <a href="firms" id="/firms" className="nav-link">Мої фірми</a> */}
               <NavLink to='/firms' className='nav-link'>Мої фірми</NavLink>
             </li>
             <li className="nav-item">
-              {/* <a href="apark" id="/apark" className="nav-link">Мій автопарк</a> */}
               <NavLink to='/apark' className='nav-link'>Мій автопарк</NavLink>
             </li>
             <li className="nav-item">
-              {/* <a href="view" id="/view" className="nav-link">ТО та сертифікати</a> */}
               <NavLink to='/view' className='nav-link'>ТО та сертифікати</NavLink>
             </li>
             <li className="nav-item">
-              {/* <a href="settings" id="/settings" className="nav-link">Налаштування</a> */}
               <NavLink to='/settings' className='nav-link'>Налаштування</NavLink>
             </li>
             {/* <!--li className="nav-item"><a href="about" id="/status" className="nav-link">Про систему</a></li--> */}

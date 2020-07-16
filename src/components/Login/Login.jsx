@@ -2,9 +2,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import mainLogo from '../../assets/images/mainLogo.png';
 import './Login.css';
-import { NavLink } from 'react-router-dom';
 
-const Login = () => {
+const loginHandler = () => {
+  window.location.pathname = '/main';
+}
+
+const Login = (props) => {
   return (
     <div>
       <div className="customDivStyles16"></div>
@@ -34,9 +37,7 @@ const Login = () => {
             <label className="form-check-label" for="exampleCheck1">Запам'ятати мене</label>
           </div>
           <div className="text-center">
-            <NavLink to='/main' className='btnColor'>
-              <button type="submit" className="btn btn-outline-success btn-block">Увійти в систему</button>
-            </NavLink>
+            <button onClick={loginHandler} className="btn btn-outline-success btn-block">Увійти в систему</button>
             {/* <button type="submit" className="btn btn-outline-success btn-block">Увійти в систему</button> */}
           </div>
 

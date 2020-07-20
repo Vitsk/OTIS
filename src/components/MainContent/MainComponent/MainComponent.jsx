@@ -1,25 +1,25 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import Navbar from '../Navbar/Navbar';
 import About from '../About/About';
 import Apark from '../Apark/Apark';
 import Firms from '../Firms/Firms';
-import Main from '../Main/Main';
-import Profile from '../Profile/Profile';
+import MainContainer from '../Main/MainContainer';
+import NavbarContainer from '../Navbar/NavbarContainer';
+import ProfileContainer from '../Profile/ProfileContainer';
 import Settings from '../Settings/Settings';
-import View from '../View/View';
+import ViewContainer from '../View/ViewContainer';
 
 const MainComponent = () => {
   return (
     <>
-      <Navbar />
+      <NavbarContainer />
       <Switch >
         <Route path='/about' render={() => <About />} />
-        <Route path='/main' render={() => <Main />} />
-        <Route path='/profile' render={() => <Profile />} />
+        <Route path='/main' render={() => <MainContainer />} />
+        <Route path='/profile' render={() => <ProfileContainer />} />
         <Route path='/firms' render={() => <Firms />} />
         <Route path='/apark' render={() => <Apark />} />
-        <Route path='/view' render={() => <View />} />
+        <Route path='/view' render={() => <ViewContainer />} />
         <Route path='/settings' render={() => <Settings />} />
       </Switch>
     </>

@@ -3,7 +3,7 @@ import './Navbar.css';
 import { NavLink } from 'react-router-dom';
 import NavLogo from '../../../assets/images/mainLogo.png' 
 
-const Navbar = () => {
+const Navbar = (props) => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark" sticky-top='true'>
@@ -46,9 +46,7 @@ const Navbar = () => {
     }
     ?> */}
           </div>
-          <a href="vendor/auth/exit.php">
-            <button className="btn btn-outline-success my-2 my-sm-0">Вийти</button>
-          </a>
+            <button onClick={() => props.logoutUser()} className="btn btn-outline-success my-2 my-sm-0">Вийти</button>
 
         </div>
       </nav>

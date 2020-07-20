@@ -3,10 +3,6 @@ import React from 'react';
 import mainLogo from '../../assets/images/mainLogo.png';
 import './Login.css';
 
-const loginHandler = () => {
-  window.location.pathname = '/main';
-}
-
 const Login = (props) => {
   return (
     <div>
@@ -23,21 +19,22 @@ const Login = (props) => {
 
 
           <div className="form-group">
-            <label for="exampleInputEmail1" className="font-weight-bolder">Логін</label>
-            <input name="email" type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Введіть електронну пошту" />
+            <label htmlFor="exampleInputEmail1" className="font-weight-bolder">Логін</label>
+            <input name="email" type="email" onChange={(e) => props.updateEmail(e.target.value)} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Введіть електронну пошту" />
             <small id="emailHelp" className="form-text text-muted">В якості логіну використовується E-mail адреса</small>
           </div>
+
           <div className="form-group">
-            <label for="exampleInputPassword1" className="font-weight-bolder">Пароль</label>
-            <input name="password" type="password" className="form-control" id="exampleInputPassword1" placeholder="Введіть пароль" />
+            <label htmlFor="exampleInputPassword1" className="font-weight-bolder">Пароль</label>
+            <input name="password" type="password" onChange={(e) => props.updatePass(e.target.value)} className="form-control" id="exampleInputPassword1" placeholder="Введіть пароль" />
             <small id="passHelp" className="form-text text-muted">Нікому не поширюйте власний пароль!</small>
           </div>
           <div className="form-group form-check">
             <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-            <label className="form-check-label" for="exampleCheck1">Запам'ятати мене</label>
+            <label className="form-check-label" htmlFor="exampleCheck1">Запам'ятати мене</label>
           </div>
           <div className="text-center">
-            <button onClick={loginHandler} className="btn btn-outline-success btn-block">Увійти в систему</button>
+            <button onClick={() => props.login()} className="btn btn-outline-success btn-block">Увійти в систему</button>
             {/* <button type="submit" className="btn btn-outline-success btn-block">Увійти в систему</button> */}
           </div>
 

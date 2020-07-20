@@ -4,7 +4,7 @@ import LoginPass from './LoginPass/LoginPass';
 import ChangePass from './ChangePass/ChangePass';
 import PersonalData from './PersonalData/PersonalData';
 
-const Profile = () => {
+const Profile = (props) => {
   return (
     <div className="p-5">
       <div className="row">
@@ -12,12 +12,13 @@ const Profile = () => {
           <form id="password_change">
 
             <div className={`form-row ${styles.formRowCustomStyle}`} >
-              <LoginPass />
+              <LoginPass email={props.email}
+              updateEmail={props.updateEmail} />
               <ChangePass />
 
               <div>
                 <div className={`row ${styles.customStyleForRow}`}></div>
-                <div className="btn btn-outline-success btn-block" onclick="changePassword();">Зберегти зміни</div>
+                <div className="btn btn-outline-success btn-block">Зберегти зміни</div>
               </div>
             </div>
           </form>
@@ -27,10 +28,10 @@ const Profile = () => {
           <form id="change-user-info" action="api/users" method="PUT">
 
             <div className={`form-row ${styles.formRowCustomStyle}`}>
-              <PersonalData />
+              <PersonalData {...props} />
               <div>
                 <div className="row customStyleForRow"></div>
-                <div className="btn btn-outline-success btn-block" onclick="changeData();">Зберегти зміни</div>
+                <div className="btn btn-outline-success btn-block">Зберегти зміни</div>
               </div>
             </div>
 

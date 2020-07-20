@@ -1,7 +1,7 @@
 import React from 'react';
 import TablePart from './TablePart/TablePart';
 
-const Main = () => {
+const Main = (props) => {
   return (
     <div className="container pt-2">
 
@@ -9,12 +9,12 @@ const Main = () => {
       <table className="table table-hover col-lg-8 col-md-12">
         <tbody className="user-info">
 
-          <TablePart title='Користувач' colorClass='secondary' data='-' />
-          <TablePart title='Дата реєстрації' colorClass='secondary' data='22.22.2222' />
-          <TablePart title='Назва організації / фірми' colorClass='secondary' data='-' />
-          <TablePart title='Адреса' colorClass='secondary' data='-' />
-          <TablePart title='Номер телефону' colorClass='secondary' data='-' />
-          <TablePart title='E-mail' colorClass='secondary' data='-' />
+          <TablePart title='Користувач' colorClass='secondary' data={props.userName} />
+          <TablePart title='Дата реєстрації' colorClass='secondary' data={props.dateOfReg} />
+          <TablePart title='Назва організації / фірми' colorClass='secondary' data={props.firmName} />
+          <TablePart title='Адреса' colorClass='secondary' data={props.street} />
+          <TablePart title='Номер телефону' colorClass='secondary' data={props.telephoneNum} />
+          <TablePart title='E-mail' colorClass='secondary' data={props.email} />
           <TablePart title='Організацій в системі' colorClass='info' data='-' />
           <TablePart title='Транспортних засобів в системі' colorClass='info' data='-' />
           <TablePart title='ТО у найближчі 30 днів' colorClass='warning' data='-' />

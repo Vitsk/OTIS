@@ -2,11 +2,11 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import About from '../About/About';
 import Apark from '../Apark/Apark';
-import Firms from '../Firms/Firms';
+import FirmsContainer from '../Firms/FirmsContainer';
 import MainContainer from '../Main/MainContainer';
 import NavbarContainer from '../Navbar/NavbarContainer';
 import ProfileContainer from '../Profile/ProfileContainer';
-import Settings from '../Settings/Settings';
+import SettingsContainer from '../Settings/SettingsContainer';
 import ViewContainer from '../View/ViewContainer';
 
 const MainComponent = () => {
@@ -17,10 +17,10 @@ const MainComponent = () => {
         <Route path='/about' render={() => <About />} />
         <Route path='/main' render={() => <MainContainer />} />
         <Route path='/profile' render={() => <ProfileContainer />} />
-        <Route path='/firms' render={() => <Firms />} />
+        <Route path='/firms' render={() => <FirmsContainer />} />
         <Route path='/apark' render={() => <Apark />} />
         <Route path='/view' render={() => <ViewContainer />} />
-        <Route path='/settings' render={() => <Settings />} />
+        <Route path='/settings' render={() => <SettingsContainer />} />
       </Switch>
     </>
   );

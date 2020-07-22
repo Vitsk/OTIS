@@ -5,7 +5,7 @@ import './Login.css';
 
 const Login = (props) => {
   return (
-    <div>
+    <>
       <div className="customDivStyles16"></div>
       <div className="container w-50">
         <div className="col-md-12 col-sm-8 border border-success rounded-lg">
@@ -53,7 +53,7 @@ const Login = (props) => {
           <div className="row customDivStyles1"></div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import { dataAPI } from '../api/api';
+import { dataAPI } from '../../api/api';
 
 const SET_USER_MAIN_INFO = 'SET_USER_MAIN_INFO';
 

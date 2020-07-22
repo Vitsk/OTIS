@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { checkLoginData, updateEmailAC, updatePassAC } from '../../redux/loginReducer';
+import { checkLoginData, updateEmailAC, updatePassAC } from '../../redux/reducers/loginReducer';
 import MainComponent from '../MainContent/MainComponent/MainComponent';
 import Login from '../Login/Login';
 

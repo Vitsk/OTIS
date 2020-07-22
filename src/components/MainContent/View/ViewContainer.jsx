@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import View from './View';
 import { connect } from 'react-redux';
-import { setCars } from '../../../redux/viewReducer';
+import { setCars } from '../../../redux/reducers/viewReducer';
 
 class ViewContainer extends Component {
   componentDidMount() {

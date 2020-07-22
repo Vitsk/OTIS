@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Main from './Main';
 import { connect } from 'react-redux';
-import { setUserMainInfo } from '../../../redux/mainReducer';
+import { setUserMainInfo } from '../../../redux/reducers/mainReducer';
 
 class MainContainer extends Component {
   componentDidMount() {

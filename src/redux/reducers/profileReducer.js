@@ -1,4 +1,4 @@
-import { dataAPI } from "../api/api";
+import { dataAPI } from "../../api/api";
 
 const SET_PROFILE_DATA = 'SET_PROFILE_INFO';
 const UPDATE_EMAIL = 'UPDATE_EMAIL';
@@ -107,7 +107,7 @@ export const updateDateBirthday = (dateBirthday) => ({type: UPDATE_DATE_BIRTHDAY
 export const updateTelephoneNumber = (telephoneNumber) => ({type: UPDATE_TELEPHONE_NUMBER, telephoneNumber})
 
 // Thunks
-export const setProfileReducer = () => (dispatch) => {
+export const setProfileData = () => (dispatch) => {
   dataAPI.getUserData().then(data => {
     dispatch(setProfileDataAC(
       data[0].email, data[0].department, data[0].street, data[0].web_site,

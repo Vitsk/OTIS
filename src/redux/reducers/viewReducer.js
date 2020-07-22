@@ -1,4 +1,4 @@
-import { dataAPI } from "../api/api";
+import { dataAPI } from "../../api/api";
 
 const SET_CARS = 'SET_CARS'
 

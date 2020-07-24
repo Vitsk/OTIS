@@ -41,9 +41,17 @@ export const dataAPI = {
   },
 
   async getCarsBrand() {
-    return instance.get(`public/lists/Models.php`)
-      .then(res => console.log(res.data))
+    return await instance.get(`public/lists/Models.php`)
+      .then(res => res.data)
+  },
+
+  async getCarsModel(brand) {
+    return await instance.get(`public/lists/Models.php?brand=${brand}`)
+    .then(res => res.data)
+  },
+
+  async getCarsType(model) {
+    return await instance.get(`public/lists/Models.php?model=${model}`)
+    .then(res => res.data)
   }
 }
-
-dataAPI.getCarsBrand()

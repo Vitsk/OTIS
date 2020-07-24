@@ -6,14 +6,14 @@ import mainReducer from './reducers/mainReducer';
 import profileReducer from './reducers/profileReducer';
 import settingsReducer from './reducers/settingsReducer';
 import viewReducer from './reducers/viewReducer';
-// import aparkReducer from './reducers/aparkReducer';
+import aparkReducer from './reducers/aparkReducer';
 
 let reducers = combineReducers({
   loginPage: loginReducer,
   mainPage: mainReducer,
   profilePage: profileReducer,
   firmsPage: firmsReducer,
-  // aparkPage: aparkReducer,
+  aparkPage: aparkReducer,
   viewPage: viewReducer,
   settingsPage: settingsReducer
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import About from '../About/About';
-import Apark from '../Apark/Apark';
+import AparkContainer from '../Apark/AparkContainer';
 import FirmsContainer from '../Firms/FirmsContainer';
 import MainContainer from '../Main/MainContainer';
 import NavbarContainer from '../Navbar/NavbarContainer';
@@ -18,7 +18,7 @@ const MainComponent = () => {
         <Route path='/main' render={() => <MainContainer />} />
         <Route path='/profile' render={() => <ProfileContainer />} />
         <Route path='/firms' render={() => <FirmsContainer />} />
-        <Route path='/apark' render={() => <Apark />} />
+        <Route path='/apark' render={() => <AparkContainer />} />
         <Route path='/view' render={() => <ViewContainer />} />
         <Route path='/settings' render={() => <SettingsContainer />} />
       </Switch>

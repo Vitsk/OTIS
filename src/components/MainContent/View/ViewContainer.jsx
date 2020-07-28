@@ -3,7 +3,7 @@ import View from './View';
 import { connect } from 'react-redux';
 import {
   setCars, setUserEmail, setFirmEmail, getChoosenCar, setBrandsName, setModelsName, setTypeName,
-  updateStateAC, updateBrandsIdAC, updateAvailabilitySertificateAC,
+  updateStateAC, updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest
 } from '../../../redux/reducers/viewReducer';
 
 class ViewContainer extends Component {
@@ -11,6 +11,14 @@ class ViewContainer extends Component {
     this.props.setCars()
     this.props.setBrandsName()
     this.props.setUserEmail()
+  }
+
+  editRequestHandler = () => {
+    this.props.editRequest(
+      this.props.choosenCar.prevStateNum, this.props.choosenCar.nextStateNum,
+      this.props.choosenCar.vinCode, this.props.choosenCar.model, this.props.choosenCar.nextPassingDate,
+      this.props.choosenCar.nextSertificationDate
+    )
   }
 
   render() {
@@ -24,7 +32,8 @@ class ViewContainer extends Component {
         setTypeName={this.props.setTypeName}
         updateState={this.props.updateStateAC}
         updateBrandsId={this.props.updateBrandsIdAC}
-        updateAvailabilitySertificate={this.props.updateAvailabilitySertificateAC} />
+        updateAvailabilitySertificate={this.props.updateAvailabilitySertificateAC}
+        editRequestHandler={this.editRequestHandler} />
     );
   }
 }
@@ -39,5 +48,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   setCars, setUserEmail, setFirmEmail, getChoosenCar, setBrandsName,
   setModelsName, setTypeName, updateStateAC,
-  updateBrandsIdAC, updateAvailabilitySertificateAC,
+  updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest
 })(ViewContainer);

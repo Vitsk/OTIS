@@ -22,7 +22,8 @@ let initialState = {
     model: '',
     carType: '',
     vinCode: '',
-    stateNum: '',
+    prevStateNum: '',
+    nextStateNum: '',
     dateOfPassing: '',
     nextPassingDate: '',
     dateOfReceivingSertificate: '',
@@ -54,7 +55,8 @@ const viewReducer = (state = initialState, action) => {
           brand: action.brand,
           model: action.model,
           vinCode: action.vinCode,
-          stateNum: action.stateNum,
+          prevStateNum: action.stateNum,
+          nextStateNum: action.stateNum,
           dateOfPassing: action.dateOfPassing,
           nextPassingDate: action.nextPassingDate,
           dateOfReceivingSertificate: action.dateOfReceivingSertificate,
@@ -216,10 +218,16 @@ export const setUserEmail = () => (dispatch) => {
 
 export const setFirmEmail = (firmName) => (dispatch) => {
   dataAPI.getFirms().then(data => {
-    
     data.map(item => {
       return firmName === item.name ? dispatch(setFirmEmailAC(item.email)) : ''
     })
+  })
+}
+
+// POST Request
+export const editRequest = (...data) => (dispatch) => {
+  dataAPI.putEditRequest(...data).then(res => {
+    console.log(res);
   })
 }
 

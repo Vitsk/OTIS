@@ -112,15 +112,15 @@ const View = (props) => {
         updateState={props.updateState}
         updateBrandsId={props.updateBrandsId}
         updateAvailabilitySertificate={props.updateAvailabilitySertificate}
-         />
+        editRequestHandler={props.editRequestHandler} />
 
       <EmailModal choosenCar={props.choosenCar}
         emails={props.emails} />
 
-      <SmsModal stateNum={props.choosenCar.stateNum}
+      <SmsModal stateNum={props.choosenCar.prevStateNum}
       telephoneNum={props.choosenCar.telephoneNum} />
 
-      <DeleteModal stateNum={props.choosenCar.stateNum} />
+      <DeleteModal stateNum={props.choosenCar.prevStateNum} />
     </>
   );
 }

@@ -74,5 +74,9 @@ export const dataAPI = {
 			date_of_receiving_sertificate: data[7], 
 			availability_sertificate: data[8]
     }).then(res => res.data)
+  },
+
+  async putEditRequest(...data) {
+    return await instance.put( await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&prev_rn=${data[0]}&next_rn=${data[1]}&vin_code=${data[2]}&id_model=${data[3]}&next_passing_date=${data[4]}&next_sertification_date=${data[5]}`).then(res => res.data)
   }
 }

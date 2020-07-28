@@ -103,7 +103,7 @@ const EditModal = (props) => {
 
                   <div className="col-md-4">
                     <label htmlFor="inputStateNumberVehicle">Державний номер</label>
-                    <input type="text" value={props.choosenCar.stateNum} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputStateNumberVehicle" placeholder="Державний номер" name="stateNum" required />
+                    <input type="text" value={props.choosenCar.nextStateNum} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputStateNumberVehicle" placeholder="Державний номер" name="nextStateNum" required />
                     <small className="text-muted">* латинськими літерами у форматі - AC7777AC</small>
                   </div>
                 </div>
@@ -138,7 +138,7 @@ const EditModal = (props) => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" id="put-request" className="btn btn-success" data-dismiss="modal">Зберегти</button>
+              <button onClick={() => props.editRequestHandler()} className="btn btn-success" data-dismiss="modal">Зберегти</button>
               <button type="button" id="close-note" className="btn btn-secondary" data-dismiss="modal">Закрити</button>
             </div>
           </div>

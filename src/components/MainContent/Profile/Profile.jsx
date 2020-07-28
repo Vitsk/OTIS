@@ -9,7 +9,7 @@ const Profile = (props) => {
     <div className="p-5">
       <div className="row">
         <div className="col-xl-6 col-md-6">
-          <form id="password_change">
+          <form>
 
             <div className={`form-row ${styles.formRowCustomStyle}`} >
               <LoginPass email={props.email}
@@ -25,12 +25,12 @@ const Profile = (props) => {
         </div>
 
         <div className="col-xl-6 col-md-6">
-          <form id="change-user-info" action="api/users" method="PUT">
+          <form>
 
             <div className={`form-row ${styles.formRowCustomStyle}`}>
               <PersonalData {...props} />
               <div>
-                <div className="row customStyleForRow"></div>
+                <div className={`row ${styles.customStyleForRow}`}></div>
                 <div className="btn btn-outline-success btn-block">Зберегти зміни</div>
               </div>
             </div>

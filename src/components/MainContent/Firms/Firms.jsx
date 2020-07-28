@@ -6,29 +6,29 @@ const Firms = (props) => {
   return (
     <>
       <div className="container pt-2">
-        <form action="api/firms" method="POST">
+        <form>
           <h5 className="text-center">Додати організацію</h5>
 
           <div className="form-row">
             <div className="form-group col-lg-3 col-md-6">
               <label htmlFor="inputFirm">Назва організації / ФОП</label>
-              <input type="text" id="create-firm-name" className="form-control" placeholder="Назва організації чи ФОП" name="name" required />
+              <input type="text" id="inputFirm" className="form-control" placeholder="Назва організації чи ФОП" name="name" required />
               <small className="text-muted">* вводити у форматі - ТОВ "Назва компанії" або ФОП "ПІП"</small>
             </div>
 
             <div className="form-group col-lg-3 col-md-6">
               <label htmlFor="inputIDNumberFirm">ЄДРПОУ / іден. код</label>
-              <input type="text" id="create-id-firm" className="form-control inputIDNumberFirm" placeholder="ЄДРПОУ або іден. код" name="id_firm" required />
+              <input type="text" id="inputIDNumberFirm" className="form-control" placeholder="ЄДРПОУ або іден. код" name="id_firm" required />
             </div>
 
             <div className="form-group col-lg-3 col-md-6">
               <label htmlFor="inputPhoneFirm">Телефон організації</label>
-              <input type="text" id="create-firm-number" className="form-control inputPhoneFirm" placeholder="Номер контактного телефону" name="telephone" />
+              <input type="text" id="inputPhoneFirm" className="form-control" placeholder="Номер контактного телефону" name="telephone" />
             </div>
 
             <div className="form-group col-lg-3 col-md-6">
               <label htmlFor="inputEmailFirm">Електронна адреса організації</label>
-              <input type="email" id="create-firm-email" className="form-control" placeholder="example@mail.com" name="email" />
+              <input type="email" id="inputEmailFirm" className="form-control" placeholder="example@mail.com" name="email" />
             </div>
 
             <div>
@@ -36,7 +36,7 @@ const Firms = (props) => {
             </div>
           </div>
           <div className="form-group offset-md-4 col-md-4">
-            <input className="btn btn-outline-success btn-block" type="submit" value="Додати нову організацію" id="create-firm" />
+            <input className="btn btn-outline-success btn-block" value="Додати нову організацію" />
           </div>
         </form>
       </div>
@@ -56,7 +56,7 @@ const Firms = (props) => {
         <div className={`row ${styles.rowDivCustomStyle}`}></div>
 
         <div className="table-responsive">
-          <table id="table-id" className="table table-sm table-hover table-bordered text-center">
+          <table className="table table-sm table-hover table-bordered text-center">
             <thead>
               <tr className="bg-white text-success">
                 <th className="align-middle header-cursor">Назва фірми</th>
@@ -66,10 +66,10 @@ const Firms = (props) => {
                 <th className="align-middle header-cursor">Редагування <br /> даних</th>
               </tr>
             </thead>
-            <tbody id="filter-table" className="main-table">
+            <tbody>
               {
                 props.firms.map((firm, index) =>
-                  <TablePart key={index} 
+                  <TablePart key={index}
                     nameFirm={firm.name}
                     idFirm={firm.id_firm}
                     telephoneNum={firm.telephone}

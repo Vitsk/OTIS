@@ -14,7 +14,7 @@ const EditModal = (props) => {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className="modal-body edit-table">
+            <div className="modal-body">
               <div className="form-row">
                 {/* <!-- <div className="form-group col-md-12">
                   <label for="selectFirm">Організація</label>
@@ -88,13 +88,13 @@ const EditModal = (props) => {
                   </div>
 
                   <div className="col-md-4">
-                    <label htmlFor="selectBrandVehicle">Тип ТЗ</label>
+                    <label htmlFor="selectTypeVehicle">Тип ТЗ</label>
                     <input className="form-control" value={props.choosenCar.carType} id="selectTypeVehicle" name='carType' disabled />
                   </div>
 
                 </div>
 
-                <div id="insert" className="form-row col-md-12 pt-2">
+                <div className="form-row col-md-12 pt-2">
                   <div className="offset-md-2 col-md-4">
                     <label htmlFor="inputIDVehicle">VIN-код</label>
                     <input type="text" value={props.choosenCar.vinCode} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputIDVehicle" placeholder="VIN-код" name="vinCode" required />
@@ -132,13 +132,13 @@ const EditModal = (props) => {
                 </div>
 
                 <div className="form-group col-lg-6 col-md-6">
-                  <label htmlFor="inputDateSert">Наступний сертифікат</label>
+                  <label htmlFor="inputNextDateSert">Наступний сертифікат</label>
                   <input type="date" value={props.choosenCar.nextSertificationDate} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputNextDateSert" name="nextSertificationDate" disabled={props.choosenCar.disabled} />
                 </div>
               </div>
             </div>
             <div className="modal-footer">
-              <button onClick={() => props.editRequestHandler()} className="btn btn-success" data-dismiss="modal">Зберегти</button>
+              <button type='button' onClick={() => props.editRequestHandler()} className="btn btn-success" data-dismiss="modal">Зберегти</button>
               <button type="button" id="close-note" className="btn btn-secondary" data-dismiss="modal">Закрити</button>
             </div>
           </div>

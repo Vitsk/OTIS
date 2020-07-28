@@ -4,7 +4,7 @@ import './TablePart.css';
 const TablePart = (props) => {
   return (
     <>
-      <tr className="table-data out-day sertNotAvailable">
+      <tr className="table-data">
         <td className={`align-middle ${props.status}`}>{props.name}</td>
         <td className={`align-middle ${props.status}`}>{props.brand}</td>
         <td className={`align-middle ${props.status}`}>{props.model}</td>

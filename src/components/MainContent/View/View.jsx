@@ -15,12 +15,12 @@ const View = (props) => {
         <div className="row">
           <div className="col-md-4">
             <label className="text-center"><small>Пошук по таблиці</small></label>
-            <input className="form-control table-filter" type="text" placeholder="Введіть ключові слова" />
+            <input className="form-control" type="text" placeholder="Введіть ключові слова" />
           </div>
 
           <div className="col-md-4">
             <label><small>Технічний огляд</small></label>
-            <select className="form-control" id="to-filter">
+            <select className="form-control">
               <option defaultValue value="all-to">усі</option>
               <option defaultValue="month">у найближчий місяць</option>
               <option defaultValue="week">у найближчий тиждень</option>
@@ -30,7 +30,7 @@ const View = (props) => {
 
           <div className="col-md-4">
             <label><small>Наявність сертифікату</small></label>
-            <select className="form-control" id="sert-filter">
+            <select className="form-control">
               <option defaultValue value="all-sert">усі</option>
               <option defaultValue="available">є</option>
               <option defaultValue="not-available">немає</option>
@@ -41,7 +41,7 @@ const View = (props) => {
         <div className={`row ${styles.rowCustomStyle}`}></div>
 
         <div className="table-responsive">
-          <table id="table-id" className="table table-sm table-hover table-bordered text-center">
+          <table className="table table-sm table-hover table-bordered text-center">
             <thead>
               <tr className="bg-white text-success">
                 <th className="align-middle header-cursor">Назва фірми</th>
@@ -55,7 +55,7 @@ const View = (props) => {
                 <th className="align-middle header-cursor">Керування<br />даними</th>
               </tr>
             </thead>
-            <tbody id="filter-table" className="main-table">
+            <tbody>
               {
                 props.cars.map((car, index) => {
 

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import Apark from './Apark';
 import {
-  setFirmsName, setBrandsName, setModelsName, setTypeName, updateFirmIdAC,
-  updateBrandsIdAC, updateModelsIdAC, updateVinCodeAC, updateStateNumAC,
-  updateDateOfPassingAC, updateNextPassingDateAC, updateAvailabilitySertificateAC,
-  updateDateOfReceivingSertificateAC, updateNextSertificationDateAC, sendRequestCreateCar
+  setFirmsName, setBrandsName, setModelsName, setTypeName, updateStateAC,
+  updateAvailabilitySertificateAC,
+  sendRequestCreateCar
 } from '../../../redux/reducers/aparkReducer';
 import { connect } from 'react-redux';
 
@@ -38,16 +37,8 @@ class AparkContainer extends Component {
         nextSertificationDate={this.props.nextSertificationDate}
         setModelsName={this.props.setModelsName}
         setTypeName={this.props.setTypeName}
-        updateFirmId={this.props.updateFirmIdAC}
-        updateBrandsId={this.props.updateBrandsIdAC}
-        updateModelsId={this.props.updateModelsIdAC}
-        updateVinCode={this.props.updateVinCodeAC}
-        updateStateNum={this.props.updateStateNumAC}
-        updateDateOfPassing={this.props.updateDateOfPassingAC}
-        updateNextPassingDate={this.props.updateNextPassingDateAC}
+        updateState={this.props.updateStateAC}
         updateAvailabilitySertificate={this.props.updateAvailabilitySertificateAC}
-        updateDateOfReceivingSertificate={this.props.updateDateOfReceivingSertificateAC}
-        updateNextSertificationDate={this.props.updateNextSertificationDateAC}
         createCar={this.props.sendRequestCreateCar} />
     );
   }
@@ -72,8 +63,7 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, {
-  setFirmsName, setBrandsName, setModelsName, setTypeName,
-  updateFirmIdAC, updateBrandsIdAC, updateModelsIdAC, updateVinCodeAC,
-  updateStateNumAC, updateDateOfPassingAC, updateNextPassingDateAC, updateAvailabilitySertificateAC,
-  updateDateOfReceivingSertificateAC, updateNextSertificationDateAC, sendRequestCreateCar
+  setFirmsName, setBrandsName, setModelsName, setTypeName, updateStateAC,
+  updateAvailabilitySertificateAC,
+  sendRequestCreateCar
 })(AparkContainer);

@@ -13,7 +13,7 @@ const Apark = (props) => {
         <div className="form-row">
           <div className="form-group col-md-12">
             <label htmlFor="selectFirm">Виберіть організацію</label>
-            <select className="custom-select" onChange={(e) => props.updateFirmId(e.target.value)} id="selectFirm" name="id_firm" required>
+            <select className="custom-select" onChange={(e) => props.updateState(e.target.name, e.target.value)} id="selectFirm" name="idFirm" required>
               <option defaultValue>Виберіть фірму</option>
               {
                 props.firms.map((item, index) =>
@@ -64,7 +64,7 @@ const Apark = (props) => {
           <div id="select" className="form-row col-md-12">
             <div className="col-md-4">
               <label htmlFor="selectBrandVehicle">Марка ТЗ</label>
-              <select className="custom-select" onChange={(e) => {props.updateBrandsId(e.target.value); props.setModelsName(e.target.value)}} id="selectBrandVehicle">
+              <select className="custom-select" onChange={(e) => {props.updateState(e.target.name, e.target.value); props.setModelsName(e.target.value)}} id="selectBrandVehicle" name='brand'>
                 <option defaultValue>Виберіть марку</option>
                 {
                   props.brands.map((item, index) => 
@@ -78,7 +78,7 @@ const Apark = (props) => {
 
             <div className="col-md-4">
               <label htmlFor="selectBrandVehicle">Модель ТЗ</label>
-              <select className="custom-select" value={props.model} onChange={(e) => {props.updateModelsId(e.target.value); props.setTypeName(e.target.value)}} id="selectModelVehicle" name="id_model">
+              <select className="custom-select" value={props.model} onChange={(e) => {props.updateState(e.target.name, e.target.value); props.setTypeName(e.target.value)}} id="selectModelVehicle" name="model">
                 <option defaultValue>Виберіть модель</option>
                 {
                   props.models.map((item, index) => 
@@ -100,13 +100,13 @@ const Apark = (props) => {
           <div id="insert" className="form-row col-md-12 pt-2">
             <div className="offset-md-2 col-md-4">
               <label htmlFor="inputIDVehicle">VIN-код</label>
-              <input type="text" value={props.vinCode} onChange={(e) => props.updateVinCode(e.target.value)} className="form-control" id="inputIDVehicle" placeholder="VIN-код" name="vin_code" required />
+              <input type="text" value={props.vinCode} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputIDVehicle" placeholder="VIN-код" name="vinCode" required />
               <small className="text-muted">* латинськими літерами без пропусків</small>
             </div>
 
             <div className="col-md-4">
               <label htmlFor="inputStateNumberVehicle">Державний номер</label>
-              <input type="text" value={props.stateNum} onChange={(e) => props.updateStateNum(e.target.value)} className="form-control" id="inputStateNumberVehicle" placeholder="Державний номер" name="registration_number" required />
+              <input type="text" value={props.stateNum} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputStateNumberVehicle" placeholder="Державний номер" name="stateNum" required />
               <small className="text-muted">* латинськими літерами у форматі - AC7777AC</small>
             </div>
           </div>
@@ -115,12 +115,12 @@ const Apark = (props) => {
 
           <div className="form-group col-lg-6 col-md-6">
             <label htmlFor="inputDateTO">ТО пройдено</label>
-            <input type="date" value={props.dateOfPassing} onChange={(e) => props.updateDateOfPassing(e.target.value)} className="form-control" id="inputDateTO" name="date_of_passing" required />
+            <input type="date" value={props.dateOfPassing} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputDateTO" name="dateOfPassing" required />
           </div>
 
           <div className="form-group col-lg-6 col-md-6">
             <label htmlFor="inputDateTO">наступний ТО</label>
-            <input type="date" value={props.nextPassingDate} onChange={(e) => props.updateNextPassingDate(e.target.value)} className="form-control" id="inputNextDateTO" name="next_passing_date" required />
+            <input type="date" value={props.nextPassingDate} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputNextDateTO" name="nextPassingDate" required />
           </div>
 
           <div className="form-group col-lg-12 col-md-12 mt-5">
@@ -132,12 +132,12 @@ const Apark = (props) => {
 
           <div className="form-group col-lg-6 col-md-6">
             <label htmlFor="inputDateSert">сертифікат отримано</label>
-            <input type="date" value={props.dateOfReceivingSertificate} onChange={(e) => props.updateDateOfReceivingSertificate(e.target.value)} className="form-control" id="inputDateSert" name="date_of_receiving_sertificate" disabled={props.disabled} />
+            <input type="date" value={props.dateOfReceivingSertificate} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputDateSert" name="dateOfReceivingSertificate" disabled={props.disabled} />
           </div>
 
           <div className="form-group col-lg-6 col-md-6">
             <label htmlFor="inputDateSert">Наступний сертифікат</label>
-            <input type="date" value={props.nextSertificationDate} onChange={(e) => props.updateNextSertificationDate(e.target.value)} className="form-control" id="inputNextDateSert" name="next_sertification_date" disabled={props.disabled} />
+            <input type="date" value={props.nextSertificationDate} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputNextDateSert" name="nextSertificationDate" disabled={props.disabled} />
           </div>
 
           <div className="form-group offset-md-4 col-md-4">

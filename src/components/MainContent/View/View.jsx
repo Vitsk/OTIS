@@ -109,15 +109,10 @@ const View = (props) => {
       <EditModal choosenCar={props.choosenCar}
         setModelsName={props.setModelsName}
         setTypeName={props.setTypeName}
+        updateState={props.updateState}
         updateBrandsId={props.updateBrandsId}
-        updateModelsId={props.updateModelsId}
         updateAvailabilitySertificate={props.updateAvailabilitySertificate}
-        updateVinCode={props.updateVinCode}
-        updateStateNum={props.updateStateNum}
-        updateDateOfPassing={props.updateDateOfPassing}
-        updateNextPassingDate={props.updateNextPassingDate}
-        updateDateOfReceivingSertificate={props.updateDateOfReceivingSertificate}
-        updateNextSertificationDate={props.updateNextSertificationDate} />
+         />
 
       <EmailModal choosenCar={props.choosenCar}
         emails={props.emails} />

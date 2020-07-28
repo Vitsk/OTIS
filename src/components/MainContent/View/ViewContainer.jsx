@@ -3,9 +3,7 @@ import View from './View';
 import { connect } from 'react-redux';
 import {
   setCars, setUserEmail, setFirmEmail, getChoosenCar, setBrandsName, setModelsName, setTypeName,
-  updateBrandsIdAC, updateModelsIdAC, updateAvailabilitySertificateAC, updateVinCodeAC, updateStateNumAC,
-  updateDateOfPassingAC, updateNextPassingDateAC, updateDateOfReceivingSertificateAC,
-  updateNextSertificationDateAC
+  updateStateAC, updateBrandsIdAC, updateAvailabilitySertificateAC,
 } from '../../../redux/reducers/viewReducer';
 
 class ViewContainer extends Component {
@@ -24,14 +22,8 @@ class ViewContainer extends Component {
         getChoosenCar={this.props.getChoosenCar}
         setModelsName={this.props.setModelsName}
         setTypeName={this.props.setTypeName}
+        updateState={this.props.updateStateAC}
         updateBrandsId={this.props.updateBrandsIdAC}
-        updateModelsId={this.props.updateModelsIdAC}
-        updateVinCode={this.props.updateVinCodeAC}
-        updateStateNum={this.props.updateStateNumAC}
-        updateDateOfPassing={this.props.updateDateOfPassingAC}
-        updateNextPassingDate={this.props.updateNextPassingDateAC}
-        updateDateOfReceivingSertificate={this.props.updateDateOfReceivingSertificateAC}
-        updateNextSertificationDate={this.props.updateNextSertificationDateAC}
         updateAvailabilitySertificate={this.props.updateAvailabilitySertificateAC} />
     );
   }
@@ -46,8 +38,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   setCars, setUserEmail, setFirmEmail, getChoosenCar, setBrandsName,
-  setModelsName, setTypeName, updateBrandsIdAC,
-  updateModelsIdAC, updateAvailabilitySertificateAC, updateVinCodeAC, updateStateNumAC,
-  updateDateOfPassingAC, updateNextPassingDateAC, updateDateOfReceivingSertificateAC,
-  updateNextSertificationDateAC
+  setModelsName, setTypeName, updateStateAC,
+  updateBrandsIdAC, updateAvailabilitySertificateAC,
 })(ViewContainer);

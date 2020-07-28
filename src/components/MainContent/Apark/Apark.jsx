@@ -8,7 +8,7 @@ const Apark = (props) => {
       <h4>Додавання / редагування даних по транспортним засобам:</h4>
       <br />
 
-      <form action="api/cars" method="POST">
+      <div>
         <h5 className="text-center">Додати транспорт</h5>
         <div className="form-row">
           <div className="form-group col-md-12">
@@ -115,37 +115,37 @@ const Apark = (props) => {
 
           <div className="form-group col-lg-6 col-md-6">
             <label htmlFor="inputDateTO">ТО пройдено</label>
-            <input type="date" className="form-control" id="inputDateTO" name="date_of_passing" required />
+            <input type="date" value={props.dateOfPassing} onChange={(e) => props.updateDateOfPassing(e.target.value)} className="form-control" id="inputDateTO" name="date_of_passing" required />
           </div>
 
           <div className="form-group col-lg-6 col-md-6">
             <label htmlFor="inputDateTO">наступний ТО</label>
-            <input type="date" className="form-control" id="inputNextDateTO" name="next_passing_date" required />
+            <input type="date" value={props.nextPassingDate} onChange={(e) => props.updateNextPassingDate(e.target.value)} className="form-control" id="inputNextDateTO" name="next_passing_date" required />
           </div>
 
           <div className="form-group col-lg-12 col-md-12 mt-5">
             <div className="custom-control custom-checkbox text-center">
-              <input type="checkbox" className="custom-control-input" id="CheckSertVehicle" name="availability_sertificate" />
+              <input type="checkbox" onChange={() => props.updateAvailabilitySertificate()} className="custom-control-input" id="CheckSertVehicle" name="availability_sertificate" checked={props.availabilitySertificate} />
               <label className="custom-control-label" htmlFor="CheckSertVehicle">Сертифікат видано</label>
             </div>
           </div>
 
           <div className="form-group col-lg-6 col-md-6">
             <label htmlFor="inputDateSert">сертифікат отримано</label>
-            <input type="date" className="form-control" id="inputDateSert" name="date_of_receiving_sertificate" disabled />
+            <input type="date" value={props.dateOfReceivingSertificate} onChange={(e) => props.updateDateOfReceivingSertificate(e.target.value)} className="form-control" id="inputDateSert" name="date_of_receiving_sertificate" disabled={props.disabled} />
           </div>
 
           <div className="form-group col-lg-6 col-md-6">
             <label htmlFor="inputDateSert">Наступний сертифікат</label>
-            <input type="date" className="form-control" id="inputNextDateSert" name="next_sertification_date" disabled />
+            <input type="date" value={props.nextSertificationDate} onChange={(e) => props.updateNextSertificationDate(e.target.value)} className="form-control" id="inputNextDateSert" name="next_sertification_date" disabled={props.disabled} />
           </div>
 
           <div className="form-group offset-md-4 col-md-4">
-            <input className="btn btn-outline-success btn-block" id="create-car" defaultValue="Додати новий ТЗ" />
+            <button className="btn btn-outline-success btn-block" onClick={(e) => {e.preventDefault(); props.createCar()}} id="create-car">Додати новий ТЗ</button>
           </div>
         </div>
 
-      </form>
+      </div>
     </div>
   );
 }

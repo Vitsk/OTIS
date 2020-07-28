@@ -9,6 +9,11 @@ const UPDATE_BRAND_ID = 'UPDATE_BRAND_ID';
 const UPDATE_MODEL_ID = 'UPDATE_MODEL_ID';
 const UPDATE_VIN_CODE = 'UPDATE_VIN_CODE';
 const UPDATE_STATE_NUM = 'UPDATE_STATE_NUM';
+const UPDATE_DATE_OF_PASSING = 'UPDATE_DATE_OF_PASSING';
+const UPDATE_NEXT_PASSING_DATE = 'UPDATE_NEXT_PASSING_DATE';
+const AVAILABILITY_SERTIFICATE = 'AVAILABILITY_SERTIFICATE';
+const UPDATE_DATE_OF_RECEIVING_SERTIFICATE = 'UPDATE_DATE_OF_RECEIVING_SERTIFICATE';
+const UPDATE_NEXT_SERTIFICATION_DATE = 'UPDATE_NEXT_SERTIFICATION_DATE';
 
 let initialState = {
   firms: [],
@@ -20,6 +25,12 @@ let initialState = {
   carType: '',
   vinCode: '',
   stateNum: '',
+  dateOfPassing: '',
+  nextPassingDate: '',
+  availabilitySertificate: false,
+  disabled: true,
+  dateOfReceivingSertificate: '',
+  nextSertificationDate: ''
 }
 
 const aparkReducer = (state = initialState, action) => {
@@ -79,6 +90,37 @@ const aparkReducer = (state = initialState, action) => {
         ...state,
         stateNum: action.stateNum
       }
+
+    case UPDATE_DATE_OF_PASSING:
+      return {
+        ...state,
+        dateOfPassing: action.dateOfPassing
+      }
+
+    case UPDATE_NEXT_PASSING_DATE:
+      return {
+        ...state,
+        nextPassingDate: action.nextPassingDate
+      }
+
+    case AVAILABILITY_SERTIFICATE:
+      return {
+        ...state,
+        availabilitySertificate: !state.availabilitySertificate,
+        disabled: !state.disabled
+      }
+
+    case UPDATE_DATE_OF_RECEIVING_SERTIFICATE:
+      return {
+        ...state,
+        dateOfReceivingSertificate: action.dateOfReceivingSertificate
+      }
+
+    case UPDATE_NEXT_SERTIFICATION_DATE:
+      return {
+        ...state,
+        nextSertificationDate: action.nextSertificationDate
+      }
   
     default:
       return state;
@@ -96,6 +138,11 @@ export const updateBrandsIdAC = (brand) => ({type: UPDATE_BRAND_ID, brand});
 export const updateModelsIdAC = (model) => ({type: UPDATE_MODEL_ID, model});
 export const updateVinCodeAC = (vinCode) => ({type: UPDATE_VIN_CODE, vinCode});
 export const updateStateNumAC = (stateNum) => ({type: UPDATE_STATE_NUM, stateNum});
+export const updateDateOfPassingAC = (dateOfPassing) => ({type: UPDATE_DATE_OF_PASSING, dateOfPassing});
+export const updateNextPassingDateAC = (nextPassingDate) => ({type: UPDATE_NEXT_PASSING_DATE, nextPassingDate});
+export const updateAvailabilitySertificateAC = () => ({type: AVAILABILITY_SERTIFICATE});
+export const updateDateOfReceivingSertificateAC = (dateOfReceivingSertificate) => ({type: UPDATE_DATE_OF_RECEIVING_SERTIFICATE, dateOfReceivingSertificate});
+export const updateNextSertificationDateAC = (nextSertificationDate) => ({type: UPDATE_NEXT_SERTIFICATION_DATE, nextSertificationDate});
 
 // Thunks
 // Set in state firms names and id
@@ -137,6 +184,12 @@ export const setModelsName = (brand) => (dispatch) => {
 export const setTypeName = (model) => (dispatch) => {
   dataAPI.getCarsType(model).then(data => {
     dispatch(setTypeNameAC(data[0].type));
+  })
+}
+
+export const sendRequestCreateCar = (...data) => (dispatch) => {
+  dataAPI.postCreateCar(...data).then(data => {
+    console.log(data);
   })
 }
 

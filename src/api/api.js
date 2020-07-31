@@ -1,4 +1,5 @@
 import * as axios from 'axios';
+import * as $ from 'jquery';
 
 const instance = axios.create({
   withCredentials: true,
@@ -62,21 +63,56 @@ export const dataAPI = {
   },
 
   async postCreateCar(...data) {
-    // console.log(data);
-    return await instance.post( await userAPI.getUserKey().then(data => `https://office.otis.co.ua/api/cars?api_key=${data}`), {
-      id_model: data[0], 
-			registration_number: data[1], 
-			id_firm: data[2], 
-			vin_code: data[3], 
-			date_of_passing: data[4], 
-			next_passing_date: data[5], 
-			next_sertification_date: data[6], 
-			date_of_receiving_sertificate: data[7], 
-			availability_sertificate: data[8]
-    }).then(res => res.data)
+    return await instance.post( await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&id_model=${data[0]}&registration_number=${data[1]}&id_firm=${data[2]}&vin_code=${data[3]}&date_of_passing=${data[4]}&next_passing_date=${data[5]}&next_sertification_date=${data[6]}&date_of_receiving_sertificate=${data[7]}&availability_sertificate=${data[8] === true ? '1' : '0'}`)
+      .then(res => res.data)
   },
 
   async putEditRequest(...data) {
-    return await instance.put( await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&prev_rn=${data[0]}&next_rn=${data[1]}&vin_code=${data[2]}&id_model=${data[3]}&next_passing_date=${data[4]}&next_sertification_date=${data[5]}`).then(res => res.data)
+    return await instance.put( await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&prev_rn=${data[0]}&next_rn=${data[1]}&vin_code=${data[2]}&id_model=${data[3]}&next_passing_date=${data[4]}&next_sertification_date=${data[5]}`)
+      .then(res => res.data)
+  },
+
+  // Jquery AJAX
+  async postSendEmailRequest(...data) {
+    $.ajax({
+      url: `https://office.otis.co.ua/vendor/dispatch/email_outofdate.php`,
+      type: 'POST',
+      data: `department=${data[0]}&sender_email=${data[1]}&phone=${data[2]}&address=${data[3]}&web=${data[4]}&firm_name=${data[5]}&recipient=${data[6]}&registration_number=${data[7]}&car_mark=${data[8]}&car_model=${data[9]}&sertification_date=${data[10]}&passing_date=${data[11]}`,
+      success(data) {
+        return console.log(data);
+      },
+      error(data) {
+        return console.log(data);
+      }
+    })
+  },
+
+  async postSendSmsRequest(...data) {
+    console.log(data);
+    $.ajax({
+      url: 'https://office.otis.co.ua/vendor/dispatch/sms.php',
+      type: 'POST',
+      data: `login=${data[0]}&pass=${data[1]}&api_key=${data[2]}&alpha_name=${data[3]}&phone=${data[4]}&registration_number=${data[5]}`,
+      success(res) {
+        console.log(res);
+      },
+      error(res) {
+        console.log(res);
+      }
+    });
+  },
+
+  async deleteCarRequest(stateNum) {
+    $.ajax({
+      url: await userAPI.getUserKey().then(res => `https://office.otis.co.ua/api/cars?api_key=${res}`),
+      type: 'DELETE',
+      data: `&registration_number=${stateNum}`,
+      success(data) {
+        return data
+      },
+      error(data) {
+        return data
+      }
+    });
   }
 }

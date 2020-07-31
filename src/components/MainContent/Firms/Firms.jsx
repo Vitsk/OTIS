@@ -36,7 +36,7 @@ const Firms = (props) => {
             </div>
           </div>
           <div className="form-group offset-md-4 col-md-4">
-            <input className="btn btn-outline-success btn-block" value="Додати нову організацію" />
+            <input className="btn btn-outline-success btn-block" defaultValue="Додати нову організацію" />
           </div>
         </form>
       </div>

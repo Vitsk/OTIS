@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './View.module.css';
+import Loader from '../../Loader/Loader';
 import TablePart from './TablePart/TablePart';
 import EditModal from './EditModal/EditModal';
 import EmailModal from './EmailModal/EmailModal';
@@ -96,13 +97,15 @@ const View = (props) => {
                     setFirmEmail={props.setFirmEmail}
                     setModelsName={props.setModelsName}
                     setTypeName={props.setTypeName}
-                    setStateNum={props.setStateNum} />
+                    setStateNum={props.setStateNum}
+                    setFirmPhone={props.setFirmPhone} />
                 }
 
                 )
               }
             </tbody>
           </table>
+          { props.isFetching ? <Loader /> : null }
         </div>
       </div>
 
@@ -115,12 +118,15 @@ const View = (props) => {
         editRequestHandler={props.editRequestHandler} />
 
       <EmailModal choosenCar={props.choosenCar}
-        emails={props.emails} />
+        emailData={props.emailData}
+        emailRequestHandler={props.emailRequestHandler} />
 
       <SmsModal stateNum={props.choosenCar.prevStateNum}
-      telephoneNum={props.choosenCar.telephoneNum} />
+        telephoneNum={props.choosenCar.telephoneNum}
+        smsRequestHandler={props.smsRequestHandler} />
 
-      <DeleteModal stateNum={props.choosenCar.prevStateNum} />
+      <DeleteModal stateNum={props.choosenCar.prevStateNum}
+        deleteRequest={props.deleteRequest} />
     </>
   );
 }

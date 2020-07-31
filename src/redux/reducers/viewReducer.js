@@ -7,11 +7,13 @@ const SET_MODELS_NAME = 'SET_MODELS_NAME';
 const SET_TYPE_NAME = 'SET_TYPE_NAME';
 const SET_USER_EMAIL = 'SET_USER_EMAIL';
 const SET_FIRM_EMAIL = 'SET_FIRM_EMAIL';
+const SET_FIRM_PHONE = 'SET_FIRM_PHONE';
 const UPDATE_STATE = 'UPDATE_STATE';
 const UPDATE_BRAND_ID = 'UPDATE_BRAND_ID';
 const AVAILABILITY_SERTIFICATE = 'AVAILABILITY_SERTIFICATE';
 
 let initialState = {
+  isFetching: true,
   cars: [],
   choosenCar: {
     brands: [],
@@ -20,6 +22,7 @@ let initialState = {
     telephoneNum: '',
     brand: '',
     model: '',
+    modelName: '',
     carType: '',
     vinCode: '',
     prevStateNum: '',
@@ -31,10 +34,20 @@ let initialState = {
     availabilitySertificate: false,
     disabled: true
   },
-  emails: {
+  emailData: {
+    department: '',
     userEmail: '',
+    telephoneNum: '',
+    street: '',
+    webSite: '',
     firmEmail: '',
   },
+  smsData: {
+    smsLogin: '',
+    smsPass: '',
+    smsApiKey: '',
+    smsAlphaName: '',
+  }
 }
 
 const viewReducer = (state = initialState, action) => {
@@ -42,6 +55,7 @@ const viewReducer = (state = initialState, action) => {
     case SET_CARS:
       return {
         ...state,
+        isFetching: false,
         cars: action.cars
       }
 
@@ -54,6 +68,7 @@ const viewReducer = (state = initialState, action) => {
           telephoneNum: action.telephoneNum,
           brand: action.brand,
           model: action.model,
+          modelName: action.modelName,
           vinCode: action.vinCode,
           prevStateNum: action.stateNum,
           nextStateNum: action.stateNum,
@@ -69,18 +84,38 @@ const viewReducer = (state = initialState, action) => {
     case SET_USER_EMAIL:
       return {
         ...state,
-        emails: {
-          ...state.emails,
-          userEmail: action.userEmail
+        emailData: {
+          ...state.emailData,
+          userEmail: action.userEmail,
+          department: action.department,
+          telephoneNum: action.telephoneNum,
+          street: action.street,
+          webSite: action.webSite
+        },
+        smsData: {
+          ...state.smsData,
+          smsLogin: action.smsLogin,
+          smsPass: action.smsPass,
+          smsApiKey: action.smsApiKey,
+          smsAlphaName: action.smsAlphaName,
         }
       }
 
     case SET_FIRM_EMAIL:
       return {
         ...state,
-        emails: {
-          ...state.emails,
-          firmEmail: action.firmEmail
+        emailData: {
+          ...state.emailData,
+          firmEmail: action.firmEmail,
+        }
+      }
+
+    case SET_FIRM_PHONE:
+      return {
+        ...state,
+        smsData: {
+          ...state.smsData,
+          firmPhone: action.firmPhone,
         }
       }
 
@@ -149,7 +184,7 @@ const viewReducer = (state = initialState, action) => {
 const setCarsAC = (cars) => ({ type: SET_CARS, cars })
 const setChoosenCarAC = (car) => ({
   type: SET_CHOOSEN_CAR,
-  firmName: car.name, telephoneNum: car.telephone, brand: car.brand, model: car.id_model, vinCode: car.vin_code, stateNum: car.registration_number,
+  firmName: car.name, telephoneNum: car.telephone, brand: car.brand, model: car.id_model, modelName: car.model, vinCode: car.vin_code, stateNum: car.registration_number,
   dateOfPassing: car.date_of_passing, nextPassingDate: car.next_passing_date,
   dateOfReceivingSertificate: car.date_of_receiving_sertificate,
   nextSertificationDate: car.next_sertification_date
@@ -157,8 +192,12 @@ const setChoosenCarAC = (car) => ({
 const setBrandsNameAC = (brands) => ({ type: SET_BRANDS_NAME, brands });
 const setModelsNameAC = (models) => ({ type: SET_MODELS_NAME, models });
 const setTypeNameAC = (carType) => ({ type: SET_TYPE_NAME, carType });
-const setUserEmailAC = (userEmail) => ({ type: SET_USER_EMAIL, userEmail });
+
+const setUserDataAC = (userEmail, department, telephoneNum, street, webSite, smsLogin, smsPass, smsApiKey, smsAlphaName) => (
+    { type: SET_USER_EMAIL, userEmail, department, telephoneNum, street, webSite, smsLogin, smsPass, smsApiKey, smsAlphaName }
+  );
 const setFirmEmailAC = (firmEmail) => ({ type: SET_FIRM_EMAIL, firmEmail });
+const setFirmPhoneAC = (firmPhone) => ({ type: SET_FIRM_PHONE, firmPhone })
 
 export const updateStateAC = (name, value) => ({ type: UPDATE_STATE, name, value })
 export const updateBrandsIdAC = (brand) => ({ type: UPDATE_BRAND_ID, brand });
@@ -210,25 +249,46 @@ export const setTypeName = (model) => (dispatch) => {
 }
 
 // Set emails 
-export const setUserEmail = () => (dispatch) => {
+export const setUserData = () => (dispatch) => {
   dataAPI.getUserData().then(data => {
-    dispatch(setUserEmailAC(data[0].email));
+    dispatch(setUserDataAC(data[0].email, data[0].department, data[0].telephone_number, data[0].street, data[0].web_site,
+      data[0]['sms-login'], data[0]['sms-pass'], data[0]['sms-api-key'], data[0]['sms-alpha-name']));
   })
 }
 
 export const setFirmEmail = (firmName) => (dispatch) => {
   dataAPI.getFirms().then(data => {
     data.map(item => {
-      return firmName === item.name ? dispatch(setFirmEmailAC(item.email)) : ''
+      return firmName === item.name ? dispatch(setFirmEmailAC(item.email)) : '';
     })
   })
 }
 
-// POST Request
+export const setFirmPhone = (firmName) => (dispatch) => {
+  dataAPI.getFirms().then(data => {
+    data.map(item => {
+      return firmName === item.name ? dispatch(setFirmPhoneAC(item.telephone)) : '';
+    })
+  })
+}
+
+// API Request
 export const editRequest = (...data) => (dispatch) => {
   dataAPI.putEditRequest(...data).then(res => {
     console.log(res);
   })
+}
+
+export const emailRequest = (...data) => (dispatch) => {
+  dataAPI.postSendEmailRequest(...data)
+}
+
+export const smsRequest = (...data) => (dispatch) => {
+  dataAPI.postSendSmsRequest(...data)
+}
+
+export const deleteRequest = (stateNum) => (dispatch) => {
+  dataAPI.deleteCarRequest(stateNum)
 }
 
 export default viewReducer;

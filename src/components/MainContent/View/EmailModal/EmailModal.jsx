@@ -31,18 +31,18 @@ const EmailModal = (props) => {
 
                 <div className="d-flex justify-content-between w-75 mb-2">
                   <div>Ваш Email: </div>
-                  <div>{props.emails.userEmail}</div>
+                  <div>{props.emailData.userEmail}</div>
                 </div>
 
                 <div className="d-flex justify-content-between w-75 mb-4">
                   <div>Email отримувача: </div>
-                  <div>{props.emails.firmEmail}</div>
+                  <div>{props.emailData.firmEmail}</div>
                 </div>
 
                 Ви дійсно хочете відправити лист з попередженням?
               </div>
             <div className="modal-footer">
-              <button type="button" data-dismiss="modal" className="btn btn-success">Відправити</button>
+              <button type="button" onClick={() => props.emailRequestHandler()} data-dismiss="modal" className="btn btn-success">Відправити</button>
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Ні</button>
             </div>
           </div>

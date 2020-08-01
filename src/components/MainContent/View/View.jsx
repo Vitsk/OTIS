@@ -6,8 +6,16 @@ import EditModal from './EditModal/EditModal';
 import EmailModal from './EmailModal/EmailModal';
 import SmsModal from './SmsModal/SmsModal';
 import DeleteModal from './DeleteModal/DeleteModal';
+import PagiButton from './PagiButton/PagiButton';
 
 const View = (props) => {
+  let pagesCount = Math.ceil(props.totalCarsCount / props.pageSize);
+
+  let pages = [];
+  for (let i = 1; i <= pagesCount; i++) {
+    pages.push(i);
+  }
+
   return (
     <>
       <div className={styles.main}>
@@ -100,12 +108,29 @@ const View = (props) => {
                     setStateNum={props.setStateNum}
                     setFirmPhone={props.setFirmPhone} />
                 }
-
                 )
               }
             </tbody>
           </table>
-          { props.isFetching ? <Loader /> : null }
+          <nav aria-label="Page navigation" className='text-center pagination_buttons'>
+            <ul className="pagination d-flex flex-wrap justify-content-center" id="pagination-buttons">
+              {
+                pages.map((page) => <PagiButton key={page} page={page}
+                  currentPage={props.currentPage} setCars={props.setCars} />)
+              }
+            </ul>
+
+            {/* Prev Next PAGE */}
+            <ul className="pagination justify-content-center">
+              <li className={`page-item ${props.currentPage === 1 ? 'disabled' : null}`}>
+                <button className='page-link' onClick={() => props.setCars(props.currentPage - 1)} tabIndex="-1">Попередня</button>
+              </li>
+              <li className={`page-item ${props.currentPage === pages.length ? 'disabled' : null}`}>
+                <button className="page-link" onClick={() => props.setCars(props.currentPage + 1)} >Наступна</button>
+              </li>
+            </ul>
+          </nav>
+          {props.isFetching ? <Loader /> : null}
         </div>
       </div>
 

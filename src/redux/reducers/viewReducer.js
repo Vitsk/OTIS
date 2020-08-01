@@ -1,6 +1,7 @@
 import { dataAPI } from "../../api/api";
 
 const SET_CARS = 'SET_CARS';
+const SET_CARS_COUNT = 'SET_CARS_COUNT';
 const SET_CHOOSEN_CAR = 'SET_CHOOSEN_CAR';
 const SET_BRANDS_NAME = 'SET_BRANDS_NAME';
 const SET_MODELS_NAME = 'SET_MODELS_NAME';
@@ -14,6 +15,9 @@ const AVAILABILITY_SERTIFICATE = 'AVAILABILITY_SERTIFICATE';
 
 let initialState = {
   isFetching: true,
+  pageSize: 50,
+  totalCarsCount: 0,
+  currentPage: 1,
   cars: [],
   choosenCar: {
     brands: [],
@@ -56,7 +60,14 @@ const viewReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
+        currentPage: action.page,
         cars: action.cars
+      }
+
+    case SET_CARS_COUNT:
+      return {
+        ...state,
+        totalCarsCount: +action.totalCarsCount
       }
 
     case SET_CHOOSEN_CAR:
@@ -181,7 +192,9 @@ const viewReducer = (state = initialState, action) => {
 }
 
 // AC
-const setCarsAC = (cars) => ({ type: SET_CARS, cars })
+const setCarsAC = (cars, page = 1) => ({ type: SET_CARS, cars, page })
+const setCarsCountAC = (totalCarsCount) => ({ type: SET_CARS_COUNT, totalCarsCount })
+
 const setChoosenCarAC = (car) => ({
   type: SET_CHOOSEN_CAR,
   firmName: car.name, telephoneNum: car.telephone, brand: car.brand, model: car.id_model, modelName: car.model, vinCode: car.vin_code, stateNum: car.registration_number,
@@ -194,8 +207,8 @@ const setModelsNameAC = (models) => ({ type: SET_MODELS_NAME, models });
 const setTypeNameAC = (carType) => ({ type: SET_TYPE_NAME, carType });
 
 const setUserDataAC = (userEmail, department, telephoneNum, street, webSite, smsLogin, smsPass, smsApiKey, smsAlphaName) => (
-    { type: SET_USER_EMAIL, userEmail, department, telephoneNum, street, webSite, smsLogin, smsPass, smsApiKey, smsAlphaName }
-  );
+  { type: SET_USER_EMAIL, userEmail, department, telephoneNum, street, webSite, smsLogin, smsPass, smsApiKey, smsAlphaName }
+);
 const setFirmEmailAC = (firmEmail) => ({ type: SET_FIRM_EMAIL, firmEmail });
 const setFirmPhoneAC = (firmPhone) => ({ type: SET_FIRM_PHONE, firmPhone })
 
@@ -206,9 +219,15 @@ export const updateAvailabilitySertificateAC = () => ({ type: AVAILABILITY_SERTI
 
 
 // Thunks
-export const setCars = () => (dispatch) => {
-  dataAPI.getCars().then(data => {
-    dispatch(setCarsAC(data))
+export const setCars = (page) => (dispatch) => {
+  dataAPI.getCars(page).then(data => {
+    dispatch(setCarsAC(data, page))
+  })
+}
+
+export const setCarsCount = () => (dispatch) => {
+  dataAPI.getCarsCount().then(data => {
+    dispatch(setCarsCountAC(data[0].count))
   })
 }
 

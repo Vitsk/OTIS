@@ -6,7 +6,7 @@ const UPDATE_EMAIL = 'UPDATE_EMAIL';
 const UPDATE_PASS = 'UPDATE_PASS';
 
 let initialState = {
-  isLogin: false,
+  isLogin: true,
   inputEmail: '',
   inputPass: '',
 }

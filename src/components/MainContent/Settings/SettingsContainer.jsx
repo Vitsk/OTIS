@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
-import Settings from './Settings';
-import { setSettingsData, updateSmsLoginAC, updateSmsPassAC, updateSmsApiKeyAC, updateSmsAlphaNameAC, updateSmsTextTemplateAC } from '../../../redux/reducers/settingsReducer';
 import { connect } from 'react-redux';
+import { setSettingsData, updateState, changeSettingsSms } from '../../../redux/reducers/settingsReducer';
+import Settings from './Settings';
 
 class SettingsContainer extends Component {
   componentDidMount() {
     this.props.setSettingsData()
   }
 
+  changeSettingsSmsHandler = () => {
+    this.props.changeSettingsSms(this.props.smsLogin, this.props.smsPass,
+      this.props.smsApiKey, this.props.smsAlphaName, this.props.smsTextTemplate)
+  }
+
   render() {
     return (
-      <Settings {...this.props} />
+      <Settings {...this.props}
+        changeSettingsSmsHandler={this.changeSettingsSmsHandler} />
     );
   }
 }
@@ -25,9 +31,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   setSettingsData,
-  updateSmsLoginAC,
-  updateSmsPassAC,
-  updateSmsApiKeyAC,
-  updateSmsAlphaNameAC,
-  updateSmsTextTemplateAC,
+  updateState, changeSettingsSms
 })(SettingsContainer);

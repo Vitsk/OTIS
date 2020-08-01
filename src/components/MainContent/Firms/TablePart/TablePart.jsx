@@ -9,7 +9,7 @@ const TablePart = (props) => {
         <td className="align-middle">{props.telephoneNum}</td>
         <td className="align-middle">{props.email}</td>
         <td className="edit-btn align-middle">
-          <div className="edit-button btn btn-outline-success btn-block align-middle btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg">
+          <div className="edit-button btn btn-outline-success btn-block align-middle btn-sm" onClick={() => props.setChoosenFirmData(props.idFirm)} data-toggle="modal" data-target=".bd-example-modal-lg">
             Редагувати
           </div>
         </td>

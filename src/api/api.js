@@ -30,13 +30,13 @@ export let userAPI = {
       url: await this.getUserKey().then(res => `https://office.otis.co.ua/api/users?api_key=${res}`),
       method: 'PUT',
       contentType: "application/json",
-        data: `password=${data[0]}&new=${data[1]}&repeat=${data[2]}`,
-        success(res) {
-          console.log(res);
-        },
-        error(res) {
-          console.log(res);
-        }
+      data: `password=${data[0]}&new=${data[1]}&repeat=${data[2]}`,
+      success(res) {
+        console.log(res);
+      },
+      error(res) {
+        console.log(res);
+      }
     })
   },
 
@@ -54,27 +54,51 @@ export let userAPI = {
         console.log(res);
       }
     });
+  },
+
+  async putChangeSettingsSms(...data) {
+    $.ajax({
+      url: await this.getUserKey().then(res => `https://office.otis.co.ua/api/users/sms?api_key=${res}`),
+      type: 'PUT',
+      data: `&sms_login=${data[0]}&sms_pass=${data[1]}&sms_api_key=${data[2]}&sms_alpha_name=${data[3]}&sms_text_template=${data[4]}`,
+      success(res) {
+        console.log(res);
+      },
+      error(res) {
+        console.log(res);
+      }
+    });
   }
 }
 
 export const dataAPI = {
   async getUserData() {
-    return instance.get( await userAPI.getUserKey().then(data => `api/users?api_key=${data}`) )
+    return instance.get(await userAPI.getUserKey().then(data => `api/users?api_key=${data}`))
       .then(res => res.data)
   },
 
-  async getCars() {
-    return instance.get( await userAPI.getUserKey().then(data => `api/cars?api_key=${data}`) )
+  async getCars(page = 1) {
+    return instance.get(await userAPI.getUserKey().then(data => `api/cars?api_key=${data}&page=${page}`))
+      .then(res => res.data)
+  },
+
+  async getCarsCount() {
+    return instance.get(await userAPI.getUserKey().then(data => `api/cars?api_key=${data}&count=true`))
       .then(res => res.data)
   },
 
   async getChoosenCar(stateNum) {
-    return instance.get( await userAPI.getUserKey().then(data => `api/cars/${stateNum}?api_key=${data}`) )
+    return instance.get(await userAPI.getUserKey().then(data => `api/cars/${stateNum}?api_key=${data}`))
       .then(res => res.data)
   },
 
   async getFirms() {
-    return instance.get( await userAPI.getUserKey().then(data => `api/firms?api_key=${data}`) )
+    return instance.get(await userAPI.getUserKey().then(data => `api/firms?api_key=${data}`))
+      .then(res => res.data)
+  },
+
+  async getChoosenFirm(idFirm) {
+    return instance.get(await userAPI.getUserKey().then(data => `api/firms/${idFirm}?api_key=${data}`))
       .then(res => res.data)
   },
 
@@ -85,21 +109,21 @@ export const dataAPI = {
 
   async getCarsModel(brand) {
     return await instance.get(`public/lists/Models.php?brand=${brand}`)
-    .then(res => res.data)
+      .then(res => res.data)
   },
 
   async getCarsType(model) {
     return await instance.get(`public/lists/Models.php?model=${model}`)
-    .then(res => res.data)
+      .then(res => res.data)
   },
 
   async postCreateCar(...data) {
-    return await instance.post( await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&id_model=${data[0]}&registration_number=${data[1]}&id_firm=${data[2]}&vin_code=${data[3]}&date_of_passing=${data[4]}&next_passing_date=${data[5]}&next_sertification_date=${data[6]}&date_of_receiving_sertificate=${data[7]}&availability_sertificate=${data[8] === true ? '1' : '0'}`)
+    return await instance.post(await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&id_model=${data[0]}&registration_number=${data[1]}&id_firm=${data[2]}&vin_code=${data[3]}&date_of_passing=${data[4]}&next_passing_date=${data[5]}&next_sertification_date=${data[6]}&date_of_receiving_sertificate=${data[7]}&availability_sertificate=${data[8] === true ? '1' : '0'}`)
       .then(res => res.data)
   },
 
   async putEditRequest(...data) {
-    return await instance.put( await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&prev_rn=${data[0]}&next_rn=${data[1]}&vin_code=${data[2]}&id_model=${data[3]}&next_passing_date=${data[4]}&next_sertification_date=${data[5]}`)
+    return await instance.put(await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&prev_rn=${data[0]}&next_rn=${data[1]}&vin_code=${data[2]}&id_model=${data[3]}&next_passing_date=${data[4]}&next_sertification_date=${data[5]}`)
       .then(res => res.data)
   },
 
@@ -144,6 +168,40 @@ export const dataAPI = {
       error(data) {
         return data
       }
+    });
+  }
+}
+
+
+export const firmsAPI = {
+  async createFirm(...data) {
+    $.ajax({
+      url: await userAPI.getUserKey().then(res => `https://office.otis.co.ua/api/firms?api_key=${res}`),
+      method: 'POST',
+      dataType: "json",
+      data: `id_firm=${data[0]}&name=${data[1]}&telephone=${data[2]}&email${data[3]}`,
+      success(res) {
+        console.log(res);
+      },
+      error(res) {
+        console.log(res);
+      }
+    })
+  },
+
+  async putEditFirmData(...data) {
+    $.ajax({
+      url: await userAPI.getUserKey().then(res => `https://office.otis.co.ua/api/firms?api_key=${res}`),
+      type: 'PUT',
+      dataType: "json",
+      contentType: "application/json",
+      data: `id_firm_prev=${data[0]}&id_firm_next=${data[1]}&name=${data[2]}&telephone=${data[3]}&email=${data[4]}`,
+      success(res) {
+        console.log(res);
+      },
+      error(res) {
+        console.log(res);
+      },
     });
   }
 }

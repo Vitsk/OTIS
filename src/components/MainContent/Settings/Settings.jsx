@@ -15,25 +15,25 @@ const Settings = (props) => {
 
               <div className="form-group col-lg-6 col-md-12 col-sm-6">
                 <label htmlFor="input_sms_login">Логін</label>
-                <input type="text" value={props.smsLogin} onChange={(e) => props.updateSmsLoginAC(e.target.value)} className="form-control" placeholder="Логін AlphaSMS" name="input_sms_login" required />
+                <input type="text" value={props.smsLogin} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" placeholder="Логін AlphaSMS" name="smsLogin" required />
               </div>
 
               <div className="form-group col-lg-6 col-md-12 col-sm-6">
                 <label htmlFor="input_sms_pass">Пароль</label>
-                <input type="password" value={props.smsPass} onChange={(e) => props.updateSmsPassAC(e.target.value)} className="form-control" placeholder="Пароль AlphaSMS" name="input_sms_pass" required />
+                <input type="password" value={props.smsPass} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" placeholder="Пароль AlphaSMS" name="smsPass" required />
               </div>
 
               <div className="form-group col-md-12">
                 <label htmlFor="input_sms_api_key">API ключ</label>
-                <input type="text" value={props.smsApiKey} onChange={(e) => props.updateSmsApiKeyAC(e.target.value)} className="form-control" placeholder="API ключ AlphaSMS" name="input_sms_api_key" required />
+                <input type="text" value={props.smsApiKey} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" placeholder="API ключ AlphaSMS" name="smsApiKey" required />
               </div>
               <div className="form-group col-md-12">
                 <label htmlFor="input_sms_alpha_name">ALPHA ім'я</label>
-                <input type="text" value={props.smsAlphaName} onChange={(e) => props.updateSmsAlphaNameAC(e.target.value)} className="form-control" id="smsalphaname" placeholder="Alpha-ім'я" name="input_sms_alpha_name" required />
+                <input type="text" value={props.smsAlphaName} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="smsalphaname" placeholder="Alpha-ім'я" name="smsAlphaName" required />
               </div>
               <div className="form-group col-md-12">
                 <label htmlFor="input_sms_text">Шаблон повідомлень</label>
-                <textarea className="form-control" value={props.smsTextTemplate} onChange={(e) => props.updateSmsTextTemplateAC(e.target.value)} rows="4" placeholder="Введіть текст повідомлення" name="input_sms_text" required></textarea>
+                <textarea className="form-control" value={props.smsTextTemplate} onChange={(e) => props.updateState(e.target.name, e.target.value)} rows="4" placeholder="Введіть текст повідомлення" name="smsTextTemplate" required></textarea>
                 <span id="counter">0 символів - 0 смс</span>
               </div>
 
@@ -55,7 +55,7 @@ const Settings = (props) => {
       <div className="row text-center">
         <div className="col-3"></div>
         <div className="col-sm-3">
-          <div className="btn btn-outline-success btn-block" id="send-info">Зберегти дані</div>
+          <div className="btn btn-outline-success btn-block" onClick={() => props.changeSettingsSmsHandler()}>Зберегти дані</div>
         </div>
 
         <div className="col-sm-3">

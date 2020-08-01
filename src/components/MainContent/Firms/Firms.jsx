@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Firms.module.css';
 import TablePart from './TablePart/TablePart';
+import EditModal from './EditModal/EditModal';
 
 const Firms = (props) => {
   return (
@@ -12,23 +13,23 @@ const Firms = (props) => {
           <div className="form-row">
             <div className="form-group col-lg-3 col-md-6">
               <label htmlFor="inputFirm">Назва організації / ФОП</label>
-              <input type="text" id="inputFirm" className="form-control" placeholder="Назва організації чи ФОП" name="name" required />
+              <input type="text" id="inputFirm" value={props.firmName} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" placeholder="Назва організації чи ФОП" name="firmName" required />
               <small className="text-muted">* вводити у форматі - ТОВ "Назва компанії" або ФОП "ПІП"</small>
             </div>
 
             <div className="form-group col-lg-3 col-md-6">
               <label htmlFor="inputIDNumberFirm">ЄДРПОУ / іден. код</label>
-              <input type="text" id="inputIDNumberFirm" className="form-control" placeholder="ЄДРПОУ або іден. код" name="id_firm" required />
+              <input type="text" id="inputIDNumberFirm" value={props.idFirm} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" placeholder="ЄДРПОУ або іден. код" name="idFirm" required />
             </div>
 
             <div className="form-group col-lg-3 col-md-6">
               <label htmlFor="inputPhoneFirm">Телефон організації</label>
-              <input type="text" id="inputPhoneFirm" className="form-control" placeholder="Номер контактного телефону" name="telephone" />
+              <input type="text" id="inputPhoneFirm" value={props.firmPhone} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" placeholder="Номер контактного телефону" name="firmPhone" />
             </div>
 
             <div className="form-group col-lg-3 col-md-6">
               <label htmlFor="inputEmailFirm">Електронна адреса організації</label>
-              <input type="email" id="inputEmailFirm" className="form-control" placeholder="example@mail.com" name="email" />
+              <input type="email" id="inputEmailFirm" value={props.firmEmail} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" placeholder="example@mail.com" name="firmEmail" />
             </div>
 
             <div>
@@ -36,12 +37,10 @@ const Firms = (props) => {
             </div>
           </div>
           <div className="form-group offset-md-4 col-md-4">
-            <input className="btn btn-outline-success btn-block" defaultValue="Додати нову організацію" />
+            <input className="btn btn-outline-success btn-block" onClick={() => props.createFirmHandler()} defaultValue="Додати нову організацію" />
           </div>
         </form>
       </div>
-
-
 
       <div className={styles.tableCustomStyle}>
         <h5 className="text-center">Зведений список фірм</h5>
@@ -73,12 +72,17 @@ const Firms = (props) => {
                     nameFirm={firm.name}
                     idFirm={firm.id_firm}
                     telephoneNum={firm.telephone}
-                    email={firm.email} />
+                    email={firm.email}
+                    setChoosenFirmData={props.setChoosenFirmData} />
                 )
               }
             </tbody>
           </table>
         </div>
+
+        <EditModal updateModalState={props.updateModalState}
+          editFirmDataHandler={props.editFirmDataHandler}
+          editModal={props.editModal} />
       </div>
     </>
   );

@@ -1,11 +1,8 @@
-import { dataAPI } from "../../api/api";
+import { dataAPI, userAPI } from "../../api/api";
 
 const SET_SETTINGS_DATA = 'SET_SETTINGS_DATA';
-const UPDATE_SMS_LOGIN = 'SET_SETTINGS_DATA';
-const UPDATE_SMS_PASS = 'SET_SETTINGS_DATA';
-const UPDATE_SMS_API_KEY = 'SET_SETTINGS_DATA';
-const UPDATE_SMS_ALPHA_NAME = 'SET_SETTINGS_DATA';
-const UPDATE_SMS_TEXT_TEMPLATE = 'SET_SETTINGS_DATA';
+const UPDATE_STATE = 'UPDATE_STATE';
+
 
 let initialState = {
   smsLogin: '',
@@ -27,35 +24,11 @@ const settingsReducer = (state = initialState, action) => {
         smsTextTemplate: action.smsTextTemplate,
       }
 
-    case UPDATE_SMS_LOGIN:
-      return {
-        ...state,
-        smsLogin: action.smsLogin,
-      }
-
-    case UPDATE_SMS_PASS:
-      return {
-        ...state,
-        smsPass: action.smsPass,
-      }
-
-    case UPDATE_SMS_API_KEY:
-      return {
-        ...state,
-        smsApiKey: action.smsApiKey,
-      }
-
-    case UPDATE_SMS_ALPHA_NAME:
-      return {
-        ...state,
-        smsAlphaName: action.smsAlphaName,
-      }
-
-    case UPDATE_SMS_TEXT_TEMPLATE:
-      return {
-        ...state,
-        smsTextTemplate: action.smsTextTemplate,
-      }
+      case UPDATE_STATE:
+        return {
+          ...state,
+          [action.name]: action.value
+        }
 
 
     default:
@@ -70,11 +43,7 @@ const setSettingsDataAC = (smsLogin, smsPass, smsApiKey, smsAlphaName, smsTextTe
     smsLogin, smsPass, smsApiKey, smsAlphaName, smsTextTemplate
   }
 );
-export const updateSmsLoginAC = (smsLogin) => ({ type: UPDATE_SMS_LOGIN, smsLogin });
-export const updateSmsPassAC = (smsPass) => ({ type: UPDATE_SMS_PASS, smsPass });
-export const updateSmsApiKeyAC = (smsApiKey) => ({ type: UPDATE_SMS_API_KEY, smsApiKey });
-export const updateSmsAlphaNameAC = (smsAlphaName) => ({ type: UPDATE_SMS_ALPHA_NAME, smsAlphaName });
-export const updateSmsTextTemplateAC = (smsTextTemplate) => ({ type: UPDATE_SMS_TEXT_TEMPLATE, smsTextTemplate });
+export const updateState = (name, value) => ({ type: UPDATE_STATE, name, value })
 
 // Thunks
 export const setSettingsData = () => (dispatch) => {
@@ -85,5 +54,10 @@ export const setSettingsData = () => (dispatch) => {
     ));
   });
 }
+
+// API requests 
+export const changeSettingsSms = (...data) => (dispatch) => {
+  userAPI.putChangeSettingsSms(...data);
+} 
 
 export default settingsReducer;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Firms from './Firms';
-import { setFirmsData } from '../../../redux/reducers/firmsReducer';
+import { setFirmsData, setChoosenFirmData, createFirmsRequest, updateState, updateModalState, editFirmDataRequest } from '../../../redux/reducers/firmsReducer';
 import { connect } from 'react-redux';
 
 class FirmsContainer extends Component {
@@ -8,15 +8,42 @@ class FirmsContainer extends Component {
     this.props.setFirmsData()
   }
 
+  createFirmHandler = () => {
+    this.props.createFirmsRequest(this.props.idFirm, this.props.firmName,
+      this.props.firmPhone, this.props.firmEmail)
+  }
+
+  editFirmDataHandler = () => {
+    this.props.editFirmDataRequest(this.props.editModal.prevIdFirm, this.props.editModal.nextIdFirm, 
+      this.props.editModal.firmName, this.props.editModal.firmPhone, this.props.editModal.firmEmail)
+  }
+
   render() {
     return (
-      <Firms firms={this.props.firms} />
+      <Firms {...this.props}
+        createFirmHandler={this.createFirmHandler}
+        editFirmDataHandler={this.editFirmDataHandler} />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  firms: state.firmsPage.firms
+  firms: state.firmsPage.firms,
+  firmName: state.firmsPage.firmName,
+  idFirm: state.firmsPage.idFirm,
+  firmPhone: state.firmsPage.firmPhone,
+  firmEmail: state.firmsPage.firmEmail,
+  editModal: {
+    firmName: state.firmsPage.editModal.firmName,
+    prevIdFirm: state.firmsPage.editModal.prevIdFirm,
+    nextIdFirm: state.firmsPage.editModal.nextIdFirm,
+    firmPhone: state.firmsPage.editModal.firmPhone,
+    firmEmail: state.firmsPage.editModal.firmEmail,
+  }
 })
 
-export default connect(mapStateToProps, { setFirmsData })(FirmsContainer);
+export default connect(mapStateToProps, {
+  setFirmsData, createFirmsRequest,
+  updateState, updateModalState, setChoosenFirmData,
+  editFirmDataRequest
+})(FirmsContainer);

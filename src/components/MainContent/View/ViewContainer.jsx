@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import View from './View';
 import { connect } from 'react-redux';
 import {
-  setCars, setUserData, setFirmEmail, getChoosenCar, setBrandsName, setModelsName, setTypeName,
+  setCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName, setModelsName, setTypeName,
   updateStateAC, updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest, deleteRequest,
-  smsRequest, setFirmPhone
+  smsRequest, setFirmPhone,
 } from '../../../redux/reducers/viewReducer';
 
 class ViewContainer extends Component {
   componentDidMount() {
     this.props.setCars()
+    this.props.setCarsCount()
     this.props.setBrandsName()
     this.props.setUserData()
   }
@@ -28,8 +29,7 @@ class ViewContainer extends Component {
       this.props.emailData.telephoneNum, this.props.emailData.street, this.props.emailData.webSite,
       this.props.choosenCar.firmName, this.props.emailData.firmEmail, this.props.choosenCar.prevStateNum,
       this.props.choosenCar.brand, this.props.choosenCar.modelName, this.props.choosenCar.nextSertificationDate,
-      this.props.choosenCar.nextPassingDate
-    )
+      this.props.choosenCar.nextPassingDate)
   }
 
   smsRequestHandler = () => {
@@ -41,7 +41,11 @@ class ViewContainer extends Component {
 
   render() {
     return (
-        <View isFetching={this.props.isFetching}
+      <View isFetching={this.props.isFetching}
+        pageSize={this.props.pageSize}
+        totalCarsCount={this.props.totalCarsCount}
+        currentPage={this.props.currentPage}
+        setCars={this.props.setCars}
         cars={this.props.cars}
         choosenCar={this.props.choosenCar}
         emailData={this.props.emailData}
@@ -63,6 +67,9 @@ class ViewContainer extends Component {
 
 const mapStateToProps = (state) => ({
   isFetching: state.viewPage.isFetching,
+  pageSize: state.viewPage.pageSize,
+  totalCarsCount: state.viewPage.totalCarsCount,
+  currentPage: state.viewPage.currentPage,
   cars: state.viewPage.cars,
   choosenCar: state.viewPage.choosenCar,
   emailData: state.viewPage.emailData,
@@ -71,8 +78,8 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, {
-  setCars, setUserData, setFirmEmail, getChoosenCar, setBrandsName,
+  setCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName,
   setModelsName, setTypeName, updateStateAC,
-  updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest, 
+  updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest,
   deleteRequest, smsRequest, setFirmPhone
 })(ViewContainer);

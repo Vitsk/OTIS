@@ -13,13 +13,13 @@ const Profile = (props) => {
 
             <div className={`form-row ${styles.formRowCustomStyle}`} >
               <LoginPass email={props.email}
-              updateEmail={props.updateEmail} />
-              <ChangePass />
+              updateState={props.updateState} />
+              <ChangePass updateState={props.updateState}
+              newPassword={props.newPassword}
+              repeatPassword={props.repeatPassword}
+              changePassHandler={props.changePassHandler} />
 
-              <div>
-                <div className={`row ${styles.customStyleForRow}`}></div>
-                <div className="btn btn-outline-success btn-block">Зберегти зміни</div>
-              </div>
+              
             </div>
           </form>
         </div>
@@ -29,10 +29,7 @@ const Profile = (props) => {
 
             <div className={`form-row ${styles.formRowCustomStyle}`}>
               <PersonalData {...props} />
-              <div>
-                <div className={`row ${styles.customStyleForRow}`}></div>
-                <div className="btn btn-outline-success btn-block">Зберегти зміни</div>
-              </div>
+              
             </div>
 
           </form>

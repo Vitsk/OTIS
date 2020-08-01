@@ -23,6 +23,37 @@ export let userAPI = {
       'password': password
     })
       .then(res => res.data)
+  },
+
+  async putChangePassRequest(...data) {
+    $.ajax({
+      url: await this.getUserKey().then(res => `https://office.otis.co.ua/api/users?api_key=${res}`),
+      method: 'PUT',
+      contentType: "application/json",
+        data: `password=${data[0]}&new=${data[1]}&repeat=${data[2]}`,
+        success(res) {
+          console.log(res);
+        },
+        error(res) {
+          console.log(res);
+        }
+    })
+  },
+
+  async putChangeUserData(...data) {
+    $.ajax({
+      url: await this.getUserKey().then(res => `https://office.otis.co.ua/api/users?api_key=${res}`),
+      method: 'PUT',
+      contentType: "application/json",
+      dataType: 'text',
+      data: `name=${data[0]}&surname=${data[1]}&birthday=${data[2]}&phone=${data[3]}&email=${data[4]}&department=${data[5]}&street=${data[6]}&web_site=${data[7]}`,
+      success(res) {
+        console.log(res);
+      },
+      error(res) {
+        console.log(res);
+      }
+    });
   }
 }
 

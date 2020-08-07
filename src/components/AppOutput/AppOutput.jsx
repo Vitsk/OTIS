@@ -12,14 +12,18 @@ class AppOutput extends Component {
           <Login
             login={this.props.checkLoginData}
             updateEmail={this.props.updateEmailAC}
-            updatePass={this.props.updatePassAC} />}
+            updatePass={this.props.updatePassAC} 
+            inputEmail={this.props.inputEmail} 
+            inputPass={this.props.inputPass} />}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  isLogin: state.loginPage.isLogin
+  isLogin: state.loginPage.isLogin,
+  inputEmail: state.loginPage.inputEmail,
+  inputPass: state.loginPage.inputPass,
 });
 
 

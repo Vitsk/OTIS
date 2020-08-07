@@ -6,7 +6,7 @@ const UPDATE_EMAIL = 'UPDATE_EMAIL';
 const UPDATE_PASS = 'UPDATE_PASS';
 
 let initialState = {
-  isLogin: true,
+  isLogin: false,
   inputEmail: '',
   inputPass: '',
 }
@@ -49,12 +49,10 @@ export const updateEmailAC = (inputEmail) => ({ type: UPDATE_EMAIL, inputEmail }
 export const updatePassAC = (inputPass) => ({ type: UPDATE_PASS, inputPass });
 
 // Thunk
-export const checkLoginData = () => (dispatch) => {
-  userAPI.login('example@mail.com', 'qwerty').then(data => {
-    if (data === "Incorrect Data") {
-      dispatch(loginUserAC())
-    }
-  })
+export const checkLoginData = (email, password) => (dispatch) => {
+  userAPI.login(email, password).then(data => {
+    dispatch(loginUserAC())
+  }).catch(() => null)
 }
 
 export default loginReducer;

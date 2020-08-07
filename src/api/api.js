@@ -1,5 +1,6 @@
 import * as axios from 'axios';
 import * as $ from 'jquery';
+import md5 from 'js-md5';
 
 const instance = axios.create({
   withCredentials: true,
@@ -18,11 +19,10 @@ export let userAPI = {
   },
 
   async login(email, password) {
-    return await instance.post(`vendor/auth/login.php`, {
-      'email': email,
-      'password': password
-    })
-      .then(res => res.data)
+    return await instance.get(`vendor/auth/react_auth.php?email=${email}&password=${md5(password)}`)
+      .then(res => console.log(res))
+    // await fetch(`https://office.otis.co.ua/vendor/auth/react_auth.php?email=${email}&password=${md5(password)}`)
+    //   .then(response => console.log(response))
   },
 
   async putChangePassRequest(...data) {
@@ -79,9 +79,9 @@ export const dataAPI = {
 
   async getCars(page = 1) {
     return instance.get(await userAPI.getUserKey().then(data => `api/cars?api_key=${data}&page=${page}`))
-    .then(res => res.data)
+      .then(res => res.data)
   },
-  
+
   async getAllCars() {
     return instance.get(await userAPI.getUserKey().then(data => `api/cars?api_key=${data}`))
       .then(res => res.data)

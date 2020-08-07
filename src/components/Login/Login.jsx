@@ -20,13 +20,13 @@ const Login = (props) => {
 
           <div className="form-group">
             <label htmlFor="exampleInputEmail1" className="font-weight-bolder">Логін</label>
-            <input name="email" type="email" onChange={(e) => props.updateEmail(e.target.value)} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Введіть електронну пошту" />
+            <input name="email" type="email" value={props.inputEmail} onChange={(e) => props.updateEmail(e.target.value)} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Введіть електронну пошту" />
             <small id="emailHelp" className="form-text text-muted">В якості логіну використовується E-mail адреса</small>
           </div>
 
           <div className="form-group">
             <label htmlFor="exampleInputPassword1" className="font-weight-bolder">Пароль</label>
-            <input name="password" type="password" onChange={(e) => props.updatePass(e.target.value)} className="form-control" id="exampleInputPassword1" placeholder="Введіть пароль" />
+            <input name="password" type="password" value={props.inputPass} onChange={(e) => props.updatePass(e.target.value)} className="form-control" id="exampleInputPassword1" placeholder="Введіть пароль" />
             <small id="passHelp" className="form-text text-muted">Нікому не поширюйте власний пароль!</small>
           </div>
           <div className="form-group form-check">
@@ -34,7 +34,7 @@ const Login = (props) => {
             <label className="form-check-label" htmlFor="exampleCheck1">Запам'ятати мене</label>
           </div>
           <div className="text-center">
-            <button onClick={() => props.login()} className="btn btn-outline-success btn-block">Увійти в систему</button>
+            <button onClick={() => props.login(props.inputEmail, props.inputPass)} className="btn btn-outline-success btn-block">Увійти в систему</button>
             {/* <button type="submit" className="btn btn-outline-success btn-block">Увійти в систему</button> */}
           </div>
 

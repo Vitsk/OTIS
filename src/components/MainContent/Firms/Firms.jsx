@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './Firms.module.css';
 import TablePart from './TablePart/TablePart';
 import EditModal from './EditModal/EditModal';
+import InputMask from 'react-input-mask';
+import Alert from '../../Alert/Alert';
 
 const Firms = (props) => {
   return (
@@ -19,12 +21,12 @@ const Firms = (props) => {
 
             <div className="form-group col-lg-3 col-md-6">
               <label htmlFor="inputIDNumberFirm">ЄДРПОУ / іден. код</label>
-              <input type="text" id="inputIDNumberFirm" value={props.idFirm} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" placeholder="ЄДРПОУ або іден. код" name="idFirm" required />
+              <InputMask mask='99999999' type="text" id="inputIDNumberFirm" value={props.idFirm} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" placeholder="ЄДРПОУ або іден. код" name="idFirm" required />
             </div>
 
             <div className="form-group col-lg-3 col-md-6">
               <label htmlFor="inputPhoneFirm">Телефон організації</label>
-              <input type="text" id="inputPhoneFirm" value={props.firmPhone} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" placeholder="Номер контактного телефону" name="firmPhone" />
+              <InputMask mask='+380999999999' type="text" id="inputPhoneFirm" value={props.firmPhone} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" placeholder="Номер контактного телефону" name="firmPhone" />
             </div>
 
             <div className="form-group col-lg-3 col-md-6">
@@ -36,11 +38,14 @@ const Firms = (props) => {
               <div className={`row ${styles.rowCustomStyle}`}></div>
             </div>
           </div>
+
           <div className="form-group offset-md-4 col-md-4">
-            <input className="btn btn-outline-success btn-block" onClick={() => props.createFirmHandler()} defaultValue="Додати нову організацію" />
+            <input className="btn btn-outline-success btn-block" onClick={() => { props.createFirmHandler(); props.setFirmsData() }} defaultValue="Додати нову організацію" />
           </div>
         </form>
       </div>
+
+      {props.showAlert ? <Alert alertText={props.alertText} /> : null}
 
       <div className={styles.tableCustomStyle}>
         <h5 className="text-center">Зведений список фірм</h5>
@@ -81,6 +86,7 @@ const Firms = (props) => {
         </div>
 
         <EditModal updateModalState={props.updateModalState}
+          setFirmsData={props.setFirmsData}
           editFirmDataHandler={props.editFirmDataHandler}
           editModal={props.editModal} />
       </div>

@@ -79,6 +79,11 @@ export const dataAPI = {
 
   async getCars(page = 1) {
     return instance.get(await userAPI.getUserKey().then(data => `api/cars?api_key=${data}&page=${page}`))
+    .then(res => res.data)
+  },
+  
+  async getAllCars() {
+    return instance.get(await userAPI.getUserKey().then(data => `api/cars?api_key=${data}`))
       .then(res => res.data)
   },
 
@@ -95,6 +100,11 @@ export const dataAPI = {
   async getFirms() {
     return instance.get(await userAPI.getUserKey().then(data => `api/firms?api_key=${data}`))
       .then(res => res.data)
+  },
+
+  async getFirmsCount() {
+    return instance.get(await userAPI.getUserKey().then(data => `api/firms?api_key=${data}`))
+      .then(res => res.data.length)
   },
 
   async getChoosenFirm(idFirm) {
@@ -118,12 +128,15 @@ export const dataAPI = {
   },
 
   async postCreateCar(...data) {
-    return await instance.post(await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&id_model=${data[0]}&registration_number=${data[1]}&id_firm=${data[2]}&vin_code=${data[3]}&date_of_passing=${data[4]}&next_passing_date=${data[5]}&next_sertification_date=${data[6]}&date_of_receiving_sertificate=${data[7]}&availability_sertificate=${data[8] === true ? '1' : '0'}`)
+    let carData = data[0] ? `&id_model=${data[0].value}` : `&brand=${data[1]}&model=${data[2]}&type=${data[3]}`;
+
+    return await instance.post(await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `${carData}&registration_number=${data[4]}&id_firm=${data[5]}&vin_code=${data[6]}&date_of_passing=${data[7]}&next_passing_date=${data[8]}&next_sertification_date=${data[9]}&date_of_receiving_sertificate=${data[10]}&availability_sertificate=${data[11] === true ? '1' : '0'}`)
       .then(res => res.data)
   },
 
   async putEditRequest(...data) {
-    return await instance.put(await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&prev_rn=${data[0]}&next_rn=${data[1]}&vin_code=${data[2]}&id_model=${data[3]}&next_passing_date=${data[4]}&next_sertification_date=${data[5]}`)
+    let carData = data[0] ? `&id_model=${data[5].value}` : `&brand=${data[4]}&model=${data[5]}&type=${data[6]}`;
+    return await instance.put(await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&prev_rn=${data[1]}&next_rn=${data[2]}&vin_code=${data[3]}${carData}&next_passing_date=${data[7]}&next_sertification_date=${data[8]}`)
       .then(res => res.data)
   },
 
@@ -134,10 +147,10 @@ export const dataAPI = {
       type: 'POST',
       data: `department=${data[0]}&sender_email=${data[1]}&phone=${data[2]}&address=${data[3]}&web=${data[4]}&firm_name=${data[5]}&recipient=${data[6]}&registration_number=${data[7]}&car_mark=${data[8]}&car_model=${data[9]}&sertification_date=${data[10]}&passing_date=${data[11]}`,
       success(data) {
-        return console.log(data);
+        return data;
       },
       error(data) {
-        return console.log(data);
+        return data;
       }
     })
   },

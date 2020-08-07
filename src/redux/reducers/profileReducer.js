@@ -2,6 +2,7 @@ import { dataAPI, userAPI } from "../../api/api";
 
 const SET_PROFILE_DATA = 'SET_PROFILE_INFO';
 const UPDATE_STATE = 'UPDATE_STATE';
+const SHOW_ALERT = 'SHOW_ALERT';
 
 let initialState = {
   email: '',
@@ -14,7 +15,10 @@ let initialState = {
   secondName: '',
   firstName: '',
   dateBirthday: '',
-  telephoneNumber: ''
+  telephoneNumber: '',
+
+  showAlert: false,
+  alertText: '',
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -38,6 +42,13 @@ const profileReducer = (state = initialState, action) => {
         [action.name]: action.value
       }
 
+    case SHOW_ALERT:
+      return {
+        ...state,
+        showAlert: !state.showAlert,
+        alertText: action.alertText
+      }
+
 
     default:
       return state;
@@ -51,6 +62,7 @@ const setProfileDataAC = (email, firmName, street, webSite, firstName, secondNam
     email, firmName, street, webSite, firstName, secondName, dateBirthday, telephoneNumber
   }
 );
+const showAlertAC = (alertText) => ({ type: SHOW_ALERT, alertText });
 export const updateState = (name, value) => ({ type: UPDATE_STATE, name, value })
 
 // Thunks
@@ -66,10 +78,18 @@ export const setProfileData = () => (dispatch) => {
 // userAPI requests 
 export const changePassRequest = (...data) => (dispatch) => {
   userAPI.putChangePassRequest(...data);
+  dispatch(showAlertAC('Пароль змінено'));
+  setTimeout(() => {
+    dispatch(showAlertAC())
+  }, 3000);
 }
 
 export const changeUserDataRequest = (...data) => (dispatch) => {
   userAPI.putChangeUserData(...data);
+  dispatch(showAlertAC('Інформацію змінено'));
+  setTimeout(() => {
+    dispatch(showAlertAC())
+  }, 3000);
 }
 
 export default profileReducer;

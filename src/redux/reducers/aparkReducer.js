@@ -5,15 +5,19 @@ const SET_BRANDS_NAME = 'SET_BRANDS_NAME';
 const SET_MODELS_NAME = 'SET_MODELS_NAME';
 const SET_TYPE_NAME = 'SET_TYPE_NAME';
 const UPDATE_STATE = 'UPDATE_STATE';
+const SELECT_TYPE = 'SELECT_TYPE';
+const INSERT_TYPE = 'INSERT_TYPE';
 const AVAILABILITY_SERTIFICATE = 'AVAILABILITY_SERTIFICATE';
+const SHOW_ALERT = 'SHOW_ALERT';
 
 let initialState = {
+  selectType: true,
   firms: [],
   brands: [],
   models: [],
-  idFirm: '',
-  brand: '',
-  model: '',
+  idFirm: { value: 'Виберіть фірму', label: 'Виберіть фірму' },
+  brand: { value: 'Виберіть марку', label: 'Виберіть марку' },
+  model: { value: 'Виберіть модель', label: 'Виберіть модель' },
   carType: '',
   vinCode: '',
   stateNum: '',
@@ -22,7 +26,9 @@ let initialState = {
   availabilitySertificate: false,
   disabled: true,
   dateOfReceivingSertificate: '',
-  nextSertificationDate: ''
+  nextSertificationDate: '',
+  showAlert: false,
+  alertText: '',
 }
 
 const aparkReducer = (state = initialState, action) => {
@@ -40,10 +46,10 @@ const aparkReducer = (state = initialState, action) => {
       }
 
     case SET_MODELS_NAME:
-      // state.models = [];
       return {
         ...state,
         models: action.models,
+        model: { value: 'Виберіть модель', label: 'Виберіть модель' },
         carType: ''
       }
 
@@ -59,26 +65,54 @@ const aparkReducer = (state = initialState, action) => {
         [action.name]: action.value
       }
 
+    case SELECT_TYPE:
+      return {
+        ...state,
+        selectType: true,
+        brand: { value: 'Виберіть марку', label: 'Виберіть марку' },
+        model: { value: 'Виберіть модель', label: 'Виберіть модель' },
+        carType: '',
+      }
+
+    case INSERT_TYPE:
+      return {
+        ...state,
+        selectType: false,
+        brand: '',
+        model: '',
+        carType: '',
+      }
+
     case AVAILABILITY_SERTIFICATE:
       return {
         ...state,
         availabilitySertificate: !state.availabilitySertificate,
         disabled: !state.disabled
       }
-  
+
+    case SHOW_ALERT:
+      return {
+        ...state,
+        showAlert: !state.showAlert,
+        alertText: action.alertText
+      }
+
     default:
       return state;
   }
 }
 
 // AC
-const setFirmsNameAC = (firms) => ({type: SET_FIRMS_NAME, firms});
-const setBrandsNameAC = (brands) => ({type: SET_BRANDS_NAME, brands});
-const setModelsNameAC = (models) => ({type: SET_MODELS_NAME, models});
-const setTypeNameAC = (carType) => ({type: SET_TYPE_NAME, carType});
+const setFirmsNameAC = (firms) => ({ type: SET_FIRMS_NAME, firms });
+const setBrandsNameAC = (brands) => ({ type: SET_BRANDS_NAME, brands });
+const setModelsNameAC = (models) => ({ type: SET_MODELS_NAME, models });
+const setTypeNameAC = (carType) => ({ type: SET_TYPE_NAME, carType });
 
-export const updateStateAC = (name, value) => ({type: UPDATE_STATE, name, value});
-export const updateAvailabilitySertificateAC = () => ({type: AVAILABILITY_SERTIFICATE});
+export const updateStateAC = (name, value) => ({ type: UPDATE_STATE, name, value });
+export const selectTypeAC = () => ({ type: SELECT_TYPE });
+export const insertTypeAC = () => ({ type: INSERT_TYPE });
+export const updateAvailabilitySertificateAC = () => ({ type: AVAILABILITY_SERTIFICATE });
+const showAlertAC = (alertText) => ({ type: SHOW_ALERT, alertText });
 
 // Thunks
 // Set in state firms names and id
@@ -86,8 +120,8 @@ export const setFirmsName = () => (dispatch) => {
   dataAPI.getFirms().then(data => {
     let firms = [];
     data.map(item => firms.push({
-      idFirm: item.id_firm, 
-      nameFirm: item.name
+      value: item.id_firm,
+      label: item.name
     }));
     dispatch(setFirmsNameAC(firms));
   })
@@ -98,7 +132,8 @@ export const setBrandsName = () => (dispatch) => {
   dataAPI.getCarsBrand().then(data => {
     let brands = [];
     data.map(item => brands.push({
-      brand: item.brand
+      value: item.brand,
+      label: item.brand,
     }));
     dispatch(setBrandsNameAC(brands));
   })
@@ -109,8 +144,8 @@ export const setModelsName = (brand) => (dispatch) => {
   dataAPI.getCarsModel(brand).then(data => {
     let models = [];
     data.map(item => models.push({
-      idModel: item.id_model,
-      model: item.model
+      value: item.id_model,
+      label: item.model
     }));
     dispatch(setModelsNameAC(models));
   })
@@ -125,7 +160,10 @@ export const setTypeName = (model) => (dispatch) => {
 
 export const sendRequestCreateCar = (...data) => (dispatch) => {
   dataAPI.postCreateCar(...data).then(data => {
-    console.log(data);
+    dispatch(showAlertAC(data))
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
   })
 }
 

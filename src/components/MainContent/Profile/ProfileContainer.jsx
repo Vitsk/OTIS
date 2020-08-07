@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { changePassRequest, changeUserDataRequest, setProfileData, updateState } from '../../../redux/reducers/profileReducer';
 import Profile from './Profile';
 
-
-
 class ProfileContainer extends React.Component {
   componentDidMount() {
     this.props.setProfileData()
@@ -40,7 +38,9 @@ const mapStateToProps = (state) => ({
   firstName: state.profilePage.firstName,
   secondName: state.profilePage.secondName,
   dateBirthday: state.profilePage.dateBirthday,
-  telephoneNumber: state.profilePage.telephoneNumber
+  telephoneNumber: state.profilePage.telephoneNumber,
+  showAlert: state.profilePage.showAlert,
+  alertText: state.profilePage.alertText,
 })
 
 export default connect(mapStateToProps, {

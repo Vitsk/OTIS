@@ -7,6 +7,8 @@ import EmailModal from './EmailModal/EmailModal';
 import SmsModal from './SmsModal/SmsModal';
 import DeleteModal from './DeleteModal/DeleteModal';
 import PagiButton from './PagiButton/PagiButton';
+import Alert from '../../Alert/Alert';
+
 
 const View = (props) => {
   let pagesCount = Math.ceil(props.totalCarsCount / props.pageSize);
@@ -50,6 +52,7 @@ const View = (props) => {
         <div className={`row ${styles.rowCustomStyle}`}></div>
 
         <div className="table-responsive">
+        { props.showAlert ? <Alert alertText={props.alertText} /> : null }
           <table className="table table-sm table-hover table-bordered text-center">
             <thead>
               <tr className="bg-white text-success">
@@ -120,7 +123,7 @@ const View = (props) => {
               }
             </ul>
 
-            {/* Prev Next PAGE */}
+            {/* Prev-Next PAGE */}
             <ul className="pagination justify-content-center">
               <li className={`page-item ${props.currentPage === 1 ? 'disabled' : null}`}>
                 <button className='page-link' onClick={() => props.setCars(props.currentPage - 1)} tabIndex="-1">Попередня</button>
@@ -134,13 +137,18 @@ const View = (props) => {
         </div>
       </div>
 
-      <EditModal choosenCar={props.choosenCar}
+      <EditModal selectType={props.selectType}
+        selectTypeAC={props.selectTypeAC}
+        insertTypeAC={props.insertTypeAC}
+        choosenCar={props.choosenCar}
         setModelsName={props.setModelsName}
         setTypeName={props.setTypeName}
         updateState={props.updateState}
         updateBrandsId={props.updateBrandsId}
         updateAvailabilitySertificate={props.updateAvailabilitySertificate}
-        editRequestHandler={props.editRequestHandler} />
+        editRequestHandler={props.editRequestHandler}
+        currentPage={props.currentPage}
+        setCars={props.setCars} />
 
       <EmailModal choosenCar={props.choosenCar}
         emailData={props.emailData}

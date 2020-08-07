@@ -14,7 +14,7 @@ class FirmsContainer extends Component {
   }
 
   editFirmDataHandler = () => {
-    this.props.editFirmDataRequest(this.props.editModal.prevIdFirm, this.props.editModal.nextIdFirm, 
+    this.props.editFirmDataRequest(this.props.editModal.prevIdFirm, this.props.editModal.nextIdFirm,
       this.props.editModal.firmName, this.props.editModal.firmPhone, this.props.editModal.firmEmail)
   }
 
@@ -39,7 +39,9 @@ const mapStateToProps = (state) => ({
     nextIdFirm: state.firmsPage.editModal.nextIdFirm,
     firmPhone: state.firmsPage.editModal.firmPhone,
     firmEmail: state.firmsPage.editModal.firmEmail,
-  }
+  },
+  showAlert: state.firmsPage.showAlert,
+  alertText: state.firmsPage.alertText
 })
 
 export default connect(mapStateToProps, {

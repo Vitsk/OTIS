@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   setCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName, setModelsName, setTypeName,
   updateStateAC, updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest, deleteRequest,
-  smsRequest, setFirmPhone,
+  smsRequest, setFirmPhone, selectTypeAC, insertTypeAC
 } from '../../../redux/reducers/viewReducer';
 
 class ViewContainer extends Component {
@@ -16,9 +16,10 @@ class ViewContainer extends Component {
   }
 
   editRequestHandler = () => {
-    this.props.editRequest(
+    this.props.editRequest(this.props.selectType,
       this.props.choosenCar.prevStateNum, this.props.choosenCar.nextStateNum,
-      this.props.choosenCar.vinCode, this.props.choosenCar.model, this.props.choosenCar.nextPassingDate,
+      this.props.choosenCar.vinCode, this.props.choosenCar.brand, this.props.choosenCar.model,
+      this.props.choosenCar.carType, this.props.choosenCar.nextPassingDate,
       this.props.choosenCar.nextSertificationDate
     )
   }
@@ -28,7 +29,7 @@ class ViewContainer extends Component {
       this.props.emailData.department, this.props.emailData.userEmail,
       this.props.emailData.telephoneNum, this.props.emailData.street, this.props.emailData.webSite,
       this.props.choosenCar.firmName, this.props.emailData.firmEmail, this.props.choosenCar.prevStateNum,
-      this.props.choosenCar.brand, this.props.choosenCar.modelName, this.props.choosenCar.nextSertificationDate,
+      this.props.choosenCar.brand.value, this.props.choosenCar.model.label, this.props.choosenCar.nextSertificationDate,
       this.props.choosenCar.nextPassingDate)
   }
 
@@ -42,6 +43,9 @@ class ViewContainer extends Component {
   render() {
     return (
       <View isFetching={this.props.isFetching}
+        selectType={this.props.selectType}
+        selectTypeAC={this.props.selectTypeAC}
+        insertTypeAC={this.props.insertTypeAC}
         pageSize={this.props.pageSize}
         totalCarsCount={this.props.totalCarsCount}
         currentPage={this.props.currentPage}
@@ -60,16 +64,21 @@ class ViewContainer extends Component {
         editRequestHandler={this.editRequestHandler}
         emailRequestHandler={this.emailRequestHandler}
         smsRequestHandler={this.smsRequestHandler}
-        deleteRequest={this.props.deleteRequest} />
+        deleteRequest={this.props.deleteRequest}
+        showAlert={this.props.showAlert}
+        alertText={this.props.alertText} />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
   isFetching: state.viewPage.isFetching,
+  selectType: state.viewPage.selectType,
   pageSize: state.viewPage.pageSize,
   totalCarsCount: state.viewPage.totalCarsCount,
   currentPage: state.viewPage.currentPage,
+  showAlert: state.viewPage.showAlert,
+  alertText: state.viewPage.alertText,
   cars: state.viewPage.cars,
   choosenCar: state.viewPage.choosenCar,
   emailData: state.viewPage.emailData,
@@ -81,5 +90,5 @@ export default connect(mapStateToProps, {
   setCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName,
   setModelsName, setTypeName, updateStateAC,
   updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest,
-  deleteRequest, smsRequest, setFirmPhone
+  deleteRequest, smsRequest, setFirmPhone, selectTypeAC, insertTypeAC
 })(ViewContainer);

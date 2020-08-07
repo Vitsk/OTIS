@@ -1,4 +1,5 @@
 import React from 'react';
+import InputMask from 'react-input-mask';
 
 const EditModal = (props) => {
   return (
@@ -22,13 +23,13 @@ const EditModal = (props) => {
 
               <div className="form-group">
                 <label htmlFor="id-firm">ЄДРПОУ / іден. код</label>
-                <input type="text" id="id-firm" value={props.editModal.nextIdFirm} onChange={(e) => props.updateModalState(e.target.name, e.target.value)} className="form-control" placeholder="12345678" name="nextIdFirm" required />
+                <InputMask mask='99999999' type="text" id="id-firm" value={props.editModal.nextIdFirm} onChange={(e) => props.updateModalState(e.target.name, e.target.value)} className="form-control" placeholder="12345678" name="nextIdFirm" required />
                 <small className="text-muted">* лише цифри</small>
               </div>
 
               <div className="form-group">
                 <label htmlFor="firm-contacts">Контактний номер тел.</label>
-                <input type="text" id="firm-contacts" value={props.editModal.firmPhone} onChange={(e) => props.updateModalState(e.target.name, e.target.value)} className="form-control inputPhoneFirm" placeholder="+380771234567" name="firmPhone" />
+                <InputMask mask='+380999999999' type="text" id="firm-contacts" value={props.editModal.firmPhone} onChange={(e) => props.updateModalState(e.target.name, e.target.value)} className="form-control inputPhoneFirm" placeholder="+380771234567" name="firmPhone" />
               </div>
 
               <div className="form-group">
@@ -39,8 +40,7 @@ const EditModal = (props) => {
 
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Закрити</button>
-              {/* <!-- <button id="delete-request" type="button" className="btn btn-danger" data-dismiss="modal">Видалити</button> --> */}
-              <button id="put-request" onClick={() => props.editFirmDataHandler()} type="button" className="btn btn-success">Зберегти</button>
+              <button id="put-request" onClick={() => {props.editFirmDataHandler(); props.setFirmsData()}} type="button" className="btn btn-success" data-dismiss="modal">Зберегти</button>
             </div>
           </div>
         </div>

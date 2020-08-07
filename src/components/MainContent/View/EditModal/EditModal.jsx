@@ -1,5 +1,16 @@
 import React from 'react';
-import SelectOption from '../../Apark/SelectOption/SelectOption';
+import SelectVehicle from './SelectVehicle/SelectVehicle';
+import InsertVehicle from './InsertVehicle/InsertVehicle';
+import InputMask from 'react-input-mask';
+
+const styleSelect = theme => ({
+  ...theme,
+  colors: {
+    ...theme.colors,
+    primary25: 'lightgreen',
+    primary: '#28a745',
+  },
+})
 
 const EditModal = (props) => {
   return (
@@ -16,94 +27,40 @@ const EditModal = (props) => {
             </div>
             <div className="modal-body">
               <div className="form-row">
-                {/* <!-- <div className="form-group col-md-12">
-                  <label for="selectFirm">Організація</label>
-                  <select className="custom-select" id="selectFirm" name="id_firm" required>
-                    <option defaultValue disabled>Виберіть організацію</option>
-                  </select>
-                </div> --> */}
 
                 <div className="form-group col-12">
-                  <div className="btn btn-success offset-md-3 col-md-3" id="select_exist">Вибрати існуючу марку/модель</div>
-                  <div className="btn btn-outline-success col-md-3" id="insert_new">Додати нову марку/модель</div>
+                  <div className={`btn ${props.selectType ? 'btn-success' : 'btn-outline-success'} offset-md-3 col-md-3`} onClick={() => props.selectTypeAC()} id="select_exist">Вибрати існуючу марку/модель</div>
+                  <div className={`btn ${props.selectType ? 'btn-outline-success' : 'btn-success'} col-md-3`} onClick={() => props.insertTypeAC()} id="insert_new">Додати нову марку/модель</div>
                 </div>
 
-                {/* <div id="insert" className="form-row col-md-12">
-                  <div className="col-md-4">
-                    <label htmlFor="insertBrandVehicle">Марка ТЗ</label>
-                    <select className="custom-select" id="insertBrandVehicle" name="brand">
-                    </select>
-                  </div>
 
-                  <div className="col-md-4">
-                    <label htmlFor="insertModelVehicle">Модель ТЗ</label>
-                    <input className="form-control" id="insertModelVehicle" name="model" />
-                  </div>
-
-                  <div className="col-md-4">
-                    <label htmlFor="insertTypeVehicle">Тип ТЗ</label>
-                    <select className="custom-select" id="insertTypeVehicle" name="type">
-                      <option defaultValue disabled>Виберіть тип</option>
-                      <option defaultValue="тягач">тягач</option>
-                      <option defaultValue="причіп">причіп</option>
-                      <option defaultValue="н/причіп">н/причіп</option>
-                      <option defaultValue="фургон">фургон</option>
-                      <option defaultValue="автобус">автобус</option>
-                      <option defaultValue="легковий автомобіль">легковий автомобіль</option>
-                      <option defaultValue="трактор">трактор</option>
-                      <option defaultValue="комбайн">комбайн</option>
-                      <option defaultValue="спецтехніка">спецтехніка</option>
-                    </select>
-                  </div>
-
-                </div> */}
-
-                <div id="select" className="form-row col-md-12">
-                  <div className="col-md-4">
-                    <label htmlFor="selectBrandVehicle">Марка ТЗ</label>
-                    <select className="custom-select" value={props.choosenCar.brand} onChange={(e) => { props.updateBrandsId(e.target.value); props.setModelsName(e.target.value) }} id="selectBrandVehicle" name='brand'>
-                      <option defaultValue>Виберіть марку</option>
-                      {
-                        props.choosenCar.brands.map((item, index) =>
-                          <SelectOption key={index}
-                            name={item.brand}
-                            id={item.brand} />
-                        )
-                      }
-                    </select>
-                  </div>
-
-                  <div className="col-md-4">
-                    <label htmlFor="selectBrandVehicle">Модель ТЗ</label>
-                    <select className="custom-select" value={props.choosenCar.model} onChange={(e) => { props.updateState(e.target.name, e.target.value); props.setTypeName(e.target.value) }} id="selectModelVehicle" name="model">
-                      <option defaultValue>Виберіть модель</option>
-                      {
-                        props.choosenCar.models.map((item, index) =>
-                          <SelectOption key={index}
-                            name={item.model}
-                            id={item.idModel} />
-                        )
-                      }
-                    </select>
-                  </div>
-
-                  <div className="col-md-4">
-                    <label htmlFor="selectTypeVehicle">Тип ТЗ</label>
-                    <input className="form-control" value={props.choosenCar.carType} id="selectTypeVehicle" name='carType' disabled />
-                  </div>
-
-                </div>
-
+                {
+                  props.selectType ? <SelectVehicle styleSelect={styleSelect}
+                    brands={props.choosenCar.brands}
+                    brand={props.choosenCar.brand}
+                    models={props.choosenCar.models}
+                    model={props.choosenCar.model}
+                    carType={props.choosenCar.carType}
+                    updateState={props.updateState}
+                    setModelsName={props.setModelsName}
+                    setTypeName={props.setTypeName}
+                    updateBrandsId={props.updateBrandsId} /> :
+                    <InsertVehicle brands={props.choosenCar.brands}
+                      brand={props.choosenCar.brand}
+                      model={props.choosenCar.model}
+                      carType={props.choosenCar.carType}
+                      updateState={props.updateState} />
+                }
                 <div className="form-row col-md-12 pt-2">
                   <div className="offset-md-2 col-md-4">
                     <label htmlFor="inputIDVehicle">VIN-код</label>
-                    <input type="text" value={props.choosenCar.vinCode} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputIDVehicle" placeholder="VIN-код" name="vinCode" required />
+                    <InputMask mask='*****************' type="text" value={props.choosenCar.vinCode} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputIDVehicle" placeholder="VIN-код" name="vinCode" required />
                     <small className="text-muted">* латинськими літерами без пропусків</small>
                   </div>
 
                   <div className="col-md-4">
                     <label htmlFor="inputStateNumberVehicle">Державний номер</label>
-                    <input type="text" value={props.choosenCar.nextStateNum} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputStateNumberVehicle" placeholder="Державний номер" name="nextStateNum" required />
+                    <InputMask mask='aa9999aa' type="text" value={props.choosenCar.nextStateNum} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputStateNumberVehicle" placeholder="Державний номер" name="nextStateNum" required />
                     <small className="text-muted">* латинськими літерами у форматі - AC7777AC</small>
                   </div>
                 </div>
@@ -120,8 +77,8 @@ const EditModal = (props) => {
 
                 <div className="form-group col-lg-12 col-md-12">
                   <div className="custom-control custom-checkbox text-center">
-                    <input type="checkbox" 
-                    onChange={() => props.updateAvailabilitySertificate()} className="custom-control-input" id="CheckSertVehicle" name="availabilitySertificate" checked={props.choosenCar.availabilitySertificate} />
+                    <input type="checkbox"
+                      onChange={() => props.updateAvailabilitySertificate()} className="custom-control-input" id="CheckSertVehicle" name="availabilitySertificate" checked={props.choosenCar.availabilitySertificate} />
                     <label className="custom-control-label" htmlFor="CheckSertVehicle">Сертифікат видано</label>
                   </div>
                 </div>
@@ -138,7 +95,7 @@ const EditModal = (props) => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type='button' onClick={() => props.editRequestHandler()} className="btn btn-success" data-dismiss="modal">Зберегти</button>
+              <button type='button' onClick={() => {props.editRequestHandler(); props.setCars()}} className="btn btn-success" data-dismiss="modal">Зберегти</button>
               <button type="button" id="close-note" className="btn btn-secondary" data-dismiss="modal">Закрити</button>
             </div>
           </div>

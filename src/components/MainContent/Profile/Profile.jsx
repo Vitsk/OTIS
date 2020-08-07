@@ -3,6 +3,7 @@ import styles from './Profile.module.css'
 import LoginPass from './LoginPass/LoginPass';
 import ChangePass from './ChangePass/ChangePass';
 import PersonalData from './PersonalData/PersonalData';
+import Alert from '../../Alert/Alert';
 
 const Profile = (props) => {
   return (
@@ -23,6 +24,8 @@ const Profile = (props) => {
             </div>
           </form>
         </div>
+
+        {props.showAlert ? <Alert alertText={props.alertText} /> : null}
 
         <div className="col-xl-6 col-md-6">
           <form>

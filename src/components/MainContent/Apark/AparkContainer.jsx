@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Apark from './Apark';
 import {
   setFirmsName, setBrandsName, setModelsName, setTypeName, updateStateAC,
-  updateAvailabilitySertificateAC,
+  updateAvailabilitySertificateAC, selectTypeAC, insertTypeAC,
   sendRequestCreateCar
 } from '../../../redux/reducers/aparkReducer';
 import { connect } from 'react-redux';
@@ -14,16 +14,23 @@ class AparkContainer extends Component {
   }
 
   createCar() {
-    this.props.sendRequestCreateCar(this.props.model, this.props.stateNum, this.props.idFirm,
-      this.props.vinCode, this.props.dateOfPassing , this.props.nextPassingDate,
-      this.props.nextSertificationDate, this.props.dateOfReceivingSertificate, 
-      this.props.availabilitySertificate )
+    this.props.sendRequestCreateCar(this.props.selectType,
+      this.props.brand, this.props.model, this.props.carType,
+      this.props.stateNum, this.props.idFirm.value,
+      this.props.vinCode, this.props.dateOfPassing, this.props.nextPassingDate,
+      this.props.nextSertificationDate, this.props.dateOfReceivingSertificate,
+      this.props.availabilitySertificate)
   }
 
   render() {
     return (
-      <Apark firms={this.props.firms}
+      <Apark selectTypeAC={this.props.selectTypeAC}
+        insertTypeAC={this.props.insertTypeAC}
+        selectType={this.props.selectType}
+        firms={this.props.firms}
+        idFirm={this.props.idFirm}
         brands={this.props.brands}
+        brand={this.props.brand}
         models={this.props.models}
         model={this.props.model}
         carType={this.props.carType}
@@ -39,12 +46,15 @@ class AparkContainer extends Component {
         setTypeName={this.props.setTypeName}
         updateState={this.props.updateStateAC}
         updateAvailabilitySertificate={this.props.updateAvailabilitySertificateAC}
-        createCar={this.props.sendRequestCreateCar} />
+        createCar={this.props.sendRequestCreateCar}
+        showAlert={this.props.showAlert}
+        alertText={this.props.alertText} />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
+  selectType: state.aparkPage.selectType,
   firms: state.aparkPage.firms,
   brands: state.aparkPage.brands,
   models: state.aparkPage.models,
@@ -60,10 +70,12 @@ const mapStateToProps = (state) => ({
   disabled: state.aparkPage.disabled,
   dateOfReceivingSertificate: state.aparkPage.dateOfReceivingSertificate,
   nextSertificationDate: state.aparkPage.nextSertificationDate,
+  showAlert: state.aparkPage.showAlert,
+  alertText: state.aparkPage.alertText,
 })
 
 export default connect(mapStateToProps, {
   setFirmsName, setBrandsName, setModelsName, setTypeName, updateStateAC,
-  updateAvailabilitySertificateAC,
+  updateAvailabilitySertificateAC, selectTypeAC, insertTypeAC,
   sendRequestCreateCar
 })(AparkContainer);

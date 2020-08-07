@@ -11,22 +11,27 @@ const SET_FIRM_EMAIL = 'SET_FIRM_EMAIL';
 const SET_FIRM_PHONE = 'SET_FIRM_PHONE';
 const UPDATE_STATE = 'UPDATE_STATE';
 const UPDATE_BRAND_ID = 'UPDATE_BRAND_ID';
+const SELECT_TYPE = 'SELECT_TYPE';
+const INSERT_TYPE = 'INSERT_TYPE';
 const AVAILABILITY_SERTIFICATE = 'AVAILABILITY_SERTIFICATE';
+const SHOW_ALERT = 'SHOW_ALERT';
 
 let initialState = {
   isFetching: true,
+  selectType: true,
   pageSize: 50,
   totalCarsCount: 0,
   currentPage: 1,
+  showAlert: false,
+  alertText: '',
   cars: [],
   choosenCar: {
     brands: [],
     models: [],
     firmName: '',
     telephoneNum: '',
-    brand: '',
-    model: '',
-    modelName: '',
+    brand: {},
+    model: {},
     carType: '',
     vinCode: '',
     prevStateNum: '',
@@ -79,7 +84,6 @@ const viewReducer = (state = initialState, action) => {
           telephoneNum: action.telephoneNum,
           brand: action.brand,
           model: action.model,
-          modelName: action.modelName,
           vinCode: action.vinCode,
           prevStateNum: action.stateNum,
           nextStateNum: action.stateNum,
@@ -144,6 +148,7 @@ const viewReducer = (state = initialState, action) => {
         ...state,
         choosenCar: {
           ...state.choosenCar,
+          model: {},
           models: action.models,
         }
       }
@@ -171,7 +176,34 @@ const viewReducer = (state = initialState, action) => {
         ...state,
         choosenCar: {
           ...state.choosenCar,
-          brand: action.brand,
+          brand: {
+            value: action.brand.value,
+            label: action.brand.value
+          },
+          carType: '',
+        }
+      }
+
+    case SELECT_TYPE:
+      return {
+        ...state,
+        selectType: true,
+        choosenCar: {
+          ...state.choosenCar,
+          brand: { value: 'Виберіть марку', label: 'Виберіть марку' },
+          model: { value: 'Виберіть модель', label: 'Виберіть модель' },
+          carType: '',
+        }
+      }
+
+    case INSERT_TYPE:
+      return {
+        ...state,
+        selectType: false,
+        choosenCar: {
+          ...state.choosenCar,
+          brand: '',
+          model: '',
           carType: '',
         }
       }
@@ -186,6 +218,13 @@ const viewReducer = (state = initialState, action) => {
         }
       }
 
+    case SHOW_ALERT:
+      return {
+        ...state,
+        showAlert: !state.showAlert,
+        alertText: action.alertText
+      }
+
     default:
       return state;
   }
@@ -197,7 +236,7 @@ const setCarsCountAC = (totalCarsCount) => ({ type: SET_CARS_COUNT, totalCarsCou
 
 const setChoosenCarAC = (car) => ({
   type: SET_CHOOSEN_CAR,
-  firmName: car.name, telephoneNum: car.telephone, brand: car.brand, model: car.id_model, modelName: car.model, vinCode: car.vin_code, stateNum: car.registration_number,
+  firmName: car.name, telephoneNum: car.telephone, brand: { value: car.brand, label: car.brand }, model: { value: car.id_model, label: car.model }, vinCode: car.vin_code, stateNum: car.registration_number,
   dateOfPassing: car.date_of_passing, nextPassingDate: car.next_passing_date,
   dateOfReceivingSertificate: car.date_of_receiving_sertificate,
   nextSertificationDate: car.next_sertification_date
@@ -212,11 +251,12 @@ const setUserDataAC = (userEmail, department, telephoneNum, street, webSite, sms
 const setFirmEmailAC = (firmEmail) => ({ type: SET_FIRM_EMAIL, firmEmail });
 const setFirmPhoneAC = (firmPhone) => ({ type: SET_FIRM_PHONE, firmPhone })
 
+export const selectTypeAC = () => ({ type: SELECT_TYPE });
+export const insertTypeAC = () => ({ type: INSERT_TYPE });
 export const updateStateAC = (name, value) => ({ type: UPDATE_STATE, name, value })
 export const updateBrandsIdAC = (brand) => ({ type: UPDATE_BRAND_ID, brand });
 export const updateAvailabilitySertificateAC = () => ({ type: AVAILABILITY_SERTIFICATE });
-
-
+const showAlertAC = (alertText) => ({ type: SHOW_ALERT, alertText });
 
 // Thunks
 export const setCars = (page) => (dispatch) => {
@@ -242,7 +282,8 @@ export const setBrandsName = () => (dispatch) => {
   dataAPI.getCarsBrand().then(data => {
     let brands = [];
     data.map(item => brands.push({
-      brand: item.brand
+      value: item.brand,
+      label: item.brand
     }));
     dispatch(setBrandsNameAC(brands));
   })
@@ -253,8 +294,8 @@ export const setModelsName = (brand) => (dispatch) => {
   dataAPI.getCarsModel(brand).then(data => {
     let models = [];
     data.map(item => models.push({
-      idModel: item.id_model,
-      model: item.model,
+      value: item.id_model,
+      label: item.model,
     }));
     dispatch(setModelsNameAC(models));
   })
@@ -294,20 +335,35 @@ export const setFirmPhone = (firmName) => (dispatch) => {
 // API Request
 export const editRequest = (...data) => (dispatch) => {
   dataAPI.putEditRequest(...data).then(res => {
-    console.log(res);
+    dispatch(showAlertAC(res));
+    setTimeout(() => {
+      dispatch(showAlertAC(res))
+    }, 3000);
   })
 }
 
 export const emailRequest = (...data) => (dispatch) => {
   dataAPI.postSendEmailRequest(...data)
+  dispatch(showAlertAC('Лист надіслано'))
+  setTimeout(() => {
+    dispatch(showAlertAC())
+  }, 3000);
 }
 
 export const smsRequest = (...data) => (dispatch) => {
   dataAPI.postSendSmsRequest(...data)
+  dispatch(showAlertAC('Смс надіслано'))
+  setTimeout(() => {
+    dispatch(showAlertAC())
+  }, 3000);
 }
 
 export const deleteRequest = (stateNum) => (dispatch) => {
   dataAPI.deleteCarRequest(stateNum)
+  dispatch(showAlertAC('Машину видалено'))
+  setTimeout(() => {
+    dispatch(showAlertAC())
+  }, 3000);
 }
 
 export default viewReducer;

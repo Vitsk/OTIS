@@ -4,6 +4,7 @@ const SET_FIRMS_DATA = 'SET_FIRMS_DATA';
 const SET_CHOOSEN_FIRM_DATA = 'SET_CHOOSEN_FIRM_DATA';
 const UPDATE_STATE = 'UPDATE_STATE';
 const UPDATE_MODAL_STATE = 'UPDATE_STATE_MODAL';
+const SHOW_ALERT = 'SHOW_ALERT';
 
 let initialState = {
   firms: [],
@@ -18,7 +19,10 @@ let initialState = {
     nextIdFirm: '',
     firmPhone: '',
     firmEmail: '',
-  }
+  },
+
+  showAlert: false,
+  alertText: '',
 }
 
 const firmsReducer = (state = initialState, action) => {
@@ -57,6 +61,13 @@ const firmsReducer = (state = initialState, action) => {
         }
       }
 
+    case SHOW_ALERT:
+      return {
+        ...state,
+        showAlert: !state.showAlert,
+        alertText: action.alertText
+      }
+
     default:
       return state;
   }
@@ -65,6 +76,7 @@ const firmsReducer = (state = initialState, action) => {
 // AC
 const setFirmsDataAC = (firms) => ({ type: SET_FIRMS_DATA, firms });
 const setChoosenFirmDataAC = (firmName, idFirm, firmPhone, firmEmail) => ({ type: SET_CHOOSEN_FIRM_DATA, firmName, idFirm, firmPhone, firmEmail });
+const showAlertAC = (alertText) => ({ type: SHOW_ALERT, alertText });
 export const updateState = (name, value) => ({ type: UPDATE_STATE, name, value })
 export const updateModalState = (name, value) => ({ type: UPDATE_MODAL_STATE, name, value })
 
@@ -83,10 +95,18 @@ export const setChoosenFirmData = (idFirm) => (dispatch) => {
 
 export const createFirmsRequest = (...data) => (dispatch) => {
   firmsAPI.createFirm(...data);
+  dispatch(showAlertAC('Фірму створено'))
+  setTimeout(() => {
+    dispatch(showAlertAC())
+  }, 3000);
 }
 
 export const editFirmDataRequest = (...data) => (dispatch) => {
   firmsAPI.putEditFirmData(...data);
+  dispatch(showAlertAC('Фірму відредаговано'))
+  setTimeout(() => {
+    dispatch(showAlertAC())
+  }, 3000);
 }
 
 export default firmsReducer;

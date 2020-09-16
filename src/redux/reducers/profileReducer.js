@@ -18,6 +18,7 @@ let initialState = {
   telephoneNumber: '',
 
   showAlert: false,
+  isError: false,
   alertText: '',
 }
 
@@ -46,6 +47,7 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         showAlert: !state.showAlert,
+        isError: action.isError,
         alertText: action.alertText
       }
 
@@ -62,7 +64,7 @@ const setProfileDataAC = (email, firmName, street, webSite, firstName, secondNam
     email, firmName, street, webSite, firstName, secondName, dateBirthday, telephoneNumber
   }
 );
-const showAlertAC = (alertText) => ({ type: SHOW_ALERT, alertText });
+const showAlertAC = (alertText, isError = false) => ({ type: SHOW_ALERT, alertText, isError });
 export const updateState = (name, value) => ({ type: UPDATE_STATE, name, value })
 
 // Thunks
@@ -77,19 +79,32 @@ export const setProfileData = () => (dispatch) => {
 
 // userAPI requests 
 export const changePassRequest = (...data) => (dispatch) => {
-  userAPI.putChangePassRequest(...data);
-  dispatch(showAlertAC('Пароль змінено'));
-  setTimeout(() => {
-    dispatch(showAlertAC())
-  }, 3000);
+  userAPI.putChangePassRequest(...data).then((data) => {
+    dispatch(showAlertAC('Пароль змінено'));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  }).catch(() => {
+    dispatch(showAlertAC('Пароль повинен містити більше ніж 8 символів', true));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  })
+  
 }
 
 export const changeUserDataRequest = (...data) => (dispatch) => {
-  userAPI.putChangeUserData(...data);
-  dispatch(showAlertAC('Інформацію змінено'));
-  setTimeout(() => {
-    dispatch(showAlertAC())
-  }, 3000);
+  userAPI.putChangeUserData(...data).then((data) => {
+    dispatch(showAlertAC('Інформацію змінено'));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  }).catch(() => {
+    dispatch(showAlertAC('Сталась помилка, повторіть ще раз', true));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  })
 }
 
 export default profileReducer;

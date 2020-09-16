@@ -27,6 +27,9 @@ const mapStateToProps = (state) => ({
   smsApiKey: state.settingsPage.smsApiKey,
   smsAlphaName: state.settingsPage.smsAlphaName,
   smsTextTemplate: state.settingsPage.smsTextTemplate,
+  showAlert: state.settingsPage.showAlert,
+  isError: state.settingsPage.isError,
+  alertText: state.settingsPage.alertText,
 })
 
 export default connect(mapStateToProps, {

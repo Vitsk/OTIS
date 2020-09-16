@@ -25,7 +25,7 @@ const Profile = (props) => {
           </form>
         </div>
 
-        {props.showAlert ? <Alert alertText={props.alertText} /> : null}
+        {props.showAlert ? <Alert alertText={props.alertText} isError={props.isError} /> : null}
 
         <div className="col-xl-6 col-md-6">
           <form>

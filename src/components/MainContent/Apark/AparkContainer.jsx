@@ -13,7 +13,7 @@ class AparkContainer extends Component {
     this.props.setBrandsName()
   }
 
-  createCar() {
+  createCar = () => {
     this.props.sendRequestCreateCar(this.props.selectType,
       this.props.brand, this.props.model, this.props.carType,
       this.props.stateNum, this.props.idFirm.value,
@@ -46,8 +46,9 @@ class AparkContainer extends Component {
         setTypeName={this.props.setTypeName}
         updateState={this.props.updateStateAC}
         updateAvailabilitySertificate={this.props.updateAvailabilitySertificateAC}
-        createCar={this.props.sendRequestCreateCar}
+        createCar={this.createCar}
         showAlert={this.props.showAlert}
+        isError={this.props.isError}
         alertText={this.props.alertText} />
     );
   }
@@ -71,6 +72,7 @@ const mapStateToProps = (state) => ({
   dateOfReceivingSertificate: state.aparkPage.dateOfReceivingSertificate,
   nextSertificationDate: state.aparkPage.nextSertificationDate,
   showAlert: state.aparkPage.showAlert,
+  isError: state.aparkPage.isError,
   alertText: state.aparkPage.alertText,
 })
 

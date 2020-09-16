@@ -41,6 +41,7 @@ const mapStateToProps = (state) => ({
     firmEmail: state.firmsPage.editModal.firmEmail,
   },
   showAlert: state.firmsPage.showAlert,
+  isError: state.firmsPage.isError,
   alertText: state.firmsPage.alertText
 })
 

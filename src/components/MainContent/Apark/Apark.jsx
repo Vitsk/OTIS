@@ -102,10 +102,10 @@ const Apark = (props) => {
             <input type="date" value={props.nextSertificationDate} onChange={(e) => props.updateState(e.target.name, e.target.value)} className="form-control" id="inputNextDateSert" name="nextSertificationDate" disabled={props.disabled} />
           </div>
 
-          { props.showAlert ? <Alert alertText={props.alertText} /> : null }
+          { props.showAlert ? <Alert alertText={props.alertText} isError={props.isError} /> : null }
 
           <div className="form-group offset-md-4 col-md-4">
-            <button className="btn btn-outline-success btn-block" onClick={(e) => { e.preventDefault(); props.createCar() }} id="create-car">Додати новий ТЗ</button>
+            <button className="btn btn-outline-success btn-block" onClick={(e) => { props.createCar() }} id="create-car">Додати новий ТЗ</button>
           </div>
         </div>
 

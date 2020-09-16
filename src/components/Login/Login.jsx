@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import mainLogo from '../../assets/images/mainLogo.png';
+import Alert from './../Alert/Alert';
 import './Login.css';
 
 const Login = (props) => {
@@ -49,6 +50,8 @@ const Login = (props) => {
           <div className="text-bottom text-center">
             <small>&copy; All right reserved, <a href="authors.html">OTIS 2020</a></small>
           </div>
+
+          { props.showAlert ? <Alert alertText={props.alertText} isError={props.isError} /> : null }
 
           <div className="row customDivStyles1"></div>
         </div>

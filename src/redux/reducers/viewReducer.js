@@ -23,6 +23,7 @@ let initialState = {
   totalCarsCount: 0,
   currentPage: 1,
   showAlert: false,
+  isError: false,
   alertText: '',
   cars: [],
   choosenCar: {
@@ -222,6 +223,7 @@ const viewReducer = (state = initialState, action) => {
       return {
         ...state,
         showAlert: !state.showAlert,
+        isError: action.isError,
         alertText: action.alertText
       }
 
@@ -256,7 +258,7 @@ export const insertTypeAC = () => ({ type: INSERT_TYPE });
 export const updateStateAC = (name, value) => ({ type: UPDATE_STATE, name, value })
 export const updateBrandsIdAC = (brand) => ({ type: UPDATE_BRAND_ID, brand });
 export const updateAvailabilitySertificateAC = () => ({ type: AVAILABILITY_SERTIFICATE });
-const showAlertAC = (alertText) => ({ type: SHOW_ALERT, alertText });
+const showAlertAC = (alertText, isError = false) => ({ type: SHOW_ALERT, alertText, isError });
 
 // Thunks
 export const setCars = (page) => (dispatch) => {
@@ -334,36 +336,59 @@ export const setFirmPhone = (firmName) => (dispatch) => {
 
 // API Request
 export const editRequest = (...data) => (dispatch) => {
-  dataAPI.putEditRequest(...data).then(res => {
-    dispatch(showAlertAC(res));
+  dataAPI.putEditRequest(...data).then(() => {
+    dispatch(showAlertAC("Інформація змінена"));
     setTimeout(() => {
-      dispatch(showAlertAC(res))
+      dispatch(showAlertAC())
+    }, 3000);
+  }).catch(() => {
+    dispatch(showAlertAC("Сталась помилка", true));
+    setTimeout(() => {
+      dispatch(showAlertAC())
     }, 3000);
   })
 }
 
 export const emailRequest = (...data) => (dispatch) => {
-  dataAPI.postSendEmailRequest(...data)
-  dispatch(showAlertAC('Лист надіслано'))
-  setTimeout(() => {
-    dispatch(showAlertAC())
-  }, 3000);
+  dataAPI.postSendEmailRequest(...data).then(() => {
+    dispatch(showAlertAC("Повідомлення успішно надіслано"));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  }).catch(() => {
+    dispatch(showAlertAC("Сталась помилка", true));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  })
 }
 
 export const smsRequest = (...data) => (dispatch) => {
-  dataAPI.postSendSmsRequest(...data)
-  dispatch(showAlertAC('Смс надіслано'))
-  setTimeout(() => {
-    dispatch(showAlertAC())
-  }, 3000);
+  dataAPI.postSendSmsRequest(...data).then(() => {
+    dispatch(showAlertAC("СМС надіслано"));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  }).catch(() => {
+    dispatch(showAlertAC("Сталась помилка", true));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  })
 }
 
 export const deleteRequest = (stateNum) => (dispatch) => {
-  dataAPI.deleteCarRequest(stateNum)
-  dispatch(showAlertAC('Машину видалено'))
-  setTimeout(() => {
-    dispatch(showAlertAC())
-  }, 3000);
+  dataAPI.deleteCarRequest(stateNum).then(() => {
+    dispatch(showAlertAC("Машина видалена"));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  }).catch(() => {
+    dispatch(showAlertAC("Сталась помилка", true));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  })
 }
 
 export default viewReducer;

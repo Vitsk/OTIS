@@ -40,6 +40,7 @@ const mapStateToProps = (state) => ({
   dateBirthday: state.profilePage.dateBirthday,
   telephoneNumber: state.profilePage.telephoneNumber,
   showAlert: state.profilePage.showAlert,
+  isError: state.profilePage.isError,
   alertText: state.profilePage.alertText,
 })
 

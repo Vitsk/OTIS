@@ -3,15 +3,15 @@ import * as $ from 'jquery';
 import md5 from 'js-md5';
 
 const instance = axios.create({
-  withCredentials: true,
-  crossdomain: true,
-  SameSite: 'None',
-  baseURL: 'https://office.otis.co.ua/',
+  // withCredentials: true,
+  // baseURL: "https://office.otis.co.ua/",
   headers: {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
+    // "Access-Control-Allow-Origin": "*",
   },
 });
+
+const ajaxUrl = ''; // https://office.otis.co.ua/
 
 export let userAPI = {
   async getUserKey() {
@@ -20,14 +20,16 @@ export let userAPI = {
 
   async login(email, password) {
     return await instance.get(`vendor/auth/react_auth.php?email=${email}&password=${md5(password)}`)
-      .then(res => console.log(res))
-    // await fetch(`https://office.otis.co.ua/vendor/auth/react_auth.php?email=${email}&password=${md5(password)}`)
-    //   .then(response => console.log(response))
+  },
+
+  async logoutRequest() {
+    return await instance.get(`vendor/auth/exit.php`)
+      .then(res => res)
   },
 
   async putChangePassRequest(...data) {
-    $.ajax({
-      url: await this.getUserKey().then(res => `https://office.otis.co.ua/api/users?api_key=${res}`),
+    return $.ajax({
+      url: await this.getUserKey().then(res => `${ajaxUrl}api/users?api_key=${res}`),
       method: 'PUT',
       contentType: "application/json",
       data: `password=${data[0]}&new=${data[1]}&repeat=${data[2]}`,
@@ -41,8 +43,8 @@ export let userAPI = {
   },
 
   async putChangeUserData(...data) {
-    $.ajax({
-      url: await this.getUserKey().then(res => `https://office.otis.co.ua/api/users?api_key=${res}`),
+    return $.ajax({
+      url: await this.getUserKey().then(res => `${ajaxUrl}api/users?api_key=${res}`),
       method: 'PUT',
       contentType: "application/json",
       dataType: 'text',
@@ -57,8 +59,8 @@ export let userAPI = {
   },
 
   async putChangeSettingsSms(...data) {
-    $.ajax({
-      url: await this.getUserKey().then(res => `https://office.otis.co.ua/api/users/sms?api_key=${res}`),
+    return $.ajax({
+      url: await this.getUserKey().then(res => `${ajaxUrl}api/users/sms?api_key=${res}`),
       type: 'PUT',
       data: `&sms_login=${data[0]}&sms_pass=${data[1]}&sms_api_key=${data[2]}&sms_alpha_name=${data[3]}&sms_text_template=${data[4]}`,
       success(res) {
@@ -128,37 +130,56 @@ export const dataAPI = {
   },
 
   async postCreateCar(...data) {
-    let carData = data[0] ? `&id_model=${data[0].value}` : `&brand=${data[1]}&model=${data[2]}&type=${data[3]}`;
+    let url = await userAPI.getUserKey().then(res => `https://office.otis.co.ua/api/cars?api_key=${res}`);
+    // let carData = data[0] ? `id_model` `${data[0].value}` : `&brand=${data[1]}&model=${data[2]}&type=${data[3]}`;
 
-    return await instance.post(await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `${carData}&registration_number=${data[4]}&id_firm=${data[5]}&vin_code=${data[6]}&date_of_passing=${data[7]}&next_passing_date=${data[8]}&next_sertification_date=${data[9]}&date_of_receiving_sertificate=${data[10]}&availability_sertificate=${data[11] === true ? '1' : '0'}`)
-      .then(res => res.data)
+    let formData = new FormData();
+    formData.append('id_model', `${data[0] ? data[2].value : null}`)
+    formData.append('brand', `${data[0] ? null : data[1]}`)
+    formData.append('model', `${data[0] ? null : data[2]}`)
+    formData.append('type', `${data[0] ? null : data[3]}`)
+    formData.append('registration_number', `${data[4]}`)
+    formData.append('id_firm', `${data[5]}`)
+    formData.append('vin_code', `${data[6]}`)
+    formData.append('date_of_passing', `${data[7]}`)
+    formData.append('next_passing_date', `${data[8]}`)
+    formData.append('next_sertification_date', `${data[9]}`)
+    formData.append('date_of_receiving_sertificate', `${data[10]}`)
+    formData.append('availability_sertificate', `${data[11] === true ? '1' : '0'}`)
+
+    
+    return await fetch(url, {
+      method: 'POST',
+      body: formData
+    })
+
+    // return await instance.post(await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `${carData}&registration_number=${data[4]}&id_firm=${data[5]}&vin_code=${data[6]}&date_of_passing=${data[7]}&next_passing_date=${data[8]}&next_sertification_date=${data[9]}&date_of_receiving_sertificate=${data[10]}&availability_sertificate=${data[11] === true ? '1' : '0'}`)
+    //   .then(res => res.data)
   },
 
   async putEditRequest(...data) {
     let carData = data[0] ? `&id_model=${data[5].value}` : `&brand=${data[4]}&model=${data[5]}&type=${data[6]}`;
-    return await instance.put(await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&prev_rn=${data[1]}&next_rn=${data[2]}&vin_code=${data[3]}${carData}&next_passing_date=${data[7]}&next_sertification_date=${data[8]}`)
-      .then(res => res.data)
+    return await instance.put(await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&prev_rn=${data[1]}&next_rn=${data[2]}&vin_code=${data[3]}${carData}&next_passing_date=${data[7]}&next_sertification_date=${data[8]}&date_of_passing=${data[9]}&date_of_receiving_sertificate=${data[10]}`)
   },
 
   // Jquery AJAX
   async postSendEmailRequest(...data) {
-    $.ajax({
-      url: `https://office.otis.co.ua/vendor/dispatch/email_outofdate.php`,
+    return $.ajax({
+      url: `${ajaxUrl}vendor/dispatch/email_outofdate.php`,
       type: 'POST',
       data: `department=${data[0]}&sender_email=${data[1]}&phone=${data[2]}&address=${data[3]}&web=${data[4]}&firm_name=${data[5]}&recipient=${data[6]}&registration_number=${data[7]}&car_mark=${data[8]}&car_model=${data[9]}&sertification_date=${data[10]}&passing_date=${data[11]}`,
       success(data) {
-        return data;
+        console.log(data);
       },
       error(data) {
-        return data;
+        console.log(data);
       }
     })
   },
 
   async postSendSmsRequest(...data) {
-    console.log(data);
-    $.ajax({
-      url: 'https://office.otis.co.ua/vendor/dispatch/sms.php',
+    return $.ajax({
+      url: `${ajaxUrl}vendor/dispatch/sms.php`,
       type: 'POST',
       data: `login=${data[0]}&pass=${data[1]}&api_key=${data[2]}&alpha_name=${data[3]}&phone=${data[4]}&registration_number=${data[5]}`,
       success(res) {
@@ -171,15 +192,15 @@ export const dataAPI = {
   },
 
   async deleteCarRequest(stateNum) {
-    $.ajax({
-      url: await userAPI.getUserKey().then(res => `https://office.otis.co.ua/api/cars?api_key=${res}`),
+    return $.ajax({
+      url: await userAPI.getUserKey().then(res => `${ajaxUrl}api/cars?api_key=${res}`),
       type: 'DELETE',
       data: `&registration_number=${stateNum}`,
       success(data) {
-        return data
+         console.log(data)
       },
       error(data) {
-        return data
+         console.log(data)
       }
     });
   }
@@ -188,11 +209,11 @@ export const dataAPI = {
 
 export const firmsAPI = {
   async createFirm(...data) {
-    $.ajax({
-      url: await userAPI.getUserKey().then(res => `https://office.otis.co.ua/api/firms?api_key=${res}`),
+    return $.ajax({
+      url: await userAPI.getUserKey().then(res => `${ajaxUrl}api/firms?api_key=${res}`),
       method: 'POST',
       dataType: "json",
-      data: `id_firm=${data[0]}&name=${data[1]}&telephone=${data[2]}&email${data[3]}`,
+      data: `id_firm=${data[0]}&name=${data[1]}&telephone=${data[2]}&email=${data[3]}`,
       success(res) {
         console.log(res);
       },
@@ -203,8 +224,8 @@ export const firmsAPI = {
   },
 
   async putEditFirmData(...data) {
-    $.ajax({
-      url: await userAPI.getUserKey().then(res => `https://office.otis.co.ua/api/firms?api_key=${res}`),
+    return $.ajax({
+      url: await userAPI.getUserKey().then(res => `${ajaxUrl}api/firms?api_key=${res}`),
       type: 'PUT',
       dataType: "json",
       contentType: "application/json",

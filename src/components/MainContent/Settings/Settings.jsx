@@ -1,4 +1,5 @@
 import React from 'react';
+import Alert from '../../Alert/Alert';
 import styles from './Settings.module.css';
 
 const Settings = (props) => {
@@ -54,15 +55,16 @@ const Settings = (props) => {
 
       <div className="row text-center">
         <div className="col-3"></div>
-        <div className="col-sm-3">
+        <div className="col-sm-6">
           <div className="btn btn-outline-success btn-block" onClick={() => props.changeSettingsSmsHandler()}>Зберегти дані</div>
         </div>
 
-        <div className="col-sm-3">
+        {/* <div className="col-sm-3">
           <div className="btn btn-outline-danger btn-block">Очистити дані</div>
-        </div>
+        </div> */}
         <div className="col-sm-3"></div>
       </div>
+      { props.showAlert ? <Alert alertText={props.alertText} isError={props.isError} /> : null }
     </div>
   );
 }

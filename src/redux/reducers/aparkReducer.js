@@ -28,6 +28,7 @@ let initialState = {
   dateOfReceivingSertificate: '',
   nextSertificationDate: '',
   showAlert: false,
+  isError: false,
   alertText: '',
 }
 
@@ -112,7 +113,7 @@ export const updateStateAC = (name, value) => ({ type: UPDATE_STATE, name, value
 export const selectTypeAC = () => ({ type: SELECT_TYPE });
 export const insertTypeAC = () => ({ type: INSERT_TYPE });
 export const updateAvailabilitySertificateAC = () => ({ type: AVAILABILITY_SERTIFICATE });
-const showAlertAC = (alertText) => ({ type: SHOW_ALERT, alertText });
+const showAlertAC = (alertText, isError = false) => ({ type: SHOW_ALERT, alertText, isError });
 
 // Thunks
 // Set in state firms names and id
@@ -159,8 +160,13 @@ export const setTypeName = (model) => (dispatch) => {
 }
 
 export const sendRequestCreateCar = (...data) => (dispatch) => {
-  dataAPI.postCreateCar(...data).then(data => {
-    dispatch(showAlertAC(data))
+  dataAPI.postCreateCar(...data).then(body => {
+    dispatch(showAlertAC("Машину створено"));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  }).catch(() => {
+    dispatch(showAlertAC('Сталася помилка при створені машини. Спробуйте ще раз', true));
     setTimeout(() => {
       dispatch(showAlertAC())
     }, 3000);

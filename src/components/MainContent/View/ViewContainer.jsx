@@ -20,7 +20,7 @@ class ViewContainer extends Component {
       this.props.choosenCar.prevStateNum, this.props.choosenCar.nextStateNum,
       this.props.choosenCar.vinCode, this.props.choosenCar.brand, this.props.choosenCar.model,
       this.props.choosenCar.carType, this.props.choosenCar.nextPassingDate,
-      this.props.choosenCar.nextSertificationDate
+      this.props.choosenCar.nextSertificationDate, this.props.choosenCar.dateOfPassing, this.props.choosenCar.dateOfReceivingSertificate,
     )
   }
 
@@ -66,6 +66,7 @@ class ViewContainer extends Component {
         smsRequestHandler={this.smsRequestHandler}
         deleteRequest={this.props.deleteRequest}
         showAlert={this.props.showAlert}
+        isError={this.props.isError}
         alertText={this.props.alertText} />
     );
   }
@@ -78,6 +79,7 @@ const mapStateToProps = (state) => ({
   totalCarsCount: state.viewPage.totalCarsCount,
   currentPage: state.viewPage.currentPage,
   showAlert: state.viewPage.showAlert,
+  isError: state.viewPage.isError,
   alertText: state.viewPage.alertText,
   cars: state.viewPage.cars,
   choosenCar: state.viewPage.choosenCar,

@@ -22,6 +22,7 @@ let initialState = {
   },
 
   showAlert: false,
+  isError: false,
   alertText: '',
 }
 
@@ -65,6 +66,7 @@ const firmsReducer = (state = initialState, action) => {
       return {
         ...state,
         showAlert: !state.showAlert,
+        isError: action.isError,
         alertText: action.alertText
       }
 
@@ -76,7 +78,7 @@ const firmsReducer = (state = initialState, action) => {
 // AC
 const setFirmsDataAC = (firms) => ({ type: SET_FIRMS_DATA, firms });
 const setChoosenFirmDataAC = (firmName, idFirm, firmPhone, firmEmail) => ({ type: SET_CHOOSEN_FIRM_DATA, firmName, idFirm, firmPhone, firmEmail });
-const showAlertAC = (alertText) => ({ type: SHOW_ALERT, alertText });
+const showAlertAC = (alertText, isError = false) => ({ type: SHOW_ALERT, alertText, isError });
 export const updateState = (name, value) => ({ type: UPDATE_STATE, name, value })
 export const updateModalState = (name, value) => ({ type: UPDATE_MODAL_STATE, name, value })
 
@@ -94,19 +96,31 @@ export const setChoosenFirmData = (idFirm) => (dispatch) => {
 }
 
 export const createFirmsRequest = (...data) => (dispatch) => {
-  firmsAPI.createFirm(...data);
-  dispatch(showAlertAC('Фірму створено'))
-  setTimeout(() => {
-    dispatch(showAlertAC())
-  }, 3000);
+  firmsAPI.createFirm(...data).then(() => {
+    dispatch(showAlertAC('Фірму створено'))
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  }).catch(() => {
+    dispatch(showAlertAC('Сталась помилка. Можливо даний ЄДРПОУ вже існує', true))
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  })
 }
 
 export const editFirmDataRequest = (...data) => (dispatch) => {
-  firmsAPI.putEditFirmData(...data);
-  dispatch(showAlertAC('Фірму відредаговано'))
-  setTimeout(() => {
-    dispatch(showAlertAC())
-  }, 3000);
+  firmsAPI.putEditFirmData(...data).then(() => {
+    dispatch(showAlertAC('Фірму відредаговано'))
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  }).catch(() => {
+    dispatch(showAlertAC('Сталась помилка. Можливо даний ЄДРПОУ вже існує', true))
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  })
 }
 
 export default firmsReducer;

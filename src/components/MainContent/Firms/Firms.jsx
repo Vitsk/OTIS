@@ -45,7 +45,7 @@ const Firms = (props) => {
         </form>
       </div>
 
-      {props.showAlert ? <Alert alertText={props.alertText} /> : null}
+      {props.showAlert ? <Alert alertText={props.alertText} isError={props.isError} /> : null}
 
       <div className={styles.tableCustomStyle}>
         <h5 className="text-center">Зведений список фірм</h5>

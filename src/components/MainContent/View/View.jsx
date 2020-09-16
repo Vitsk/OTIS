@@ -52,7 +52,7 @@ const View = (props) => {
         <div className={`row ${styles.rowCustomStyle}`}></div>
 
         <div className="table-responsive">
-        { props.showAlert ? <Alert alertText={props.alertText} /> : null }
+        { props.showAlert ? <Alert alertText={props.alertText} isError={props.isError} /> : null }
           <table className="table table-sm table-hover table-bordered text-center">
             <thead>
               <tr className="bg-white text-success">

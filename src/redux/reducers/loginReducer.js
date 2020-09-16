@@ -4,11 +4,15 @@ const LOGIN_USER = 'LOGIN_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const UPDATE_EMAIL = 'UPDATE_EMAIL';
 const UPDATE_PASS = 'UPDATE_PASS';
+const ERROR = 'ERROR';
 
 let initialState = {
   isLogin: false,
   inputEmail: '',
   inputPass: '',
+  showAlert: false,
+  isError: false,
+  alertText: '',
 }
 
 const loginReducer = (state = initialState, action) => {
@@ -37,6 +41,14 @@ const loginReducer = (state = initialState, action) => {
         inputPass: action.inputPass
       }
 
+    case ERROR:
+      return {
+        ...state,
+        isError: !state.isError,
+        showAlert: !state.showAlert,
+        alertText: action.text
+      }
+
     default:
       return state;
   }
@@ -44,15 +56,33 @@ const loginReducer = (state = initialState, action) => {
 
 // AC
 const loginUserAC = () => ({ type: LOGIN_USER });
-export const logoutUserAC = () => ({ type: LOGOUT_USER });
+const errorAC = (text) => ({ type: ERROR, text })
+const logoutUserAC = () => ({ type: LOGOUT_USER });
 export const updateEmailAC = (inputEmail) => ({ type: UPDATE_EMAIL, inputEmail });
 export const updatePassAC = (inputPass) => ({ type: UPDATE_PASS, inputPass });
 
 // Thunk
 export const checkLoginData = (email, password) => (dispatch) => {
-  userAPI.login(email, password).then(data => {
+  userAPI.login(email, password).then(() => {
     dispatch(loginUserAC())
-  }).catch(() => null)
+  }).catch(() => {
+    dispatch(errorAC("Помилка при авторизації. Перевірте правильність введених даних"))
+    setTimeout(() => {
+      dispatch(errorAC())
+    }, 3000);
+  })
+}
+
+export const isLoginCheck = () => (dispatch) => {
+  userAPI.getUserKey().then(data => {
+    if(data !== 'Please, login') {
+      dispatch(loginUserAC())
+    }
+  })
+}
+
+export const logout = () => (dispatch) => {
+  userAPI.logoutRequest().then(() => dispatch(logoutUserAC()));
 }
 
 export default loginReducer;

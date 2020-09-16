@@ -2,14 +2,17 @@ import { dataAPI, userAPI } from "../../api/api";
 
 const SET_SETTINGS_DATA = 'SET_SETTINGS_DATA';
 const UPDATE_STATE = 'UPDATE_STATE';
-
+const SHOW_ALERT = 'SHOW_ALERT';
 
 let initialState = {
   smsLogin: '',
   smsPass: '',
   smsApiKey: '',
   smsAlphaName: '',
-  smsTextTemplate: ''
+  smsTextTemplate: '',
+  showAlert: false,
+  isError: false,
+  alertText: '',
 }
 
 const settingsReducer = (state = initialState, action) => {
@@ -30,6 +33,13 @@ const settingsReducer = (state = initialState, action) => {
           [action.name]: action.value
         }
 
+      case SHOW_ALERT:
+        return {
+          ...state,
+          showAlert: !state.showAlert,
+          isError: action.isError,
+          alertText: action.alertText
+        }
 
     default:
       return state;
@@ -43,6 +53,7 @@ const setSettingsDataAC = (smsLogin, smsPass, smsApiKey, smsAlphaName, smsTextTe
     smsLogin, smsPass, smsApiKey, smsAlphaName, smsTextTemplate
   }
 );
+const showAlertAC = (alertText, isError = false) => ({type: SHOW_ALERT, alertText, isError});
 export const updateState = (name, value) => ({ type: UPDATE_STATE, name, value })
 
 // Thunks
@@ -57,7 +68,17 @@ export const setSettingsData = () => (dispatch) => {
 
 // API requests 
 export const changeSettingsSms = (...data) => (dispatch) => {
-  userAPI.putChangeSettingsSms(...data);
+  userAPI.putChangeSettingsSms(...data).then(body => {
+    dispatch(showAlertAC("Налаштування SMS-розсилки змінено"));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  }).catch(() => {
+    dispatch(showAlertAC('Помилка у виконанні операції', true));
+    setTimeout(() => {
+      dispatch(showAlertAC())
+    }, 3000);
+  })
 } 
 
 export default settingsReducer;

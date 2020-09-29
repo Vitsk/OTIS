@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import View from './View';
 import { connect } from 'react-redux';
 import {
-  setCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName, setModelsName, setTypeName,
+  setCars, searchCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName, setModelsName, setTypeName,
   updateStateAC, updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest, deleteRequest,
-  smsRequest, setFirmPhone, selectTypeAC, insertTypeAC
+  smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, searchInputAC
 } from '../../../redux/reducers/viewReducer';
 
 class ViewContainer extends Component {
@@ -67,13 +67,17 @@ class ViewContainer extends Component {
         deleteRequest={this.props.deleteRequest}
         showAlert={this.props.showAlert}
         isError={this.props.isError}
-        alertText={this.props.alertText} />
+        alertText={this.props.alertText}
+        searchCars={this.props.searchCars}
+        searchInput={this.props.searchInput}
+        searchInputAC={this.props.searchInputAC} />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
   isFetching: state.viewPage.isFetching,
+  searchInput: state.viewPage.searchInput,
   selectType: state.viewPage.selectType,
   pageSize: state.viewPage.pageSize,
   totalCarsCount: state.viewPage.totalCarsCount,
@@ -89,8 +93,8 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, {
-  setCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName,
+  setCars, searchCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName,
   setModelsName, setTypeName, updateStateAC,
   updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest,
-  deleteRequest, smsRequest, setFirmPhone, selectTypeAC, insertTypeAC
+  deleteRequest, smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, searchInputAC
 })(ViewContainer);

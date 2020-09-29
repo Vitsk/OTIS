@@ -24,12 +24,12 @@ const View = (props) => {
         <h5 className="text-center">Зведений список проходження ТО транспортними засобами</h5>
         <div className={`row ${styles.rowCustomStyle}`}></div>
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-3">
             <label className="text-center"><small>Пошук по таблиці</small></label>
-            <input className="form-control" type="text" placeholder="Введіть ключові слова" />
+            <input className="form-control" value={props.searchInput} onChange={(e) => props.searchInputAC(e.target.value)} type="text"  placeholder="Введіть ключові слова" />
           </div>
 
-          <div className="col-md-4">
+          <div className="col-md-2">
             <label><small>Технічний огляд</small></label>
             <select className="form-control">
               <option defaultValue value="all-to">усі</option>
@@ -39,7 +39,7 @@ const View = (props) => {
             </select>
           </div>
 
-          <div className="col-md-4">
+          <div className="col-md-2">
             <label><small>Наявність сертифікату</small></label>
             <select className="form-control">
               <option defaultValue value="all-sert">усі</option>
@@ -47,12 +47,19 @@ const View = (props) => {
               <option defaultValue="not-available">немає</option>
             </select>
           </div>
+
+          <div className="col-md-3" style={{"marginTop": "31px"}}>
+            <button className="btn btn-outline-success btn-block" onClick={() => props.searchCars(props.searchInput)}>Пошук по системі</button>
+          </div>
+          <div className="col-md-2" style={{"marginTop": "31px"}}>
+            <button className="btn btn-outline-secondary btn-block" onClick={() => props.setCars()}>Очистити пошук</button>
+          </div>
         </div>
 
         <div className={`row ${styles.rowCustomStyle}`}></div>
 
         <div className="table-responsive">
-        { props.showAlert ? <Alert alertText={props.alertText} isError={props.isError} /> : null }
+          {props.showAlert ? <Alert alertText={props.alertText} isError={props.isError} /> : null}
           <table className="table table-sm table-hover table-bordered text-center">
             <thead>
               <tr className="bg-white text-success">

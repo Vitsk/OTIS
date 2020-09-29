@@ -7,7 +7,7 @@ const instance = axios.create({
   // baseURL: "https://office.otis.co.ua/",
   headers: {
     'Content-Type': 'application/json',
-    // "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": "*",
   },
 });
 

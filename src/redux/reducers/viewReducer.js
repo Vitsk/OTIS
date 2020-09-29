@@ -1,6 +1,7 @@
 import { dataAPI } from "../../api/api";
 
 const SET_CARS = 'SET_CARS';
+const SET_ALL_CARS = 'SET_ALL_CARS';
 const SET_CARS_COUNT = 'SET_CARS_COUNT';
 const SET_CHOOSEN_CAR = 'SET_CHOOSEN_CAR';
 const SET_BRANDS_NAME = 'SET_BRANDS_NAME';
@@ -10,6 +11,7 @@ const SET_USER_EMAIL = 'SET_USER_EMAIL';
 const SET_FIRM_EMAIL = 'SET_FIRM_EMAIL';
 const SET_FIRM_PHONE = 'SET_FIRM_PHONE';
 const UPDATE_STATE = 'UPDATE_STATE';
+const UPDATE_SEARCH_INPUT = 'UPDATE_SEARCH_INPUT';
 const UPDATE_BRAND_ID = 'UPDATE_BRAND_ID';
 const SELECT_TYPE = 'SELECT_TYPE';
 const INSERT_TYPE = 'INSERT_TYPE';
@@ -18,6 +20,7 @@ const SHOW_ALERT = 'SHOW_ALERT';
 
 let initialState = {
   isFetching: true,
+  searchInput: '',
   selectType: true,
   pageSize: 50,
   totalCarsCount: 0,
@@ -66,7 +69,20 @@ const viewReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
+        searchInput: '',
         currentPage: action.page,
+        cars: action.cars
+      }
+
+    case UPDATE_SEARCH_INPUT: 
+      return {
+        ...state,
+        searchInput: action.searchInput,
+      }
+
+    case SET_ALL_CARS: 
+      return {
+        ...state,
         cars: action.cars
       }
 
@@ -234,6 +250,7 @@ const viewReducer = (state = initialState, action) => {
 
 // AC
 const setCarsAC = (cars, page = 1) => ({ type: SET_CARS, cars, page })
+const searchCarsAC = (cars) => ({ type: SET_ALL_CARS, cars })
 const setCarsCountAC = (totalCarsCount) => ({ type: SET_CARS_COUNT, totalCarsCount })
 
 const setChoosenCarAC = (car) => ({
@@ -255,6 +272,7 @@ const setFirmPhoneAC = (firmPhone) => ({ type: SET_FIRM_PHONE, firmPhone })
 
 export const selectTypeAC = () => ({ type: SELECT_TYPE });
 export const insertTypeAC = () => ({ type: INSERT_TYPE });
+export const searchInputAC = (searchInput) => ({ type: UPDATE_SEARCH_INPUT, searchInput })
 export const updateStateAC = (name, value) => ({ type: UPDATE_STATE, name, value })
 export const updateBrandsIdAC = (brand) => ({ type: UPDATE_BRAND_ID, brand });
 export const updateAvailabilitySertificateAC = () => ({ type: AVAILABILITY_SERTIFICATE });
@@ -264,6 +282,14 @@ const showAlertAC = (alertText, isError = false) => ({ type: SHOW_ALERT, alertTe
 export const setCars = (page) => (dispatch) => {
   dataAPI.getCars(page).then(data => {
     dispatch(setCarsAC(data, page))
+  })
+}
+
+export const searchCars = (str) => (dispatch) => {
+  dataAPI.getAllCars().then(data => {
+    const filterData = data.filter(car => car.brand === str);
+    console.log(filterData);
+    dispatch(searchCarsAC(filterData))
   })
 }
 

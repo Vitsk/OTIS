@@ -26,30 +26,30 @@ const View = (props) => {
         <div className="row">
           <div className="col-md-3">
             <label className="text-center"><small>Пошук по таблиці</small></label>
-            <input className="form-control" value={props.searchInput} onChange={(e) => props.searchInputAC(e.target.value)} type="text"  placeholder="Введіть ключові слова" />
+            <input className="form-control" value={props.searchInput} onChange={(e) => props.searchInputAC(e.target.value)} type="text"  placeholder="Введіть марку авто" />
           </div>
 
           <div className="col-md-2">
             <label><small>Технічний огляд</small></label>
-            <select className="form-control">
-              <option defaultValue value="all-to">усі</option>
-              <option defaultValue="month">у найближчий місяць</option>
-              <option defaultValue="week">у найближчий тиждень</option>
-              <option defaultValue="out-day">прострочений</option>
+            <select className="form-control" value={props.filterTO} onChange={(e) => props.setFilterToAC(e.target.value)}>
+              <option defaultValue value="all">усі</option>
+              <option value="30">у найближчих 30 днів</option>
+              <option value="14">у найближчих 14 днів</option>
+              <option value="0">прострочений</option>
             </select>
           </div>
 
           <div className="col-md-2">
             <label><small>Наявність сертифікату</small></label>
-            <select className="form-control">
-              <option defaultValue value="all-sert">усі</option>
-              <option defaultValue="available">є</option>
-              <option defaultValue="not-available">немає</option>
+            <select className="form-control" value={props.filterSert} onChange={(e) => props.setfilterSertAC(e.target.value)}>
+              <option defaultValue value="all">усі</option>
+              <option value="1">є</option>
+              <option value="0">немає</option>
             </select>
           </div>
 
           <div className="col-md-3" style={{"marginTop": "31px"}}>
-            <button className="btn btn-outline-success btn-block" onClick={() => props.searchCars(props.searchInput)}>Пошук по системі</button>
+            <button className="btn btn-outline-success btn-block" onClick={() => {props.searchCars(props.searchInput, props.filterTO, props.filterSert); props.isSearchingBtnFetchingAC()}}> {props.isSearchBtnFetching ? <Loader /> : 'Пошук по системі'}</button>
           </div>
           <div className="col-md-2" style={{"marginTop": "31px"}}>
             <button className="btn btn-outline-secondary btn-block" onClick={() => props.setCars()}>Очистити пошук</button>
@@ -122,6 +122,7 @@ const View = (props) => {
               }
             </tbody>
           </table>
+          {props.isFetching ? <Loader /> : null}
           <nav aria-label="Page navigation" className='text-center pagination_buttons'>
             <ul className="pagination d-flex flex-wrap justify-content-center" id="pagination-buttons">
               {
@@ -140,7 +141,6 @@ const View = (props) => {
               </li>
             </ul>
           </nav>
-          {props.isFetching ? <Loader /> : null}
         </div>
       </div>
 

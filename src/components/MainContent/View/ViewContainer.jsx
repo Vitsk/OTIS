@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import {
   setCars, searchCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName, setModelsName, setTypeName,
   updateStateAC, updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest, deleteRequest,
-  smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, searchInputAC
+  smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, searchInputAC, setFilterToAC, setfilterSertAC,
+  isSearchingBtnFetchingAC
 } from '../../../redux/reducers/viewReducer';
 
 class ViewContainer extends Component {
@@ -70,14 +71,25 @@ class ViewContainer extends Component {
         alertText={this.props.alertText}
         searchCars={this.props.searchCars}
         searchInput={this.props.searchInput}
-        searchInputAC={this.props.searchInputAC} />
+        searchInputAC={this.props.searchInputAC}
+        filterTO={this.props.filterTO}
+        setFilterToAC={this.props.setFilterToAC}
+        filterSert={this.props.filterSert}
+        setfilterSertAC={this.props.setfilterSertAC}
+        isSearchBtnFetching={this.props.isSearchBtnFetching}
+        isSearchingBtnFetchingAC={this.props.isSearchingBtnFetchingAC} />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
   isFetching: state.viewPage.isFetching,
+  isSearchBtnFetching: state.viewPage.isSearchBtnFetching,
+  
   searchInput: state.viewPage.searchInput,
+  filterTO: state.viewPage.filterTO,
+  filterSert: state.viewPage.filterSert,
+
   selectType: state.viewPage.selectType,
   pageSize: state.viewPage.pageSize,
   totalCarsCount: state.viewPage.totalCarsCount,
@@ -96,5 +108,6 @@ export default connect(mapStateToProps, {
   setCars, searchCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName,
   setModelsName, setTypeName, updateStateAC,
   updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest,
-  deleteRequest, smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, searchInputAC
+  deleteRequest, smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, searchInputAC,
+  setFilterToAC, setfilterSertAC, isSearchingBtnFetchingAC
 })(ViewContainer);

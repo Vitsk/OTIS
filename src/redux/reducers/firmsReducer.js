@@ -1,10 +1,6 @@
 import { dataAPI, firmsAPI } from "../../api/api";
-
-const SET_FIRMS_DATA = 'SET_FIRMS_DATA';
-const SET_CHOOSEN_FIRM_DATA = 'SET_CHOOSEN_FIRM_DATA';
-const UPDATE_STATE = 'UPDATE_STATE';
-const UPDATE_MODAL_STATE = 'UPDATE_STATE_MODAL';
-const SHOW_ALERT = 'SHOW_ALERT';
+import { SET_FIRMS_DATA, SET_CHOOSEN_FIRM_DATA, UPDATE_STATE,
+  UPDATE_MODAL_STATE, SHOW_ALERT, } from '../actionCreators';
 
 let initialState = {
   firms: [],

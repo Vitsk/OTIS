@@ -1,26 +1,21 @@
 import { dataAPI } from "../../api/api";
-
-const SET_CARS = 'SET_CARS';
-const SET_ALL_CARS = 'SET_ALL_CARS';
-const SET_CARS_COUNT = 'SET_CARS_COUNT';
-const SET_CHOOSEN_CAR = 'SET_CHOOSEN_CAR';
-const SET_BRANDS_NAME = 'SET_BRANDS_NAME';
-const SET_MODELS_NAME = 'SET_MODELS_NAME';
-const SET_TYPE_NAME = 'SET_TYPE_NAME';
-const SET_USER_EMAIL = 'SET_USER_EMAIL';
-const SET_FIRM_EMAIL = 'SET_FIRM_EMAIL';
-const SET_FIRM_PHONE = 'SET_FIRM_PHONE';
-const UPDATE_STATE = 'UPDATE_STATE';
-const UPDATE_SEARCH_INPUT = 'UPDATE_SEARCH_INPUT';
-const UPDATE_BRAND_ID = 'UPDATE_BRAND_ID';
-const SELECT_TYPE = 'SELECT_TYPE';
-const INSERT_TYPE = 'INSERT_TYPE';
-const AVAILABILITY_SERTIFICATE = 'AVAILABILITY_SERTIFICATE';
-const SHOW_ALERT = 'SHOW_ALERT';
+import {
+  SET_CARS, SEARCH_CARS, SET_CARS_COUNT,
+  SET_CHOOSEN_CAR, SET_BRANDS_NAME, SET_MODELS_NAME,
+  SET_TYPE_NAME, SET_USER_EMAIL, SET_FIRM_EMAIL,
+  SET_FIRM_PHONE, UPDATE_STATE, UPDATE_SEARCH_INPUT,
+  UPDATE_BRAND_ID, SELECT_TYPE, INSERT_TYPE, AVAILABILITY_SERTIFICATE,
+  SHOW_ALERT, SET_FILTER_TO, SET_FILTER_SERT, IS_SEARCHING_BTN_FETCHING
+} from './../actionCreators';
 
 let initialState = {
   isFetching: true,
+  isSearchBtnFetching: false,
+
   searchInput: '',
+  filterTO: 'all',
+  filterSert: 'all',
+
   selectType: true,
   pageSize: 50,
   totalCarsCount: 0,
@@ -70,20 +65,23 @@ const viewReducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         searchInput: '',
+        filterTO: 'all',
+        filterSert: 'all',
         currentPage: action.page,
         cars: action.cars
       }
 
-    case UPDATE_SEARCH_INPUT: 
+    case UPDATE_SEARCH_INPUT:
       return {
         ...state,
         searchInput: action.searchInput,
       }
 
-    case SET_ALL_CARS: 
+    case SEARCH_CARS:
       return {
         ...state,
-        cars: action.cars
+        cars: action.cars,
+        isSearchBtnFetching: !state.isSearchBtnFetching
       }
 
     case SET_CARS_COUNT:
@@ -243,6 +241,24 @@ const viewReducer = (state = initialState, action) => {
         alertText: action.alertText
       }
 
+    case SET_FILTER_TO:
+      return {
+        ...state,
+        filterTO: action.filterTO
+      }
+
+    case SET_FILTER_SERT:
+      return {
+        ...state,
+        filterSert: action.filterSert
+      }
+
+    case IS_SEARCHING_BTN_FETCHING:
+      return {
+        ...state,
+        isSearchBtnFetching: !state.isSearchBtnFetching
+      }
+
     default:
       return state;
   }
@@ -250,7 +266,7 @@ const viewReducer = (state = initialState, action) => {
 
 // AC
 const setCarsAC = (cars, page = 1) => ({ type: SET_CARS, cars, page })
-const searchCarsAC = (cars) => ({ type: SET_ALL_CARS, cars })
+const searchCarsAC = (cars) => ({ type: SEARCH_CARS, cars })
 const setCarsCountAC = (totalCarsCount) => ({ type: SET_CARS_COUNT, totalCarsCount })
 
 const setChoosenCarAC = (car) => ({
@@ -272,8 +288,13 @@ const setFirmPhoneAC = (firmPhone) => ({ type: SET_FIRM_PHONE, firmPhone })
 
 export const selectTypeAC = () => ({ type: SELECT_TYPE });
 export const insertTypeAC = () => ({ type: INSERT_TYPE });
-export const searchInputAC = (searchInput) => ({ type: UPDATE_SEARCH_INPUT, searchInput })
-export const updateStateAC = (name, value) => ({ type: UPDATE_STATE, name, value })
+export const isSearchingBtnFetchingAC = () => ({ type: IS_SEARCHING_BTN_FETCHING });
+
+export const searchInputAC = (searchInput) => ({ type: UPDATE_SEARCH_INPUT, searchInput });
+export const setFilterToAC = (filterTO) => ({ type: SET_FILTER_TO, filterTO });
+export const setfilterSertAC = (filterSert) => ({ type: SET_FILTER_SERT, filterSert });
+
+export const updateStateAC = (name, value) => ({ type: UPDATE_STATE, name, value });
 export const updateBrandsIdAC = (brand) => ({ type: UPDATE_BRAND_ID, brand });
 export const updateAvailabilitySertificateAC = () => ({ type: AVAILABILITY_SERTIFICATE });
 const showAlertAC = (alertText, isError = false) => ({ type: SHOW_ALERT, alertText, isError });
@@ -285,10 +306,25 @@ export const setCars = (page) => (dispatch) => {
   })
 }
 
-export const searchCars = (str) => (dispatch) => {
+export const searchCars = (brand, filterTO, filterSert) => (dispatch) => {
   dataAPI.getAllCars().then(data => {
-    const filterData = data.filter(car => car.brand === str);
-    console.log(filterData);
+    let filterData = data.filter(car => {
+      let currentDate = new Date();
+      let nextPassingDate = new Date(car.next_passing_date);
+      let diffDays = Math.ceil((nextPassingDate - currentDate) / (1000 * 3600 * 24));
+
+      let brandCheck = car.brand === brand || brand === '' ? true : false;
+      let filterTOCheck = filterTO === 'all' ? 365 : +filterTO;
+
+      let filterSertCheck = car.date_of_receiving_sertificate === '0000-00-00' && car.next_sertification_date === '0000-00-00' ? "0" : "1";
+      if (filterSert === "all") filterSertCheck = "all";
+
+      if ((brandCheck && (diffDays < filterTOCheck)) && filterSertCheck === filterSert) {
+        return car;
+      }
+
+      return null;
+    });
     dispatch(searchCarsAC(filterData))
   })
 }

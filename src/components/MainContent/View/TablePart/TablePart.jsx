@@ -2,6 +2,8 @@ import React from 'react';
 import './TablePart.css';
 
 const TablePart = (props) => {
+  const nextPassingDate = new Date(props.nextPassingDate).toLocaleDateString();
+  const nextSertificationDate = new Date(props.nextSertificationDate).toLocaleDateString();
   return (
     <>
       <tr className="table-data">
@@ -10,9 +12,9 @@ const TablePart = (props) => {
         <td className={`align-middle ${props.status}`}>{props.model}</td>
         <td className={`align-middle ${props.status}`}>{props.registrationNumber}</td>
         <td className={`align-middle ${props.status}`}>{props.vinCode}</td>
-        <td className={`align-middle ${props.status}`}>{props.nextPassingDate}</td>
-        <td className={`align-middle ${props.status}`}>{props.nextSertificationDate === '0000-00-00' ? 'немає' : 'є'}</td>
-        <td className={`align-middle ${props.status}`}>{props.nextSertificationDate === '0000-00-00' ? '-' : props.nextSertificationDate}</td>
+        <td className={`align-middle ${props.status}`}>{nextPassingDate}</td>
+        <td className={`align-middle ${props.status}`}>{nextSertificationDate === 'Invalid Date' ? 'немає' : 'є'}</td>
+        <td className={`align-middle ${props.status}`}>{nextSertificationDate === 'Invalid Date' ? '-' : nextSertificationDate}</td>
         <td className="edit-btn align-middle">
           <div title="Редагування" onClick={ () => {props.getChoosenCar(props.registrationNumber); props.setModelsName(props.brand); props.setTypeName(props.idModel) }} className="edit-button btn btn-outline-success align-middle btn-sm" data-toggle="modal" data-target=".bd-edit-modal-lg">
             <i className="fas fa-edit" aria-hidden="true"></i>

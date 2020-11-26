@@ -1,5 +1,8 @@
 import { dataAPI, userAPI } from "../../api/api";
-import { SET_SETTINGS_DATA, UPDATE_STATE, SHOW_ALERT } from "../actionCreators";
+
+const SET_SETTINGS_DATA = "settings/SET_SETTINGS_DATA";
+const UPDATE_STATE = "settings/UPDATE_STATE";
+const SHOW_ALERT = "settings/SHOW_ALERT";
 
 let initialState = {
   smsLogin: '',

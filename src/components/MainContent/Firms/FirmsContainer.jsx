@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Firms from './Firms';
-import { setFirmsData, setChoosenFirmData, createFirmsRequest, updateState, updateModalState, editFirmDataRequest } from '../../../redux/reducers/firmsReducer';
+import { setFirmsData, setChoosenFirmData, createFirmsRequest, updateState, updateModalState, editFirmDataRequest, searchFirms, isSearchingBtnFetchingAC, searchInputAC } from '../../../redux/reducers/firmsReducer';
 import { connect } from 'react-redux';
 
 class FirmsContainer extends Component {
@@ -33,6 +33,9 @@ const mapStateToProps = (state) => ({
   idFirm: state.firmsPage.idFirm,
   firmPhone: state.firmsPage.firmPhone,
   firmEmail: state.firmsPage.firmEmail,
+  searchInput: state.firmsPage.searchInput,
+  isSearchBtnFetching: state.firmsPage.isSearchBtnFetching,
+
   editModal: {
     firmName: state.firmsPage.editModal.firmName,
     prevIdFirm: state.firmsPage.editModal.prevIdFirm,
@@ -48,5 +51,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   setFirmsData, createFirmsRequest,
   updateState, updateModalState, setChoosenFirmData,
-  editFirmDataRequest
+  editFirmDataRequest, searchFirms, searchInputAC, isSearchingBtnFetchingAC
 })(FirmsContainer);

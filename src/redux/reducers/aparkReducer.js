@@ -1,7 +1,14 @@
 import { dataAPI } from "../../api/api";
-import { SET_FIRMS_NAME, SET_BRANDS_NAME, SET_MODELS_NAME,
-  SET_TYPE_NAME, UPDATE_STATE, SELECT_TYPE, INSERT_TYPE,
-  AVAILABILITY_SERTIFICATE, SHOW_ALERT, } from '../actionCreators';
+
+const SET_FIRMS_NAME = "apark/SET_FIRMS_NAME";
+const SET_BRANDS_NAME = "apark/SET_BRANDS_NAME";
+const SET_MODELS_NAME = "apark/SET_MODELS_NAME";
+const SET_TYPE_NAME = "apark/SET_TYPE_NAME";
+const UPDATE_STATE = "apark/UPDATE_STATE";
+const SELECT_TYPE = "apark/SELECT_TYPE";
+const INSERT_TYPE = "apark/INSERT_TYPE";
+const AVAILABILITY_SERTIFICATE = "apark/AVAILABILITY_SERTIFICATE";
+const SHOW_ALERT = "apark/SHOW_ALERT";
 
 let initialState = {
   selectType: true,

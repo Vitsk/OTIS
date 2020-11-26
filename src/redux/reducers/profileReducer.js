@@ -1,5 +1,8 @@
 import { dataAPI, userAPI } from "../../api/api";
-import { SET_PROFILE_DATA, UPDATE_STATE, SHOW_ALERT } from "../actionCreators";
+
+const SET_PROFILE_DATA = "profile/SET_PROFILE_DATA";
+const UPDATE_STATE = "profile/UPDATE_STATE";
+const SHOW_ALERT = "profile/SHOW_ALERT";
 
 let initialState = {
   email: '',

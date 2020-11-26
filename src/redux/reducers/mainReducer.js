@@ -1,6 +1,12 @@
 import { dataAPI } from '../../api/api';
-import { SET_USER_MAIN_INFO, SET_FIRMS_COUNT, SET_CARS_COUNT, SET_TO_COUNT,
-  SET_SERT_COUNT, SET_ALL_TO_COUNT, SET_ALL_SERT_COUNT } from "../actionCreators";
+
+const SET_USER_MAIN_INFO = "main/SET_USER_MAIN_INFO";
+const SET_FIRMS_COUNT = "main/SET_FIRMS_COUNT";
+const SET_CARS_COUNT = "main/SET_CARS_COUNT";
+const SET_TO_COUNT = "main/SET_TO_COUNT";
+const SET_SERT_COUNT = "main/SET_SERT_COUNT";
+const SET_ALL_TO_COUNT = "main/SET_ALL_TO_COUNT";
+const SET_ALL_SERT_COUNT = "main/SET_ALL_SERT_COUNT";
 
 let initialState = {
   userName: '-',

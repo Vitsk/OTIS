@@ -1,5 +1,10 @@
 import { userAPI } from "../../api/api";
-import { LOGIN_USER, LOGOUT_USER, UPDATE_EMAIL, UPDATE_PASS, ERROR } from '../actionCreators';
+
+const LOGIN_USER = "login/LOGIN_USER";
+const LOGOUT_USER = "login/LOGOUT_USER";
+const UPDATE_EMAIL = "login/UPDATE_EMAIL";
+const UPDATE_PASS = "login/UPDATE_PASS";
+const ERROR = "login/ERROR";
 
 let initialState = {
   isLogin: false,

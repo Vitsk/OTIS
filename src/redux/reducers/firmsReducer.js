@@ -1,6 +1,13 @@
 import { dataAPI, firmsAPI } from "../../api/api";
-import { SET_FIRMS_DATA, SET_CHOOSEN_FIRM_DATA, UPDATE_STATE,
-  UPDATE_MODAL_STATE, SHOW_ALERT, } from '../actionCreators';
+
+const SET_FIRMS_DATA = "firms/SET_FIRMS_DATA";
+const SET_CHOOSEN_FIRM_DATA = "firms/SET_CHOOSEN_FIRM_DATA";
+const UPDATE_STATE = "firms/UPDATE_STATE";
+const UPDATE_MODAL_STATE = "firms/UPDATE_MODAL_STATE";
+const UPDATE_SEARCH_INPUT = "firms/UPDATE_SEARCH_INPUT";
+const SHOW_ALERT = "firms/SHOW_ALERT";
+const SEARCH_FIRMS = "firms/SEARCH_FIRMS";
+const IS_SEARCHING_BTN_FETCHING = "firms/IS_SEARCHING_BTN_FETCHING";
 
 let initialState = {
   firms: [],
@@ -8,6 +15,8 @@ let initialState = {
   idFirm: '',
   firmPhone: '',
   firmEmail: '',
+  searchInput: '',
+  isSearchBtnFetching: false,
 
   editModal: {
     firmName: '',
@@ -27,7 +36,8 @@ const firmsReducer = (state = initialState, action) => {
     case SET_FIRMS_DATA:
       return {
         ...state,
-        firms: action.firms
+        firms: action.firms,
+        searchInput: ''
       }
 
     case SET_CHOOSEN_FIRM_DATA:
@@ -58,6 +68,25 @@ const firmsReducer = (state = initialState, action) => {
         }
       }
 
+    case UPDATE_SEARCH_INPUT:
+      return {
+        ...state,
+        searchInput: action.searchInput,
+      }
+
+    case SEARCH_FIRMS:
+      return {
+        ...state,
+        firms: action.firms,
+        isSearchBtnFetching: !state.isSearchBtnFetching
+      }
+
+    case IS_SEARCHING_BTN_FETCHING:
+      return {
+        ...state,
+        isSearchBtnFetching: !state.isSearchBtnFetching
+      }
+
     case SHOW_ALERT:
       return {
         ...state,
@@ -75,13 +104,26 @@ const firmsReducer = (state = initialState, action) => {
 const setFirmsDataAC = (firms) => ({ type: SET_FIRMS_DATA, firms });
 const setChoosenFirmDataAC = (firmName, idFirm, firmPhone, firmEmail) => ({ type: SET_CHOOSEN_FIRM_DATA, firmName, idFirm, firmPhone, firmEmail });
 const showAlertAC = (alertText, isError = false) => ({ type: SHOW_ALERT, alertText, isError });
-export const updateState = (name, value) => ({ type: UPDATE_STATE, name, value })
-export const updateModalState = (name, value) => ({ type: UPDATE_MODAL_STATE, name, value })
+const searchFirmsAC = (firms) => ({ type: SEARCH_FIRMS, firms })
+
+export const updateState = (name, value) => ({ type: UPDATE_STATE, name, value });
+export const updateModalState = (name, value) => ({ type: UPDATE_MODAL_STATE, name, value });
+export const searchInputAC = (searchInput) => ({ type: UPDATE_SEARCH_INPUT, searchInput });
+export const isSearchingBtnFetchingAC = () => ({ type: IS_SEARCHING_BTN_FETCHING });
+
+
 
 // Thunks
 export const setFirmsData = () => (dispatch) => {
   dataAPI.getFirms().then(data => {
     dispatch(setFirmsDataAC(data))
+  })
+}
+
+export const searchFirms = (name) => (dispatch) => {
+  dataAPI.getFirms().then(data => {
+    let filterData = data.filter(firm => firm.name === name || name === '' ? firm : false);
+    dispatch(searchFirmsAC(filterData))
   })
 }
 

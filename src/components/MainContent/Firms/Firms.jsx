@@ -4,6 +4,7 @@ import TablePart from './TablePart/TablePart';
 import EditModal from './EditModal/EditModal';
 import InputMask from 'react-input-mask';
 import Alert from '../../Alert/Alert';
+import Loader from '../../Loader/Loader';
 
 const Firms = (props) => {
   return (
@@ -51,9 +52,15 @@ const Firms = (props) => {
         <h5 className="text-center">Зведений список фірм</h5>
         <div className={`row ${styles.rowDivCustomStyle}`}></div>
         <div className="row">
-          <div className="col-md-4 offset-md-4 text-center">
+          <div className="col-md-4 offset-md-3 text-center">
             <label className="text-center"><small>Пошук по таблиці</small></label>
-            <input className="form-control table-filter " type="text" />
+            <input className="form-control table-filter" value={props.searchInput} onChange={(e) => props.searchInputAC(e.target.value)} type="text" />
+          </div>
+          <div className="col-md-2" style={{"marginTop": "31px"}}>
+            <button className="btn btn-outline-success btn-block" onClick={() => {props.searchFirms(props.searchInput); props.isSearchingBtnFetchingAC()}}> {props.isSearchBtnFetching ? <Loader /> : 'Пошук по системі'}</button>
+          </div>
+          <div className="col-md-2" style={{"marginTop": "31px"}}>
+            <button className="btn btn-outline-secondary btn-block" onClick={() => props.setFirmsData()}>Очистити пошук</button>
           </div>
         </div>
 

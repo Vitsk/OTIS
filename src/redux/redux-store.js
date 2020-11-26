@@ -7,6 +7,7 @@ import profileReducer from './reducers/profileReducer';
 import settingsReducer from './reducers/settingsReducer';
 import viewReducer from './reducers/viewReducer';
 import aparkReducer from './reducers/aparkReducer';
+import appReducer from "./reducers/app-reducer";
 
 let reducers = combineReducers({
   loginPage: loginReducer,
@@ -15,11 +16,12 @@ let reducers = combineReducers({
   firmsPage: firmsReducer,
   aparkPage: aparkReducer,
   viewPage: viewReducer,
-  settingsPage: settingsReducer
+  settingsPage: settingsReducer,
+  appInitialize: appReducer
 });
 
 let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
-export default store;
-
 window.store = store;
+
+export default store;

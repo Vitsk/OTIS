@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Firms from './Firms';
-import { setFirmsData, setChoosenFirmData, createFirmsRequest, updateState, updateModalState, editFirmDataRequest, searchFirms, isSearchingBtnFetchingAC, searchInputAC } from '../../../redux/reducers/firmsReducer';
+import { setFirmsData, setChoosenFirmData, createFirmsRequest, updateState, updateModalState, editFirmDataRequest, searchFirms, isSearchingBtnFetchingAC, searchInputAC, setNameFirms } from '../../../redux/reducers/firmsReducer';
 import { connect } from 'react-redux';
 
 class FirmsContainer extends Component {
   componentDidMount() {
-    this.props.setFirmsData()
+    this.props.setFirmsData();
+    this.props.setNameFirms();
   }
 
   createFirmHandler = () => {
@@ -29,11 +30,12 @@ class FirmsContainer extends Component {
 
 const mapStateToProps = (state) => ({
   firms: state.firmsPage.firms,
+  nameFirms: state.firmsPage.nameFirms,
+  selectedFirm: state.firmsPage.selectedFirm,
   firmName: state.firmsPage.firmName,
   idFirm: state.firmsPage.idFirm,
   firmPhone: state.firmsPage.firmPhone,
   firmEmail: state.firmsPage.firmEmail,
-  searchInput: state.firmsPage.searchInput,
   isSearchBtnFetching: state.firmsPage.isSearchBtnFetching,
 
   editModal: {
@@ -51,5 +53,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   setFirmsData, createFirmsRequest,
   updateState, updateModalState, setChoosenFirmData,
-  editFirmDataRequest, searchFirms, searchInputAC, isSearchingBtnFetchingAC
+  editFirmDataRequest, searchFirms, searchInputAC, isSearchingBtnFetchingAC,
+  setNameFirms
 })(FirmsContainer);

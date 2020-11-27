@@ -5,6 +5,16 @@ import EditModal from './EditModal/EditModal';
 import InputMask from 'react-input-mask';
 import Alert from '../../Alert/Alert';
 import Loader from '../../Loader/Loader';
+import Select from 'react-select';
+
+const styleSelect = theme => ({
+  ...theme,
+  colors: {
+    ...theme.colors,
+    primary25: 'lightgreen',
+    primary: '#28a745',
+  },
+})
 
 const Firms = (props) => {
   return (
@@ -54,10 +64,14 @@ const Firms = (props) => {
         <div className="row">
           <div className="col-md-4 offset-md-3 text-center">
             <label className="text-center"><small>Пошук по таблиці</small></label>
-            <input className="form-control table-filter" value={props.searchInput} onChange={(e) => props.searchInputAC(e.target.value)} type="text" />
+            <Select
+              options={props.nameFirms}
+              value={props.selectedFirm}
+              theme={styleSelect}
+              onChange={(e) => props.updateState('selectedFirm', e)} />
           </div>
           <div className="col-md-2" style={{"marginTop": "31px"}}>
-            <button className="btn btn-outline-success btn-block" onClick={() => {props.searchFirms(props.searchInput); props.isSearchingBtnFetchingAC()}}> {props.isSearchBtnFetching ? <Loader /> : 'Пошук по системі'}</button>
+            <button className="btn btn-outline-success btn-block" onClick={() => {props.searchFirms(props.selectedFirm.value); props.isSearchingBtnFetchingAC()}}> {props.isSearchBtnFetching ? <Loader /> : 'Пошук по системі'}</button>
           </div>
           <div className="col-md-2" style={{"marginTop": "31px"}}>
             <button className="btn btn-outline-secondary btn-block" onClick={() => props.setFirmsData()}>Очистити пошук</button>

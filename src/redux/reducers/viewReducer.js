@@ -11,12 +11,13 @@ const SET_USER_EMAIL = "view/SET_USER_EMAIL";
 const SET_FIRM_EMAIL = "view/SET_FIRM_EMAIL";
 const SET_FIRM_PHONE = "view/SET_FIRM_PHONE";
 const UPDATE_STATE = "view/UPDATE_STATE";
-const UPDATE_SEARCH_INPUT = "view/UPDATE_SEARCH_INPUT";
+const UPDATE_SELECTED_FIRM = "view/UPDATE_SELECTED_FIRM";
 const UPDATE_BRAND_ID = "view/UPDATE_BRAND_ID";
 const SELECT_TYPE = "view/SELECT_TYPE";
 const INSERT_TYPE = "view/INSERT_TYPE";
 const AVAILABILITY_SERTIFICATE = "view/AVAILABILITY_SERTIFICATE";
 const SHOW_ALERT = "view/SHOW_ALERT";
+const SET_NAME_FIRMS = "view/SET_NAME_FIRMS"
 const SET_FILTER_TO = "view/SET_FILTER_TO";
 const SET_FILTER_SERT = "view/SET_FILTER_SERT";
 const IS_SEARCHING_BTN_FETCHING = "view/IS_SEARCHING_BTN_FETCHING";
@@ -25,7 +26,8 @@ let initialState = {
   isFetching: true,
   isSearchBtnFetching: false,
 
-  searchInput: '',
+  nameFirms: [],
+  selectedFirm: { value: 'Пошук по назві фірми', label: 'Пошук по назві фірми' },
   filterTO: 'all',
   filterSert: 'all',
 
@@ -77,17 +79,23 @@ const viewReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        searchInput: '',
+        selectedFirm: { value: 'Пошук по назві фірми', label: 'Пошук по назві фірми' },
         filterTO: 'all',
         filterSert: 'all',
         currentPage: action.page,
         cars: action.cars
       }
 
-    case UPDATE_SEARCH_INPUT:
+    case UPDATE_SELECTED_FIRM:
       return {
         ...state,
-        searchInput: action.searchInput,
+        selectedFirm: action.selectedFirm,
+      }
+
+    case SET_NAME_FIRMS:
+      return {
+        ...state,
+        nameFirms: action.nameFirms
       }
 
     case SEARCH_CARS:
@@ -279,6 +287,7 @@ const viewReducer = (state = initialState, action) => {
 
 // AC
 const setCarsAC = (cars, page = 1) => ({ type: SET_CARS, cars, page })
+const setNameFirmsAC = (nameFirms) => ({ type: SET_NAME_FIRMS, nameFirms });
 const searchCarsAC = (cars) => ({ type: SEARCH_CARS, cars })
 const setCarsCountAC = (totalCarsCount) => ({ type: SET_CARS_COUNT, totalCarsCount })
 
@@ -303,7 +312,7 @@ export const selectTypeAC = () => ({ type: SELECT_TYPE });
 export const insertTypeAC = () => ({ type: INSERT_TYPE });
 export const isSearchingBtnFetchingAC = () => ({ type: IS_SEARCHING_BTN_FETCHING });
 
-export const searchInputAC = (searchInput) => ({ type: UPDATE_SEARCH_INPUT, searchInput });
+export const selectedFirmAC = (selectedFirm) => ({ type: UPDATE_SELECTED_FIRM, selectedFirm });
 export const setFilterToAC = (filterTO) => ({ type: SET_FILTER_TO, filterTO });
 export const setfilterSertAC = (filterSert) => ({ type: SET_FILTER_SERT, filterSert });
 
@@ -319,20 +328,31 @@ export const setCars = (page) => (dispatch) => {
   })
 }
 
-export const searchCars = (brand, filterTO, filterSert) => (dispatch) => {
+export const setNameFirms = () => (dispatch) => {
+  dataAPI.getFirms().then(data => {
+    let firms = [];
+    data.map(item => firms.push({
+      value: item.name,
+      label: item.name
+    }));
+    dispatch(setNameFirmsAC(firms))
+  })
+}
+
+export const searchCars = (name, filterTO, filterSert) => (dispatch) => {
   dataAPI.getAllCars().then(data => {
     let filterData = data.filter(car => {
       let currentDate = new Date();
       let nextPassingDate = new Date(car.next_passing_date);
       let diffDays = Math.ceil((nextPassingDate - currentDate) / (1000 * 3600 * 24));
 
-      let brandCheck = car.brand === brand || brand === '' ? true : false;
+      let firmCheck = car.name === name || name === '' ? true : false;
       let filterTOCheck = filterTO === 'all' ? 365 : +filterTO;
 
       let filterSertCheck = car.date_of_receiving_sertificate === '0000-00-00' && car.next_sertification_date === '0000-00-00' ? "0" : "1";
       if (filterSert === "all") filterSertCheck = "all";
 
-      if ((brandCheck && (diffDays < filterTOCheck)) && filterSertCheck === filterSert) {
+      if ((firmCheck && (diffDays < filterTOCheck)) && filterSertCheck === filterSert) {
         return car;
       }
 

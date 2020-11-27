@@ -1,6 +1,7 @@
 import { dataAPI, firmsAPI } from "../../api/api";
 
 const SET_FIRMS_DATA = "firms/SET_FIRMS_DATA";
+const SET_NAME_FIRMS = "firms/SET_NAME_FIRMS";
 const SET_CHOOSEN_FIRM_DATA = "firms/SET_CHOOSEN_FIRM_DATA";
 const UPDATE_STATE = "firms/UPDATE_STATE";
 const UPDATE_MODAL_STATE = "firms/UPDATE_MODAL_STATE";
@@ -11,6 +12,8 @@ const IS_SEARCHING_BTN_FETCHING = "firms/IS_SEARCHING_BTN_FETCHING";
 
 let initialState = {
   firms: [],
+  nameFirms: [],
+  selectedFirm: { value: 'Пошук по назві фірми', label: 'Пошук по назві фірми' },
   firmName: '',
   idFirm: '',
   firmPhone: '',
@@ -37,7 +40,13 @@ const firmsReducer = (state = initialState, action) => {
       return {
         ...state,
         firms: action.firms,
-        searchInput: ''
+        selectedFirm: { value: 'Пошук по назві фірми', label: 'Пошук по назві фірми' }
+      }
+
+    case SET_NAME_FIRMS:
+      return {
+        ...state,
+        nameFirms: action.nameFirms
       }
 
     case SET_CHOOSEN_FIRM_DATA:
@@ -102,6 +111,7 @@ const firmsReducer = (state = initialState, action) => {
 
 // AC
 const setFirmsDataAC = (firms) => ({ type: SET_FIRMS_DATA, firms });
+const setNameFirmsAC = (nameFirms) => ({ type: SET_NAME_FIRMS, nameFirms });
 const setChoosenFirmDataAC = (firmName, idFirm, firmPhone, firmEmail) => ({ type: SET_CHOOSEN_FIRM_DATA, firmName, idFirm, firmPhone, firmEmail });
 const showAlertAC = (alertText, isError = false) => ({ type: SHOW_ALERT, alertText, isError });
 const searchFirmsAC = (firms) => ({ type: SEARCH_FIRMS, firms })
@@ -117,6 +127,17 @@ export const isSearchingBtnFetchingAC = () => ({ type: IS_SEARCHING_BTN_FETCHING
 export const setFirmsData = () => (dispatch) => {
   dataAPI.getFirms().then(data => {
     dispatch(setFirmsDataAC(data))
+  })
+}
+
+export const setNameFirms = () => (dispatch) => {
+  dataAPI.getFirms().then(data => {
+    let firms = [];
+    data.map(item => firms.push({
+      value: item.name,
+      label: item.name
+    }));
+    dispatch(setNameFirmsAC(firms))
   })
 }
 

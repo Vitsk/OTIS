@@ -4,16 +4,17 @@ import { connect } from 'react-redux';
 import {
   setCars, searchCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName, setModelsName, setTypeName,
   updateStateAC, updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest, deleteRequest,
-  smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, searchInputAC, setFilterToAC, setfilterSertAC,
-  isSearchingBtnFetchingAC
+  smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, selectedFirmAC, setFilterToAC, setfilterSertAC,
+  isSearchingBtnFetchingAC, setNameFirms
 } from '../../../redux/reducers/viewReducer';
 
 class ViewContainer extends Component {
   componentDidMount() {
-    this.props.setCars()
-    this.props.setCarsCount()
-    this.props.setBrandsName()
-    this.props.setUserData()
+    this.props.setCars();
+    this.props.setCarsCount();
+    this.props.setBrandsName();
+    this.props.setUserData();
+    this.props.setNameFirms();
   }
 
   editRequestHandler = () => {
@@ -70,8 +71,9 @@ class ViewContainer extends Component {
         isError={this.props.isError}
         alertText={this.props.alertText}
         searchCars={this.props.searchCars}
-        searchInput={this.props.searchInput}
-        searchInputAC={this.props.searchInputAC}
+        nameFirms={this.props.nameFirms}
+        selectedFirm={this.props.selectedFirm}
+        selectedFirmAC={this.props.selectedFirmAC}
         filterTO={this.props.filterTO}
         setFilterToAC={this.props.setFilterToAC}
         filterSert={this.props.filterSert}
@@ -86,7 +88,8 @@ const mapStateToProps = (state) => ({
   isFetching: state.viewPage.isFetching,
   isSearchBtnFetching: state.viewPage.isSearchBtnFetching,
   
-  searchInput: state.viewPage.searchInput,
+  nameFirms: state.viewPage.nameFirms,
+  selectedFirm: state.viewPage.selectedFirm,
   filterTO: state.viewPage.filterTO,
   filterSert: state.viewPage.filterSert,
 
@@ -108,6 +111,6 @@ export default connect(mapStateToProps, {
   setCars, searchCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName,
   setModelsName, setTypeName, updateStateAC,
   updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest,
-  deleteRequest, smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, searchInputAC,
-  setFilterToAC, setfilterSertAC, isSearchingBtnFetchingAC
+  deleteRequest, smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, selectedFirmAC,
+  setFilterToAC, setfilterSertAC, isSearchingBtnFetchingAC, setNameFirms
 })(ViewContainer);

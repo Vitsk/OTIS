@@ -27,7 +27,7 @@ let initialState = {
   isSearchBtnFetching: false,
 
   nameFirms: [],
-  selectedFirm: { value: 'Пошук по назві фірми', label: 'Пошук по назві фірми' },
+  selectedFirm: { value: '', label: 'Пошук по назві фірми' },
   filterTO: 'all',
   filterSert: 'all',
 
@@ -79,7 +79,7 @@ const viewReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        selectedFirm: { value: 'Пошук по назві фірми', label: 'Пошук по назві фірми' },
+        selectedFirm: { value: '', label: 'Пошук по назві фірми' },
         filterTO: 'all',
         filterSert: 'all',
         currentPage: action.page,
@@ -340,19 +340,45 @@ export const setNameFirms = () => (dispatch) => {
 }
 
 export const searchCars = (name, filterTO, filterSert) => (dispatch) => {
+  let currentDate = new Date();
   dataAPI.getAllCars().then(data => {
-    let filterData = data.filter(car => {
-      let currentDate = new Date();
+    const filterData = data.filter(car => {
       let nextPassingDate = new Date(car.next_passing_date);
       let diffDays = Math.ceil((nextPassingDate - currentDate) / (1000 * 3600 * 24));
 
       let firmCheck = car.name === name || name === '' ? true : false;
       let filterTOCheck = filterTO === 'all' ? 365 : +filterTO;
 
+      let filterBorder;
+      switch (filterTOCheck) {
+        case 365: 
+          filterBorder = -20000;
+          break;
+          
+        case 30:
+          filterBorder = 21;
+          break;
+
+        case 21:
+          filterBorder = 14;
+          break;
+
+        case 14:
+          filterBorder = 0;
+          break;
+        
+        case 0:
+          filterBorder = -20000;
+          break;
+
+        default:
+          break;
+      }
+
       let filterSertCheck = car.date_of_receiving_sertificate === '0000-00-00' && car.next_sertification_date === '0000-00-00' ? "0" : "1";
       if (filterSert === "all") filterSertCheck = "all";
 
-      if ((firmCheck && (diffDays < filterTOCheck)) && filterSertCheck === filterSert) {
+      if ((firmCheck && (diffDays < filterTOCheck && diffDays > filterBorder)) && filterSertCheck === filterSert) {
         return car;
       }
 

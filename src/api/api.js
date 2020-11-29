@@ -13,6 +13,12 @@ const instance = axios.create({
 
 const ajaxUrl = ''; // https://office.otis.co.ua/
 
+let apiKey = '';
+
+(async function () {
+  return await instance.get('api/users/apikeys').then(res => apiKey = res.data);
+})();
+
 export let userAPI = {
   async getUserKey() {
     return await instance.get('api/users/apikeys').then(res => res.data);
@@ -29,7 +35,8 @@ export let userAPI = {
 
   async putChangePassRequest(...data) {
     return $.ajax({
-      url: await this.getUserKey().then(res => `${ajaxUrl}api/users?api_key=${res}`),
+      // url: await this.getUserKey().then(res => `${ajaxUrl}api/users?api_key=${res}`),
+      url: `${ajaxUrl}api/users?api_key=${apiKey}`,
       method: 'PUT',
       contentType: "application/json",
       data: `password=${data[0]}&new=${data[1]}&repeat=${data[2]}`,
@@ -44,7 +51,8 @@ export let userAPI = {
 
   async putChangeUserData(...data) {
     return $.ajax({
-      url: await this.getUserKey().then(res => `${ajaxUrl}api/users?api_key=${res}`),
+      // url: await this.getUserKey().then(res => `${ajaxUrl}api/users?api_key=${res}`),
+      url: `${ajaxUrl}api/users?api_key=${apiKey}`,
       method: 'PUT',
       contentType: "application/json",
       dataType: 'text',
@@ -60,7 +68,8 @@ export let userAPI = {
 
   async putChangeSettingsSms(...data) {
     return $.ajax({
-      url: await this.getUserKey().then(res => `${ajaxUrl}api/users/sms?api_key=${res}`),
+      // url: await this.getUserKey().then(res => `${ajaxUrl}api/users/sms?api_key=${res}`),
+      url: `${ajaxUrl}api/users/sms?api_key=${apiKey}`,
       type: 'PUT',
       data: `&sms_login=${data[0]}&sms_pass=${data[1]}&sms_api_key=${data[2]}&sms_alpha_name=${data[3]}&sms_text_template=${data[4]}`,
       success(res) {
@@ -75,42 +84,42 @@ export let userAPI = {
 
 export const dataAPI = {
   async getUserData() {
-    return instance.get(await userAPI.getUserKey().then(data => `api/users?api_key=${data}`))
+    return instance.get(`api/users?api_key=${apiKey}`)
       .then(res => res.data)
   },
 
   async getCars(page = 1) {
-    return instance.get(await userAPI.getUserKey().then(data => `api/cars?api_key=${data}&page=${page}`))
+    return instance.get(`api/cars?api_key=${apiKey}&page=${page}`)
       .then(res => res.data)
   },
 
   async getAllCars() {
-    return instance.get(await userAPI.getUserKey().then(data => `api/cars?api_key=${data}`))
+    return instance.get(`api/cars?api_key=${apiKey}`)
       .then(res => res.data)
   },
 
   async getCarsCount() {
-    return instance.get(await userAPI.getUserKey().then(data => `api/cars?api_key=${data}&count=true`))
+    return instance.get(`api/cars?api_key=${apiKey}&count=true`)
       .then(res => res.data)
   },
 
   async getChoosenCar(stateNum) {
-    return instance.get(await userAPI.getUserKey().then(data => `api/cars/${stateNum}?api_key=${data}`))
+    return instance.get(`api/cars/${stateNum}?api_key=${apiKey}`)
       .then(res => res.data)
   },
 
   async getFirms() {
-    return instance.get(await userAPI.getUserKey().then(data => `api/firms?api_key=${data}`))
+    return instance.get(`api/firms?api_key=${apiKey}`)
       .then(res => res.data)
   },
 
   async getFirmsCount() {
-    return instance.get(await userAPI.getUserKey().then(data => `api/firms?api_key=${data}`))
+    return instance.get(`api/firms?api_key=${apiKey}`)
       .then(res => res.data.length)
   },
 
   async getChoosenFirm(idFirm) {
-    return instance.get(await userAPI.getUserKey().then(data => `api/firms/${idFirm}?api_key=${data}`))
+    return instance.get(`api/firms/${idFirm}?api_key=${apiKey}`)
       .then(res => res.data)
   },
 
@@ -130,7 +139,7 @@ export const dataAPI = {
   },
 
   async postCreateCar(...data) {
-    let url = await userAPI.getUserKey().then(res => `https://office.otis.co.ua/api/cars?api_key=${res}`);
+    let url = `https://office.otis.co.ua/api/cars?api_key=${apiKey}`;
     // let carData = data[0] ? `id_model` `${data[0].value}` : `&brand=${data[1]}&model=${data[2]}&type=${data[3]}`;
 
     let formData = new FormData();
@@ -159,7 +168,7 @@ export const dataAPI = {
 
   async putEditRequest(...data) {
     let carData = data[0] ? `&id_model=${data[5].value}` : `&brand=${data[4]}&model=${data[5]}&type=${data[6]}`;
-    return await instance.put(await userAPI.getUserKey().then(res => `api/cars?api_key=${res}`), `&prev_rn=${data[1]}&next_rn=${data[2]}&vin_code=${data[3]}${carData}&next_passing_date=${data[7]}&next_sertification_date=${data[8]}&date_of_passing=${data[9]}&date_of_receiving_sertificate=${data[10]}`)
+    return await instance.put(`api/cars?api_key=${apiKey}`, `&prev_rn=${data[1]}&next_rn=${data[2]}&vin_code=${data[3]}${carData}&next_passing_date=${data[7]}&next_sertification_date=${data[8]}&date_of_passing=${data[9]}&date_of_receiving_sertificate=${data[10]}`)
   },
 
   // Jquery AJAX
@@ -181,7 +190,8 @@ export const dataAPI = {
     return $.ajax({
       url: `${ajaxUrl}vendor/dispatch/sms.php`,
       type: 'POST',
-      data: `login=${data[0]}&pass=${data[1]}&api_key=${data[2]}&alpha_name=${data[3]}&phone=${data[4]}&registration_number=${data[5]}`,
+      // data: await this.getUserKey().then(res => `login=${data[0]}&pass=${data[1]}&api_key=${res}&alpha_name=${data[3]}&phone=${data[4]}&registration_number=${data[5]}`),
+      data: `login=${data[0]}&pass=${data[1]}&api_key=${apiKey}&alpha_name=${data[3]}&phone=${data[4]}&registration_number=${data[5]}`,
       success(res) {
         console.log(res);
       },
@@ -193,7 +203,7 @@ export const dataAPI = {
 
   async deleteCarRequest(stateNum) {
     return $.ajax({
-      url: await userAPI.getUserKey().then(res => `${ajaxUrl}api/cars?api_key=${res}`),
+      url: `${ajaxUrl}api/cars?api_key=${apiKey}`,
       type: 'DELETE',
       data: `&registration_number=${stateNum}`,
       success(data) {
@@ -210,7 +220,7 @@ export const dataAPI = {
 export const firmsAPI = {
   async createFirm(...data) {
     return $.ajax({
-      url: await userAPI.getUserKey().then(res => `${ajaxUrl}api/firms?api_key=${res}`),
+      url: `${ajaxUrl}api/firms?api_key=${apiKey}`,
       method: 'POST',
       dataType: "json",
       data: `id_firm=${data[0]}&name=${data[1]}&telephone=${data[2]}&email=${data[3]}`,
@@ -225,7 +235,7 @@ export const firmsAPI = {
 
   async putEditFirmData(...data) {
     return $.ajax({
-      url: await userAPI.getUserKey().then(res => `${ajaxUrl}api/firms?api_key=${res}`),
+      url: `${ajaxUrl}api/firms?api_key=${apiKey}`,
       type: 'PUT',
       dataType: "json",
       contentType: "application/json",

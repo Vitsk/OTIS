@@ -7,12 +7,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import AppContainer from "./App";
 
 
-ReactDOM.render(<AppContainer/>, document.getElementById('root')
-);
+ReactDOM.render(<AppContainer/>, document.getElementById('root'));
 
-// TEST comment for git repo 
-// TEST comment for git repo 
-// TEST comment for git repo 
-// TEST comment for git repo 
-// TEST comment for git repo 
+
 serviceWorker.unregister();

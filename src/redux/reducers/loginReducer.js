@@ -26,7 +26,8 @@ const loginReducer = (state = initialState, action) => {
     case LOGOUT_USER:
       return {
         ...state,
-        isLogin: false
+        isLogin: false,
+        inputPass: '',
       }
     
     case UPDATE_EMAIL:

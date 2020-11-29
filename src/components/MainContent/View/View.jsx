@@ -47,6 +47,7 @@ const View = (props) => {
             <select className="form-control" value={props.filterTO} onChange={(e) => props.setFilterToAC(e.target.value)}>
               <option defaultValue value="all">усі</option>
               <option value="30">у найближчих 30 днів</option>
+              <option value="21">у найближчих 21 днів</option>
               <option value="14">у найближчих 14 днів</option>
               <option value="0">прострочений</option>
             </select>
@@ -97,22 +98,10 @@ const View = (props) => {
 
                   // Status for filter data
                   let status = '';
-                  // let statusDay = '';
-                  if (diffDays < 30) {
-                    status = 'statusMonth';
-                    // statusDay = 'month';
-                  }
-                  if (diffDays < 14) {
-                    status = 'statusWeek';
-                    // statusDay = 'week';
-                  }
-                  if (diffDays <= 0) {
-                    status = 'statusToday';
-                    // statusDay = 'out-day';
-                  }
-                  if (diffDays > 30) {
-                    // statusDay = 'more-month';
-                  }
+                  if (diffDays < 30) status = 'statusMonth';
+                  if (diffDays < 21) status = 'statusTwenty';
+                  if (diffDays < 14) status = 'statusWeek';
+                  if (diffDays <= 0) status = 'statusToday';
 
                   return <TablePart key={index}
                     name={car.name}

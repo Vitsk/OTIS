@@ -5,7 +5,7 @@ import {
   setCars, searchCars, setCarsCount, setUserData, setFirmEmail, getChoosenCar, setBrandsName, setModelsName, setTypeName,
   updateStateAC, updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest, deleteRequest,
   smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, selectedFirmAC, setFilterToAC, setfilterSertAC,
-  isSearchingBtnFetchingAC, setNameFirms
+  isSearchingBtnFetchingAC, setNameFirms, setStateNums, updateSelectedStateNumAC
 } from '../../../redux/reducers/viewReducer';
 
 class ViewContainer extends Component {
@@ -15,6 +15,7 @@ class ViewContainer extends Component {
     this.props.setBrandsName();
     this.props.setUserData();
     this.props.setNameFirms();
+    this.props.setStateNums();
   }
 
   editRequestHandler = () => {
@@ -72,8 +73,11 @@ class ViewContainer extends Component {
         alertText={this.props.alertText}
         searchCars={this.props.searchCars}
         nameFirms={this.props.nameFirms}
+        stateNums={this.props.stateNums}
         selectedFirm={this.props.selectedFirm}
+        selectedStateNum={this.props.selectedStateNum}
         selectedFirmAC={this.props.selectedFirmAC}
+        updateSelectedStateNumAC={this.props.updateSelectedStateNumAC}
         filterTO={this.props.filterTO}
         setFilterToAC={this.props.setFilterToAC}
         filterSert={this.props.filterSert}
@@ -90,6 +94,8 @@ const mapStateToProps = (state) => ({
   
   nameFirms: state.viewPage.nameFirms,
   selectedFirm: state.viewPage.selectedFirm,
+  stateNums: state.viewPage.stateNums,
+  selectedStateNum: state.viewPage.selectedStateNum,
   filterTO: state.viewPage.filterTO,
   filterSert: state.viewPage.filterSert,
 
@@ -112,5 +118,6 @@ export default connect(mapStateToProps, {
   setModelsName, setTypeName, updateStateAC,
   updateBrandsIdAC, updateAvailabilitySertificateAC, editRequest, emailRequest,
   deleteRequest, smsRequest, setFirmPhone, selectTypeAC, insertTypeAC, selectedFirmAC,
-  setFilterToAC, setfilterSertAC, isSearchingBtnFetchingAC, setNameFirms
+  setFilterToAC, setfilterSertAC, isSearchingBtnFetchingAC, setNameFirms, setStateNums,
+  updateSelectedStateNumAC
 })(ViewContainer);

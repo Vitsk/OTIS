@@ -33,13 +33,22 @@ const View = (props) => {
         <h5 className="text-center">Зведений список проходження ТО транспортними засобами</h5>
         <div className={`row ${styles.rowCustomStyle}`}></div>
         <div className="row">
-          <div className="col-md-3">
-            <label className="text-center"><small>Пошук по таблиці</small></label>
+          <div className="col-md-2">
+            <label className="text-center"><small>Пошук по фірмі</small></label>
             <Select
               options={props.nameFirms}
               value={props.selectedFirm}
               theme={styleSelect}
               onChange={(e) => props.selectedFirmAC(e)} />
+          </div>
+
+          <div className="col-md-2">
+            <label className="text-center"><small>Пошук по держ. номеру</small></label>
+            <Select
+              options={props.stateNums}
+              value={props.selectedStateNum}
+              theme={styleSelect}
+              onChange={(e) => props.updateSelectedStateNumAC(e)} />
           </div>
 
           <div className="col-md-2">
@@ -62,8 +71,8 @@ const View = (props) => {
             </select>
           </div>
 
-          <div className="col-md-3" style={{"marginTop": "31px"}}>
-            <button className="btn btn-outline-success btn-block" onClick={() => {props.searchCars(props.selectedFirm.value, props.filterTO, props.filterSert); props.isSearchingBtnFetchingAC()}}> {props.isSearchBtnFetching ? <Loader /> : 'Пошук по системі'}</button>
+          <div className="col-md-2" style={{"marginTop": "31px"}}>
+            <button className="btn btn-outline-success btn-block" onClick={() => {props.searchCars(props.selectedFirm.value, props.selectedStateNum.value, props.filterTO, props.filterSert); props.isSearchingBtnFetchingAC()}}> {props.isSearchBtnFetching ? <Loader /> : 'Пошук по системі'}</button>
           </div>
           <div className="col-md-2" style={{"marginTop": "31px"}}>
             <button className="btn btn-outline-secondary btn-block" onClick={() => props.setCars()}>Очистити пошук</button>

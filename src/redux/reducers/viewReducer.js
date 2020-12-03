@@ -12,12 +12,14 @@ const SET_FIRM_EMAIL = "view/SET_FIRM_EMAIL";
 const SET_FIRM_PHONE = "view/SET_FIRM_PHONE";
 const UPDATE_STATE = "view/UPDATE_STATE";
 const UPDATE_SELECTED_FIRM = "view/UPDATE_SELECTED_FIRM";
+const UPDATE_SELECTED_STATE_NUM = "view/UPDATE_SELECTED_STATE_NUM";
 const UPDATE_BRAND_ID = "view/UPDATE_BRAND_ID";
 const SELECT_TYPE = "view/SELECT_TYPE";
 const INSERT_TYPE = "view/INSERT_TYPE";
 const AVAILABILITY_SERTIFICATE = "view/AVAILABILITY_SERTIFICATE";
 const SHOW_ALERT = "view/SHOW_ALERT";
-const SET_NAME_FIRMS = "view/SET_NAME_FIRMS"
+const SET_NAME_FIRMS = "view/SET_NAME_FIRMS";
+const SET_STATE_NUMS = "view/SET_STATE_NUMS";
 const SET_FILTER_TO = "view/SET_FILTER_TO";
 const SET_FILTER_SERT = "view/SET_FILTER_SERT";
 const IS_SEARCHING_BTN_FETCHING = "view/IS_SEARCHING_BTN_FETCHING";
@@ -27,7 +29,9 @@ let initialState = {
   isSearchBtnFetching: false,
 
   nameFirms: [],
-  selectedFirm: { value: '', label: 'Пошук по назві фірми' },
+  selectedFirm: { value: '', label: 'Введіть назву фірми' },
+  stateNums: [],
+  selectedStateNum: { value: '', label: 'Введіть держарний номер' },
   filterTO: 'all',
   filterSert: 'all',
 
@@ -79,7 +83,8 @@ const viewReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        selectedFirm: { value: '', label: 'Пошук по назві фірми' },
+        selectedFirm: { value: '', label: 'Введіть назву фірми' },
+        selectedStateNum: { value: '', label: 'Введіть держарний номер' },
         filterTO: 'all',
         filterSert: 'all',
         currentPage: action.page,
@@ -92,10 +97,22 @@ const viewReducer = (state = initialState, action) => {
         selectedFirm: action.selectedFirm,
       }
 
+    case UPDATE_SELECTED_STATE_NUM:
+      return {
+        ...state,
+        selectedStateNum: action.selectedStateNum,
+      }
+
     case SET_NAME_FIRMS:
       return {
         ...state,
         nameFirms: action.nameFirms
+      }
+
+    case SET_STATE_NUMS:
+      return {
+        ...state,
+        stateNums: action.stateNums
       }
 
     case SEARCH_CARS:
@@ -288,6 +305,7 @@ const viewReducer = (state = initialState, action) => {
 // AC
 const setCarsAC = (cars, page = 1) => ({ type: SET_CARS, cars, page })
 const setNameFirmsAC = (nameFirms) => ({ type: SET_NAME_FIRMS, nameFirms });
+const setStateNumsAC = (stateNums) => ({ type: SET_STATE_NUMS, stateNums });
 const searchCarsAC = (cars) => ({ type: SEARCH_CARS, cars })
 const setCarsCountAC = (totalCarsCount) => ({ type: SET_CARS_COUNT, totalCarsCount })
 
@@ -306,20 +324,22 @@ const setUserDataAC = (userEmail, department, telephoneNum, street, webSite, sms
   { type: SET_USER_EMAIL, userEmail, department, telephoneNum, street, webSite, smsLogin, smsPass, smsApiKey, smsAlphaName }
 );
 const setFirmEmailAC = (firmEmail) => ({ type: SET_FIRM_EMAIL, firmEmail });
-const setFirmPhoneAC = (firmPhone) => ({ type: SET_FIRM_PHONE, firmPhone })
+const setFirmPhoneAC = (firmPhone) => ({ type: SET_FIRM_PHONE, firmPhone });
+const showAlertAC = (alertText, isError = false) => ({ type: SHOW_ALERT, alertText, isError });
 
 export const selectTypeAC = () => ({ type: SELECT_TYPE });
 export const insertTypeAC = () => ({ type: INSERT_TYPE });
 export const isSearchingBtnFetchingAC = () => ({ type: IS_SEARCHING_BTN_FETCHING });
 
 export const selectedFirmAC = (selectedFirm) => ({ type: UPDATE_SELECTED_FIRM, selectedFirm });
+export const updateSelectedStateNumAC = (selectedStateNum) => ({ type: UPDATE_SELECTED_STATE_NUM, selectedStateNum });
 export const setFilterToAC = (filterTO) => ({ type: SET_FILTER_TO, filterTO });
 export const setfilterSertAC = (filterSert) => ({ type: SET_FILTER_SERT, filterSert });
 
 export const updateStateAC = (name, value) => ({ type: UPDATE_STATE, name, value });
 export const updateBrandsIdAC = (brand) => ({ type: UPDATE_BRAND_ID, brand });
 export const updateAvailabilitySertificateAC = () => ({ type: AVAILABILITY_SERTIFICATE });
-const showAlertAC = (alertText, isError = false) => ({ type: SHOW_ALERT, alertText, isError });
+
 
 // Thunks
 export const setCars = (page) => (dispatch) => {
@@ -339,7 +359,19 @@ export const setNameFirms = () => (dispatch) => {
   })
 }
 
-export const searchCars = (name, filterTO, filterSert) => (dispatch) => {
+export const setStateNums = () => (dispatch) => {
+  dataAPI.getAllCars().then(data => {
+    let stateNums = [];
+    data.map(item => stateNums.push({
+      value: item.registration_number,
+      label: item.registration_number
+    }));
+    dispatch(setStateNumsAC(stateNums))
+  })
+}
+
+
+export const searchCars = (name, selectedStateNum, filterTO, filterSert) => (dispatch) => {
   let currentDate = new Date();
   dataAPI.getAllCars().then(data => {
     const filterData = data.filter(car => {
@@ -347,6 +379,7 @@ export const searchCars = (name, filterTO, filterSert) => (dispatch) => {
       let diffDays = Math.ceil((nextPassingDate - currentDate) / (1000 * 3600 * 24));
 
       let firmCheck = car.name === name || name === '' ? true : false;
+      let stateNumCheck = car.registration_number === selectedStateNum || selectedStateNum === '' ? true : false;
       let filterTOCheck = filterTO === 'all' ? 365 : +filterTO;
 
       let filterBorder;
@@ -354,23 +387,18 @@ export const searchCars = (name, filterTO, filterSert) => (dispatch) => {
         case 365: 
           filterBorder = -20000;
           break;
-          
         case 30:
           filterBorder = 21;
           break;
-
         case 21:
           filterBorder = 14;
           break;
-
         case 14:
           filterBorder = 0;
           break;
-        
         case 0:
           filterBorder = -20000;
           break;
-
         default:
           break;
       }
@@ -378,7 +406,7 @@ export const searchCars = (name, filterTO, filterSert) => (dispatch) => {
       let filterSertCheck = car.date_of_receiving_sertificate === '0000-00-00' && car.next_sertification_date === '0000-00-00' ? "0" : "1";
       if (filterSert === "all") filterSertCheck = "all";
 
-      if ((firmCheck && (diffDays < filterTOCheck && diffDays > filterBorder)) && filterSertCheck === filterSert) {
+      if ((firmCheck && stateNumCheck && (diffDays < filterTOCheck && diffDays > filterBorder)) && filterSertCheck === filterSert) {
         return car;
       }
 

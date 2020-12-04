@@ -31,7 +31,7 @@ let initialState = {
   nameFirms: [],
   selectedFirm: { value: '', label: 'Введіть назву фірми' },
   stateNums: [],
-  selectedStateNum: { value: '', label: 'Введіть держарний номер' },
+  selectedStateNum: { value: '', label: 'Введіть держ. номер' },
   filterTO: 'all',
   filterSert: 'all',
 
@@ -84,7 +84,7 @@ const viewReducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         selectedFirm: { value: '', label: 'Введіть назву фірми' },
-        selectedStateNum: { value: '', label: 'Введіть держарний номер' },
+        selectedStateNum: { value: '', label: 'Введіть держ. номер' },
         filterTO: 'all',
         filterSert: 'all',
         currentPage: action.page,

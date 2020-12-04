@@ -23,7 +23,7 @@ const DeleteModal = (props) => {
             </div>
             <div className="modal-footer">
               <button type="button" onClick={() => props.deleteRequest(props.stateNum)} data-dismiss="modal" className="btn btn-danger">Видалити</button>
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Ні</button>
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Відміна</button>
             </div>
           </div>
         </div>

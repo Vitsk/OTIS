@@ -26,7 +26,7 @@ const SmsModal = (props) => {
             </div>
             <div className="modal-footer">
               <button type="button" onClick={() => props.smsRequestHandler()} data-dismiss="modal" className="btn btn-success">Відправити</button>
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Ні</button>
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Відміна</button>
             </div>
           </div>
         </div>

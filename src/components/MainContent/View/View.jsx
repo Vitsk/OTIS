@@ -34,7 +34,7 @@ const View = (props) => {
         <div className={`row ${styles.rowCustomStyle}`}></div>
         <div className="row">
           <div className="col-md-2">
-            <label className="text-center"><small>Пошук по фірмі</small></label>
+            <label className="text-center"><small>Пошук по назві</small></label>
             <Select
               options={props.nameFirms}
               value={props.selectedFirm}
@@ -63,7 +63,7 @@ const View = (props) => {
           </div>
 
           <div className="col-md-2">
-            <label><small>Наявність сертифікату</small></label>
+            <label><small>Сертифікат</small></label>
             <select className="form-control" value={props.filterSert} onChange={(e) => props.setfilterSertAC(e.target.value)}>
               <option defaultValue value="all">усі</option>
               <option value="1">є</option>
@@ -72,10 +72,10 @@ const View = (props) => {
           </div>
 
           <div className="col-md-2" style={{"marginTop": "31px"}}>
-            <button className="btn btn-outline-success btn-block" onClick={() => {props.searchCars(props.selectedFirm.value, props.selectedStateNum.value, props.filterTO, props.filterSert); props.isSearchingBtnFetchingAC()}}> {props.isSearchBtnFetching ? <Loader /> : 'Пошук по системі'}</button>
+            <button className="btn btn-outline-success btn-block" onClick={() => {props.searchCars(props.selectedFirm.value, props.selectedStateNum.value, props.filterTO, props.filterSert); props.isSearchingBtnFetchingAC()}}> {props.isSearchBtnFetching ? <Loader /> : 'Пошук'}</button>
           </div>
           <div className="col-md-2" style={{"marginTop": "31px"}}>
-            <button className="btn btn-outline-secondary btn-block" onClick={() => props.setCars()}>Очистити пошук</button>
+            <button className="btn btn-outline-secondary btn-block" onClick={() => props.setCars()}>Відміна</button>
           </div>
         </div>
 

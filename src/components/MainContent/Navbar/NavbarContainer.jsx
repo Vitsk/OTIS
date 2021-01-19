@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
 import { connect } from 'react-redux';
 import { logout } from '../../../redux/reducers/loginReducer';
+import Navbar from './Navbar';
 
 class NavbarContainer extends Component {
   render() {

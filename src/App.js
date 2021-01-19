@@ -1,24 +1,19 @@
 import React from 'react';
+import { connect, Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import './App.css';
+import Login from './components/Login/Login';
 import MainComponent from "./components/MainContent/MainComponent/MainComponent";
-import Login from "./components/Login/Login";
-import {connect, Provider} from "react-redux";
-import {checkLoginData, updateEmailAC, updatePassAC} from "./redux/reducers/loginReducer";
-import {BrowserRouter} from "react-router-dom";
+import { checkLoginData, isLoginCheck, updateEmailAC, updatePassAC } from "./redux/reducers/loginReducer";
 import store from "./redux/redux-store";
-import {initializeApp} from "./redux/reducers/app-reducer";
-import Loader from "./components/Loader/Loader";
 
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.initializeApp()
+    this.props.isLoginCheck()
   }
 
   render() {
-    if (!this.props.initialized) {
-      return <Loader />
-    }
 
     if (this.props.isLogin) {
       return <MainComponent />
@@ -43,14 +38,13 @@ const mapStateToProps = (state) => ({
   showAlert: state.loginPage.showAlert,
   isError: state.loginPage.isError,
   alertText: state.loginPage.alertText,
-  initialized: state.appInitialize.initialized
 });
 
 const AppContainer = connect(mapStateToProps, {
   checkLoginData,
   updateEmailAC,
   updatePassAC,
-  initializeApp
+  isLoginCheck
 })(App);
 
 const MainApp = () => {

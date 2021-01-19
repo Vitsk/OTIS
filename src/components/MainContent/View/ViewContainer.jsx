@@ -39,7 +39,7 @@ class ViewContainer extends Component {
   smsRequestHandler = () => {
     this.props.smsRequest(
       this.props.smsData.smsLogin, this.props.smsData.smsPass, this.props.smsData.smsApiKey,
-      this.props.smsData.smsAlphaName, this.props.choosenCar.telephoneNum, this.props.choosenCar.prevStateNum,
+      this.props.smsData.smsAlphaName, this.props.choosenCar.telephoneNum, this.props.choosenCar.prevStateNum,this.props.smsData.smsTextTemplate
     )
   }
 

@@ -74,6 +74,7 @@ let initialState = {
     smsPass: '',
     smsApiKey: '',
     smsAlphaName: '',
+    smsTextTemplate: ''
   }
 }
 
@@ -166,6 +167,7 @@ const viewReducer = (state = initialState, action) => {
           smsPass: action.smsPass,
           smsApiKey: action.smsApiKey,
           smsAlphaName: action.smsAlphaName,
+          smsTextTemplate: action.smsTextTemplate,
         }
       }
 
@@ -320,8 +322,8 @@ const setBrandsNameAC = (brands) => ({ type: SET_BRANDS_NAME, brands });
 const setModelsNameAC = (models) => ({ type: SET_MODELS_NAME, models });
 const setTypeNameAC = (carType) => ({ type: SET_TYPE_NAME, carType });
 
-const setUserDataAC = (userEmail, department, telephoneNum, street, webSite, smsLogin, smsPass, smsApiKey, smsAlphaName) => (
-  { type: SET_USER_EMAIL, userEmail, department, telephoneNum, street, webSite, smsLogin, smsPass, smsApiKey, smsAlphaName }
+const setUserDataAC = (userEmail, department, telephoneNum, street, webSite, smsLogin, smsPass, smsApiKey, smsAlphaName, smsTextTemplate) => (
+  { type: SET_USER_EMAIL, userEmail, department, telephoneNum, street, webSite, smsLogin, smsPass, smsApiKey, smsAlphaName, smsTextTemplate }
 );
 const setFirmEmailAC = (firmEmail) => ({ type: SET_FIRM_EMAIL, firmEmail });
 const setFirmPhoneAC = (firmPhone) => ({ type: SET_FIRM_PHONE, firmPhone });
@@ -463,7 +465,7 @@ export const setTypeName = (model) => (dispatch) => {
 export const setUserData = () => (dispatch) => {
   dataAPI.getUserData().then(data => {
     dispatch(setUserDataAC(data[0].email, data[0].department, data[0].telephone_number, data[0].street, data[0].web_site,
-      data[0]['sms-login'], data[0]['sms-pass'], data[0]['sms-api-key'], data[0]['sms-alpha-name']));
+      data[0]['sms-login'], data[0]['sms-pass'], data[0]['sms-api-key'], data[0]['sms-alpha-name'], data[0]['sms-text-template']));
   })
 }
 

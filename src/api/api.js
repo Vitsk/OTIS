@@ -190,7 +190,7 @@ export const dataAPI = {
     return $.ajax({
       url: `${ajaxUrl}vendor/dispatch/sms.php`,
       type: 'POST',
-      data: `login=${data[0]}&pass=${data[1]}&api_key=${data[2]}&alpha_name=${data[3]}&phone=${data[4]}&registration_number=${data[5]}`,
+      data: await userAPI.getUserKey().then(apiKey => `login=${data[0]}&pass=${data[1]}&api_key=${apiKey}&alpha_name=${data[3]}&phone=${data[4]}&registration_number=${data[5]}&template=${data[6]}`),
       // data: `login=${data[0]}&pass=${data[1]}&api_key=${apiKey}&alpha_name=${data[3]}&phone=${data[4]}&registration_number=${data[5]}`,
       success(res) {
         console.log(res);

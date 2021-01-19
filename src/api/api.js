@@ -11,7 +11,7 @@ const instance = axios.create({
   },
 });
 
-const ajaxUrl = 'https://office.otis.co.ua/';
+const ajaxUrl = '' // https://office.otis.co.ua/;
 
 // let apiKey = '';
 
@@ -21,15 +21,15 @@ const ajaxUrl = 'https://office.otis.co.ua/';
 
 export let userAPI = {
   async getUserKey() {
-    return await instance.get('api/users/apikeys').then(res => res.data);
+    return await instance.get(`api/users/apikeys`).then(res => res.data);
   },
 
   async login(email, password) {
-    return await instance.get(`vendor/auth/react_auth.php?email=${email}&password=${md5(password)}`)
+    return await instance.get(`${ajaxUrl}vendor/auth/react_auth.php?email=${email}&password=${md5(password)}`)
   },
 
   async logoutRequest() {
-    return await instance.get(`vendor/auth/exit.php`)
+    return await instance.get(`${ajaxUrl}vendor/auth/exit.php`)
       .then(res => res)
   },
 
@@ -84,44 +84,43 @@ export let userAPI = {
 
 export const dataAPI = {
   async getUserData() {
-    // instance.get(await userAPI.getUserKey().then(data => `api/users?api_key=${data}`))
-    return instance.get(await userAPI.getUserKey().then(apiKey => `api/users?api_key=${apiKey}`))
+    return instance.get(await userAPI.getUserKey().then(apiKey => `${ajaxUrl}api/users?api_key=${apiKey}`))
       .then(res => res.data)
   },
 
   async getCars(page = 1) {
     
-    return instance.get(await userAPI.getUserKey().then(apiKey => `api/cars?api_key=${apiKey}&page=${page}`)) 
+    return instance.get(await userAPI.getUserKey().then(apiKey => `${ajaxUrl}api/cars?api_key=${apiKey}&page=${page}`)) 
       .then(res => res.data)
   },
 
   async getAllCars() {
-    return instance.get(await userAPI.getUserKey().then(apiKey => `api/cars?api_key=${apiKey}`)) 
+    return instance.get(await userAPI.getUserKey().then(apiKey => `${ajaxUrl}api/cars?api_key=${apiKey}`)) 
       .then(res => res.data)
   },
 
   async getCarsCount() {
-    return instance.get(await userAPI.getUserKey().then(apiKey => `api/cars?api_key=${apiKey}&count=true`))
+    return instance.get(await userAPI.getUserKey().then(apiKey => `${ajaxUrl}api/cars?api_key=${apiKey}&count=true`))
       .then(res => res.data)
   },
 
   async getChoosenCar(stateNum) {
-    return instance.get(await userAPI.getUserKey().then(apiKey => `api/cars/${stateNum}?api_key=${apiKey}`))
+    return instance.get(await userAPI.getUserKey().then(apiKey => `${ajaxUrl}api/cars/${stateNum}?api_key=${apiKey}`))
       .then(res => res.data)
   },
 
   async getFirms() {
-    return instance.get(await userAPI.getUserKey().then(apiKey => `api/firms?api_key=${apiKey}`)) 
+    return instance.get(await userAPI.getUserKey().then(apiKey => `${ajaxUrl}api/firms?api_key=${apiKey}`)) 
       .then(res => res.data)
   },
 
   async getFirmsCount() {
-    return instance.get(await userAPI.getUserKey().then(apiKey => `api/firms?api_key=${apiKey}`)) 
+    return instance.get(await userAPI.getUserKey().then(apiKey => `${ajaxUrl}api/firms?api_key=${apiKey}`)) 
       .then(res => res.data.length)
   },
 
   async getChoosenFirm(idFirm) {
-    return instance.get(await userAPI.getUserKey().then(apiKey => `api/firms/${idFirm}?api_key=${apiKey}`)) 
+    return instance.get(await userAPI.getUserKey().then(apiKey => `${ajaxUrl}api/firms/${idFirm}?api_key=${apiKey}`)) 
       .then(res => res.data)
   },
 
@@ -141,7 +140,7 @@ export const dataAPI = {
   },
 
   async postCreateCar(...data) {
-    let url = await userAPI.getUserKey().then(apiKey => `https://office.otis.co.ua/api/cars?api_key=${apiKey}`);
+    let url = await userAPI.getUserKey().then(apiKey => `${ajaxUrl}api/cars?api_key=${apiKey}`);
     // let carData = data[0] ? `id_model` `${data[0].value}` : `&brand=${data[1]}&model=${data[2]}&type=${data[3]}`;
     
     let formData = new FormData();
@@ -191,7 +190,7 @@ export const dataAPI = {
     return $.ajax({
       url: `${ajaxUrl}vendor/dispatch/sms.php`,
       type: 'POST',
-      data: await userAPI.getUserKey().then(res => `login=${data[0]}&pass=${data[1]}&api_key=${res}&alpha_name=${data[3]}&phone=${data[4]}&registration_number=${data[5]}`),
+      data: `login=${data[0]}&pass=${data[1]}&api_key=${data[2]}&alpha_name=${data[3]}&phone=${data[4]}&registration_number=${data[5]}`,
       // data: `login=${data[0]}&pass=${data[1]}&api_key=${apiKey}&alpha_name=${data[3]}&phone=${data[4]}&registration_number=${data[5]}`,
       success(res) {
         console.log(res);

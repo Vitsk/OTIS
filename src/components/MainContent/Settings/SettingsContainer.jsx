@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setSettingsData, updateState, changeSettingsSms } from '../../../redux/reducers/settingsReducer';
+import { changeSettingsSms, setSettingsData, updateState } from '../../../redux/reducers/settingsReducer';
 import Settings from './Settings';
 
 class SettingsContainer extends Component {
   componentDidMount() {
-    this.props.setSettingsData()
+    this.props.setSettingsData();
   }
 
   changeSettingsSmsHandler = () => {

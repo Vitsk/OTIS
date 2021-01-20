@@ -56,6 +56,7 @@ const setSettingsDataAC = (smsLogin, smsPass, smsApiKey, smsAlphaName, smsTextTe
 const showAlertAC = (alertText, isError = false) => ({type: SHOW_ALERT, alertText, isError});
 export const updateState = (name, value) => ({ type: UPDATE_STATE, name, value })
 
+
 // Thunks
 export const setSettingsData = () => (dispatch) => {
   dataAPI.getUserData().then(data => {

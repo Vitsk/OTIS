@@ -3,6 +3,11 @@ import Alert from '../../Alert/Alert';
 import styles from './Settings.module.css';
 
 const Settings = (props) => {
+
+  // const counterHandler = () => {
+  //   setCounter(counterRef.current.value.length);
+  // }
+
   return (
     <div className="p-5">
       <h5 className="text-center">Налаштування даних для СМС-розсилання:</h5>
@@ -34,8 +39,16 @@ const Settings = (props) => {
               </div>
               <div className="form-group col-md-12">
                 <label htmlFor="input_sms_text">Шаблон повідомлень</label>
-                <textarea className="form-control" value={props.smsTextTemplate} onChange={(e) => props.updateState(e.target.name, e.target.value)} rows="4" placeholder="Введіть текст повідомлення" name="smsTextTemplate" required></textarea>
-                <span id="counter">0 символів - 0 смс</span>
+                <textarea
+                  className="form-control"
+                  value={props.smsTextTemplate}
+                  onChange={ (e) => props.updateState(e.target.name, e.target.value) }
+                  rows="4"
+                  placeholder="Введіть текст повідомлення"
+                  name="smsTextTemplate"
+                  required
+                ></textarea>
+                <span id="counter">{props.smsTextTemplate.length} символів - {Math.floor(props.smsTextTemplate.length / 70 + 1)} смс</span>
               </div>
 
               <div className="form-group col-md-12">
@@ -64,7 +77,7 @@ const Settings = (props) => {
         </div> */}
         <div className="col-sm-3"></div>
       </div>
-      { props.showAlert ? <Alert alertText={props.alertText} isError={props.isError} /> : null }
+      { props.showAlert ? <Alert alertText={props.alertText} isError={props.isError} /> : null}
     </div>
   );
 }

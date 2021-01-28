@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import mainLogo from '../../assets/images/mainLogo.png';
 import Alert from './../Alert/Alert';

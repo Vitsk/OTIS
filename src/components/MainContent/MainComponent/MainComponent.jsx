@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Switch } from 'react-router';
+import React, { useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import About from '../About/About';
 import AparkContainer from '../Apark/AparkContainer';
 import FirmsContainer from '../Firms/FirmsContainer';
@@ -10,6 +10,13 @@ import SettingsContainer from '../Settings/SettingsContainer';
 import ViewContainer from '../View/ViewContainer';
 
 const MainComponent = () => {
+  const history = useHistory();
+
+  useEffect(() => {
+    history.push('/main');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <NavbarContainer />
